@@ -1,3 +1,42 @@
 {
-  "installCommand": "yarn install"
+  "installCommand": "yarn install",
+  "buildCommand": "cd ../.. && yarn build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "functions": {
+    "packages/nextjs/app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ],
+  "env": {
+    "YARN_ENABLE_IMMUTABLE_INSTALLS": "false",
+    "ENABLE_EXPERIMENTAL_COREPACK": "1",
+    "VERCEL_TELEMETRY_DISABLED": "1"
+  }
 }

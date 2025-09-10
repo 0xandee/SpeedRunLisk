@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import { isAddress } from "viem";
 import { RouteRefresher } from "~~/components/RouteRefresher";
 import { getBatchById } from "~~/services/database/repositories/batches";
-import { getLatestSubmissionPerChallengeByUser } from "~~/services/database/repositories/userChallenges";
+import { getMergedUserChallenges } from "~~/services/database/repositories/mergedChallenges";
 import { getUserByAddress, getUserPoints } from "~~/services/database/repositories/users";
 import { getAllSeaChallenges, getSeaChallengeVisibilityStatus } from "~~/utils/sea-challenges";
 import { getShortAddressAndEns } from "~~/utils/short-address-and-ens";
@@ -65,7 +65,7 @@ export default async function BuilderPage(props: { params: Promise<{ address: st
   const { address } = params;
 
   const challenges = getAllSeaChallenges();
-  const userChallenges = await getLatestSubmissionPerChallengeByUser(address);
+  const userChallenges = await getMergedUserChallenges(address);
   const user = await getUserByAddress(address);
 
   let userBatch;
@@ -106,11 +106,11 @@ export default async function BuilderPage(props: { params: Promise<{ address: st
       <div className="max-w-[1440px] w-full mx-auto px-4 py-8">
         {/* Header with Lisk Logo */}
         <div className="flex items-center gap-3 mb-8">
-          <img 
+          {/* <img 
             src="/logos/01-Profile/lisk-profile-white.svg" 
             alt="Lisk" 
             className="h-8 w-8" 
-          />
+          /> */}
           <h1 className="text-2xl font-bold text-primary">Builder Profile</h1>
         </div>
         

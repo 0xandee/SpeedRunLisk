@@ -75,6 +75,25 @@ export default function WeeklyChallengePage() {
     }
   }, [address, challenge, fetchUserProgress]);
 
+  useEffect(() => {
+    fetchLeaderboard();
+  }, [weekNumber]);
+
+  const fetchLeaderboard = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/sea-campaign/leaderboard?week=${weekNumber}`);
+      if (response.ok) {
+        const data = await response.json();
+        setLeaderboardData(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch leaderboard:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmissionSuccess = () => {
     fetchUserProgress(); // Refresh progress after successful submission
   };
@@ -199,13 +218,12 @@ export default function WeeklyChallengePage() {
                     <p className="text-sm">
                       <strong>Status:</strong>
                       <span
-                        className={`ml-2 badge ${
-                          weeklyProgress.submission?.reviewStatus === "APPROVED"
+                        className={`ml-2 badge ${weeklyProgress.submission?.reviewStatus === "APPROVED"
                             ? "badge-success"
                             : weeklyProgress.submission?.reviewStatus === "REJECTED"
                               ? "badge-error"
                               : "badge-warning"
-                        }`}
+                          }`}
                       >
                         {weeklyProgress.submission?.reviewStatus}
                       </span>

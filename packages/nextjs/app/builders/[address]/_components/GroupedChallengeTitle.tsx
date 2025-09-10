@@ -10,7 +10,10 @@ export function GroupedChallengeTitle({
   icon: React.ReactNode;
   challenges: MappedChallenges[];
 }) {
-  const completed = challenges.filter(challenge => challenge.reviewAction === ReviewAction.ACCEPTED).length;
+  const completed = challenges.filter(challenge => 
+    challenge.reviewAction === ReviewAction.ACCEPTED || 
+    challenge.reviewAction === ReviewAction.SUBMITTED
+  ).length;
   const total = challenges.length;
   const progress = (completed / total) * 100;
 

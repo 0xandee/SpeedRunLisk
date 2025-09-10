@@ -6,7 +6,7 @@ import "./groupedChallenges.css";
 import { type Address } from "viem";
 import { ChallengeId, ReviewAction } from "~~/services/database/config/types";
 import type { Challenges } from "~~/services/database/repositories/challenges";
-import type { UserChallenges } from "~~/services/database/repositories/userChallenges";
+import type { MergedUserChallenge } from "~~/services/database/repositories/mergedChallenges";
 import { getSeaChallengeVisibilityStatus } from "~~/utils/sea-challenges";
 
 const basicChallengeIds = new Set<ChallengeId>([
@@ -41,25 +41,50 @@ export function GroupedChallenges({
 }: {
   address: Address;
   challenges: Challenges;
-  userChallenges: UserChallenges;
+  userChallenges: MergedUserChallenge[];
 }) {
-  // Map challenges with user challenges
-  const userMappedChallenges: MappedChallenges[] = challenges
-    .map((challenge: Challenges[number]) => {
-      const userChallenge = userChallenges.find(uc => uc.challengeId === challenge.id);
-
-      if (!userChallenge) return challenge;
-
-      return {
-        ...challenge,
-        reviewAction: userChallenge.reviewAction ?? null,
-        submittedAt: userChallenge.submittedAt ?? null,
-        reviewComment: userChallenge.reviewComment ?? null,
-        contractUrl: userChallenge.contractUrl ?? null,
-        frontendUrl: userChallenge.frontendUrl ?? null,
-      };
-    })
-    .sort((a, b) => a.sortOrder - b.sortOrder);
+  // Convert user challenges to mapped format, combining with challenge metadata
+  const userMappedChallenges: MappedChallenges[] = [];
+  
+  // Add all static challenges from the challenges list
+  challenges.forEach((challenge: Challenges[number]) => {
+    const userChallenge = userChallenges.find(uc => uc.challengeId === challenge.id);
+    
+    userMappedChallenges.push({
+      ...challenge,
+      reviewAction: userChallenge?.reviewAction ?? null,
+      submittedAt: userChallenge?.submittedAt ?? undefined,
+      reviewComment: userChallenge?.reviewComment ?? null,
+      contractUrl: userChallenge?.contractUrl ?? null,
+      frontendUrl: userChallenge?.frontendUrl ?? null,
+    });
+  });
+  
+  // Add any additional user challenges that aren't in the static list (like completed SEA challenges)
+  userChallenges.forEach(uc => {
+    const existsInStatic = challenges.find(c => c.id === uc.challengeId);
+    if (!existsInStatic) {
+      userMappedChallenges.push({
+        id: uc.challengeId,
+        challengeName: uc.challenge.challengeName,
+        description: uc.challenge.description,
+        sortOrder: uc.challenge.sortOrder,
+        github: uc.challenge.github || "",
+        autograding: uc.challenge.autograding,
+        disabled: uc.challenge.disabled,
+        previewImage: uc.challenge.previewImage || "",
+        icon: uc.challenge.icon || "",
+        externalLink: uc.challenge.externalLink,
+        reviewAction: uc.reviewAction,
+        submittedAt: uc.submittedAt,
+        reviewComment: uc.reviewComment,
+        contractUrl: uc.contractUrl,
+        frontendUrl: uc.frontendUrl,
+      });
+    }
+  });
+  
+  userMappedChallenges.sort((a, b) => a.sortOrder - b.sortOrder);
 
   // Filter challenges into basic and advanced
   const basicChallenges = userMappedChallenges.filter(

@@ -7,6 +7,7 @@
     "check-types": "tsc --noEmit --incremental",
     "db:reset": "tsx services/database/scripts/reset-db.ts && yarn drizzle-kit migrate && yarn db:seed",
     "db:seed": "tsx services/database/seed.ts",
+    "db:verify": "tsx services/database/scripts/verify-production-db.ts",
     "dev": "next dev",
     "test": "jest",
     "test:watch": "jest --watch",
