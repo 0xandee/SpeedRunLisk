@@ -32,7 +32,7 @@ module.exports = {
       },
       {
         dark: {
-          primary: "#7B9BFF",
+          primary: "#ffffff",
           "primary-content": "#1A202C",
           secondary: "#2D3748",
           "secondary-content": "#F7FAFC",
@@ -45,7 +45,7 @@ module.exports = {
           "base-300": "#4A5568",
           "base-content": "#F7FAFC",
           info: "#63B3ED",
-          success: "#68D391",
+          success: "#00aa62",
           warning: "#F6E05E",
           error: "#FC8181",
           "--rounded-btn": "9999rem",

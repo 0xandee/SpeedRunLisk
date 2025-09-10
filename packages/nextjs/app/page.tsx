@@ -62,13 +62,13 @@ export default function HomePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Hero Section */}
-      <header className="text-center mb-12">
+      <header className="text-center my-32">
         <div className="mb-6">
           <h1 className="text-4xl md:text-6xl font-bold text-primary mb-4">🏃‍♂️ Speedrun Lisk</h1>
           <h2 className="text-2xl md:text-3xl font-semibold mb-4">Onboarding Challenge</h2>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 my-8">
           <div className="badge badge-lg badge-outline p-4">
             From {SEA_CAMPAIGN_CONFIG.startDate} to {SEA_CAMPAIGN_CONFIG.endDate}
           </div>
@@ -93,20 +93,19 @@ export default function HomePage() {
       </header>
 
       {/* Weekly Timeline */}
-      <section className="mb-12">
+      <section className="my-12">
         <h2 className="text-3xl font-bold text-center mb-8">6-Week Progressive Learning Path</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {challenges.map((challenge, index) => (
             <div
               key={challenge.id}
-              className={`card shadow-lg transition-all hover:shadow-xl border-2 ${
-                userProgress?.progress?.totalWeeksCompleted >= challenge.weekNumber
-                  ? "border-success bg-success/10"
-                  : userProgress?.nextWeek?.weekNumber === challenge.weekNumber
-                    ? "border-primary bg-primary/10"
-                    : "border-base-300 bg-base-100"
-              }`}
+              className={`card shadow-lg transition-all hover:shadow-xl border-2 ${userProgress?.progress?.totalWeeksCompleted >= challenge.weekNumber
+                ? "border-success bg-success/10"
+                : userProgress?.nextWeek?.weekNumber === challenge.weekNumber
+                  ? "border-primary bg-primary/10"
+                  : "border-base-300 bg-base-100"
+                }`}
             >
               <div className="card-body">
                 <div className="flex items-center justify-between mb-3">
@@ -146,7 +145,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="mb-12">
+      <section className="my-12">
         <h2 className="text-3xl font-bold text-center mb-8">Why Join SEA Challenge?</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -185,7 +184,7 @@ export default function HomePage() {
       </section>
 
       {/* Network Info */}
-      <section className="mb-12">
+      {/* <section className="mb-12">
         <div className="card bg-gradient-to-br from-primary/10 to-secondary/10 shadow-lg">
           <div className="card-body">
             <h2 className="card-title text-2xl mb-6">🔗 Lisk Sepolia Network</h2>
@@ -228,7 +227,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

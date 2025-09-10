@@ -199,12 +199,13 @@ export default function WeeklyChallengePage() {
                     <p className="text-sm">
                       <strong>Status:</strong>
                       <span
-                        className={`ml-2 badge ${weeklyProgress.submission?.reviewStatus === "APPROVED"
-                          ? "badge-success"
-                          : weeklyProgress.submission?.reviewStatus === "REJECTED"
-                            ? "badge-error"
-                            : "badge-warning"
-                          }`}
+                        className={`ml-2 badge ${
+                          weeklyProgress.submission?.reviewStatus === "APPROVED"
+                            ? "badge-success"
+                            : weeklyProgress.submission?.reviewStatus === "REJECTED"
+                              ? "badge-error"
+                              : "badge-warning"
+                        }`}
                       >
                         {weeklyProgress.submission?.reviewStatus}
                       </span>

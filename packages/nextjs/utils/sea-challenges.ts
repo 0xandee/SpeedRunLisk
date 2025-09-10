@@ -5,7 +5,7 @@ export const SEA_CAMPAIGN_METADATA = {
     dueDate: "2025-09-21",
     reward: "NFT Badge for completion",
     guides: ["/speedrun/ch1-deploy-verify"],
-    videoUrl: "V1 (10m): From zero → first deploy & verify",
+    videoUrl: "[Placeholder] V1 (10m): From zero → first deploy & verify",
     socialHashtags: ["#SpeedrunLiskSEA", "#W1", "@LiskSEA"],
     requiredSubmissions: ["contract_address", "tx_hash", "github_url", "social_post_url"],
     completionBonus: 0,
@@ -154,8 +154,8 @@ export const getTimeUntilNextChallenge = () => {
 
 export const SEA_CAMPAIGN_CONFIG = {
   name: "Speedrun Lisk Onboarding Challenge",
-  startDate: "2025-09-15",
-  endDate: "2025-10-31",
+  startDate: "15-Sep-2025",
+  endDate: "31-Oct-2025",
   targetParticipants: 200,
   totalWeeks: 6,
   network: "lisk-sepolia",

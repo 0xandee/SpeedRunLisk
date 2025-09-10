@@ -104,6 +104,16 @@ export default async function BuilderPage(props: { params: Promise<{ address: st
     <>
       <RouteRefresher />
       <div className="max-w-[1440px] w-full mx-auto px-4 py-8">
+        {/* Header with Lisk Logo */}
+        <div className="flex items-center gap-3 mb-8">
+          <img 
+            src="/logos/01-Profile/lisk-profile-white.svg" 
+            alt="Lisk" 
+            className="h-8 w-8" 
+          />
+          <h1 className="text-2xl font-bold text-primary">Builder Profile</h1>
+        </div>
+        
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <div>
             <UserProfileCard user={user} batch={userBatch} />

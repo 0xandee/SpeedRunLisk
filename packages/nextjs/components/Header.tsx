@@ -87,9 +87,8 @@ export const HeaderMenuLinks = ({ hideItemsByLabel, user }: { hideItemsByLabel?:
             <Link
               href={href}
               passHref
-              className={`${
-                isActive ? "underline" : ""
-              } hover:underline py-1.5 lg:py-2 px-3 lg:px-4 text-base font-medium rounded-full gap-2 grid grid-flow-col`}
+              className={`${isActive ? "underline" : ""
+                } hover:underline py-1.5 lg:py-2 px-3 lg:px-4 text-base font-medium rounded-full gap-2 grid grid-flow-col`}
             >
               {icon}
               <span>{label}</span>
@@ -121,11 +120,9 @@ export const Header = () => {
     >
       <div className="navbar-start w-auto lg:w-1/2">
         <div className="flex items-center">
-          {!isHomepage && (
-            <Link href="/" className={clsx("ml-2 lg:ml-6 lg:mr-4 lg:my-2", isStartPage && "lg:hidden")}>
-              <Logo className="w-36 lg:w-48" />
-            </Link>
-          )}
+          <Link href="/" className={clsx("ml-2 lg:ml-6 lg:mr-4 lg:my-2", isStartPage && "lg:hidden")}>
+            <Logo className="w-16 lg:w-24" />
+          </Link>
           <ul className="hidden lg:flex flex-nowrap px-1 gap-2">
             <HeaderMenuLinks hideItemsByLabel={["Home", "My Progress"]} user={user} />
           </ul>

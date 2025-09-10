@@ -7,6 +7,8 @@ import { createUserChallenge, updateUserChallengeById } from "~~/services/databa
 import { getUserByAddress } from "~~/services/database/repositories/users";
 import { isValidEIP712ChallengeSubmitSignature } from "~~/services/eip712/challenge";
 import { PlausibleEvent, trackPlausibleEvent } from "~~/services/plausible";
+import { markAsParticipant, updateWeekCompletion } from "~~/services/database/repositories/seaCampaignProgress";
+import { getWeekFromChallengeId, isSeaCampaignChallenge } from "~~/utils/sea-challenges";
 
 // This function can run for a maximum of 60 seconds in Vercel
 export const maxDuration = 60;
@@ -66,6 +68,17 @@ export async function POST(req: NextRequest, props: { params: Promise<{ challeng
       return NextResponse.json({ error: "Failed to create submission" }, { status: 500 });
     }
 
+    // If this is a SEA campaign challenge, sync the progress
+    if (isSeaCampaignChallenge(challengeId)) {
+      try {
+        await markAsParticipant(userAddress);
+        console.log(`Marked ${userAddress} as SEA campaign participant`);
+      } catch (error) {
+        console.error("Failed to mark user as SEA participant:", error);
+        // Don't fail the request, just log the error
+      }
+    }
+
     // Use waitUntil for background processing
     waitUntil(
       (async () => {
@@ -103,6 +116,20 @@ export async function POST(req: NextRequest, props: { params: Promise<{ challeng
           // Check if the update was successful
           if (!updateResult) {
             return NextResponse.json({ error: "Failed to update submission with grading result" }, { status: 500 });
+          }
+
+          // If this is a SEA campaign challenge and it was accepted, update the progress
+          if (isSeaCampaignChallenge(challengeId) && gradingResult.success) {
+            try {
+              const weekNumber = getWeekFromChallengeId(challengeId);
+              if (weekNumber) {
+                await updateWeekCompletion(userAddress, weekNumber);
+                console.log(`Updated SEA progress for ${userAddress}, week ${weekNumber} completed`);
+              }
+            } catch (error) {
+              console.error("Failed to update SEA campaign progress:", error);
+              // Don't fail the request, just log the error
+            }
           }
 
           console.log(`Background autograding completed for user ${userAddress}, challenge ${challengeId}`);
