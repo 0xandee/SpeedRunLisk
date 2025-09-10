@@ -19,11 +19,33 @@ interface WeeklyProgress {
   };
 }
 
+interface LeaderboardEntry {
+  rank: number;
+  userAddress: string;
+  country: string | null;
+  submissionDate: string;
+  githubUrl: string;
+  demoUrl: string | null;
+  socialPostUrl: string;
+  reviewStatus: string;
+  completionTime?: number;
+  socialEngagement?: number;
+  qualityScore?: number;
+}
+
+interface LeaderboardData {
+  week: number;
+  leaderboard: LeaderboardEntry[];
+  totalSubmissions: number;
+  lastUpdated: string;
+}
+
 export default function WeeklyChallengePage() {
   const params = useParams();
   const router = useRouter();
   const { address, isConnected } = useAccount();
   const [weeklyProgress, setWeeklyProgress] = useState<WeeklyProgress | null>(null);
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardData | null>(null);
   const [loading, setLoading] = useState(false);
 
   const weekNumber = parseInt(params.weekNumber as string);
@@ -95,11 +117,11 @@ export default function WeeklyChallengePage() {
             <p className="text-lg text-base-content/70">{challenge.description}</p>
           </div>
 
-          {weeklyProgress?.completed && (
+          {/* {weeklyProgress?.completed && (
             <div className="alert alert-success max-w-sm">
               <span>✅ Completed!</span>
             </div>
-          )}
+          )} */}
         </div>
 
         {/* <div className="flex flex-wrap gap-4 mb-6">
@@ -150,10 +172,10 @@ export default function WeeklyChallengePage() {
                 <p className="text-base-content/70">{challenge.videoUrl}</p>
 
                 <h3>📱 Social Media Requirements</h3>
-                <p>Share your progress with these hashtags:</p>
-                <div className="flex flex-wrap gap-2 my-2">
+                <div className="flex flex-wrap items-center gap-2 my-2">
+                  <span>Share your progress with these hashtags:</span>
                   {challenge.socialHashtags.map((tag, index) => (
-                    <span key={index} className="badge badge-outline">
+                    <span key={index} className="badge badge-outline p-4">
                       {tag}
                     </span>
                   ))}
@@ -177,13 +199,12 @@ export default function WeeklyChallengePage() {
                     <p className="text-sm">
                       <strong>Status:</strong>
                       <span
-                        className={`ml-2 badge ${
-                          weeklyProgress.submission?.reviewStatus === "APPROVED"
-                            ? "badge-success"
-                            : weeklyProgress.submission?.reviewStatus === "REJECTED"
-                              ? "badge-error"
-                              : "badge-warning"
-                        }`}
+                        className={`ml-2 badge ${weeklyProgress.submission?.reviewStatus === "APPROVED"
+                          ? "badge-success"
+                          : weeklyProgress.submission?.reviewStatus === "REJECTED"
+                            ? "badge-error"
+                            : "badge-warning"
+                          }`}
                       >
                         {weeklyProgress.submission?.reviewStatus}
                       </span>
@@ -198,7 +219,7 @@ export default function WeeklyChallengePage() {
                   )}
                 </div>
 
-                <div className="card-actions justify-center mt-6">
+                {/* <div className="card-actions justify-center mt-6">
                   {weekNumber < 6 ? (
                     <Link href={`/sea-campaign/week/${weekNumber + 1}`} className="btn btn-primary">
                       Continue to Week {weekNumber + 1}
@@ -208,7 +229,7 @@ export default function WeeklyChallengePage() {
                       Back to Home
                     </Link>
                   )}
-                </div>
+                </div> */}
               </div>
             </div>
           ) : isOverdue ? (
@@ -248,9 +269,13 @@ export default function WeeklyChallengePage() {
               <div className="space-y-3">
                 <div>
                   <div className="text-sm text-base-content/60">Week</div>
-                  <div className="font-semibold">{weekNumber} of 6</div>
+                  <div className="font-semibold">{weekNumber}</div>
                 </div>
                 <div>
+                  <div className="text-sm text-base-content/60">Submissions</div>
+                  <div className="font-semibold">{leaderboardData?.totalSubmissions}</div>
+                </div>
+                {/* <div>
                   <div className="text-sm text-base-content/60">Due Date</div>
                   <div className="font-semibold">{challenge.dueDate}</div>
                 </div>
@@ -263,7 +288,7 @@ export default function WeeklyChallengePage() {
                     <div className="text-sm text-base-content/60">Top Performers</div>
                     <div className="font-semibold">${challenge.topPerformersBonus} × 10</div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>
@@ -285,7 +310,7 @@ export default function WeeklyChallengePage() {
                       rel="noopener noreferrer"
                       className="link link-primary"
                     >
-                      Get Test ETH
+                      Get Test LSK
                     </a>
                   </div>
                   <div>
@@ -304,10 +329,10 @@ export default function WeeklyChallengePage() {
           </div>
 
           {/* Weekly Leaderboard */}
-          <WeeklyLeaderboard weekNumber={weekNumber} />
+          {/* <WeeklyLeaderboard weekNumber={weekNumber} /> */}
 
           {/* Navigation */}
-          <div className="card bg-base-200 shadow-lg">
+          {/* <div className="card bg-base-200 shadow-lg">
             <div className="card-body">
               <h3 className="card-title text-lg">🧭 Navigation</h3>
               <div className="space-y-2">
@@ -326,7 +351,7 @@ export default function WeeklyChallengePage() {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -111,11 +111,11 @@ export function WeeklyLeaderboard({ weekNumber }: WeeklyLeaderboardProps) {
     <div className="card bg-base-200 shadow-lg">
       <div className="card-body">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="card-title">🏆 Week {weekNumber} Leaderboard</h3>
-          <div className="badge badge-primary">{leaderboardData.totalSubmissions} submissions</div>
+          <h3 className="card-title">🏆 Week {weekNumber} Submissions:</h3>
+          <div className="badge badge-primary p-4 mx-auto">{leaderboardData.totalSubmissions}</div>
         </div>
 
-        <div className="space-y-2 max-h-96 overflow-y-auto">
+        {/* <div className="space-y-2 max-h-96 overflow-y-auto">
           {displayedEntries.map(entry => (
             <div
               key={`${entry.userAddress}-${entry.rank}`}
@@ -188,33 +188,15 @@ export function WeeklyLeaderboard({ weekNumber }: WeeklyLeaderboardProps) {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
 
-        {leaderboardData.leaderboard.length > 10 && (
+        {/* {leaderboardData.leaderboard.length > 10 && (
           <div className="text-center mt-4">
             <button className="btn btn-sm btn-outline" onClick={() => setShowAll(!showAll)}>
               {showAll ? "Show Top 10" : `Show All ${leaderboardData.totalSubmissions}`}
             </button>
           </div>
-        )}
-
-        <div className="divider my-4"></div>
-
-        {/* Bonus Information */}
-        <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4">
-          <h4 className="font-bold text-sm mb-2">💰 Weekly Bonuses</h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-            <div>
-              <span className="text-warning">🥇 Top 10 Quality:</span> $50 each
-            </div>
-            <div>
-              <span className="text-secondary">📈 Top 10 Engagement:</span> $50 each
-            </div>
-          </div>
-          <div className="text-xs text-base-content/70 mt-2">
-            Rankings updated based on code quality, demo functionality, and social engagement
-          </div>
-        </div>
+        )} */}
 
         <div className="text-center text-xs text-base-content/60 mt-4">
           Last updated: {new Date(leaderboardData.lastUpdated).toLocaleString()}

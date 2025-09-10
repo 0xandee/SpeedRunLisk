@@ -322,7 +322,7 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
                 <li>• Test your application thoroughly before submitting</li>
                 <li>• Include screenshots or demo videos in your social media post</li>
                 <li>• Double-check all URLs are accessible and working</li>
-                <li>• You can only submit once per week</li>
+                {/* <li>• You can only submit once per week</li> */}
               </ul>
             </div>
           </div>

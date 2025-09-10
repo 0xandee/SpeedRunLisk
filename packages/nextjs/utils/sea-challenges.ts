@@ -10,7 +10,7 @@ export const SEA_CAMPAIGN_METADATA = {
     requiredSubmissions: ["contract_address", "tx_hash", "github_url", "social_post_url"],
     completionBonus: 0,
     topPerformersBonus: 50, // Top 10 get $50 each
-    kpi: "≥200 verified contracts",
+    kpi: "Deploy and verify your ERC20 token and ERC721 NFT contracts on Lisk Sepolia",
     weekNumber: 1,
   },
   "sea-week-2-frontend-connect": {
@@ -24,7 +24,7 @@ export const SEA_CAMPAIGN_METADATA = {
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],
     completionBonus: 0,
     topPerformersBonus: 50,
-    kpi: "≥100 learners complete Frontend Connect with screenshots",
+    kpi: "Create a functional frontend that connects to your smart contracts with wallet integration",
     weekNumber: 2,
   },
   "sea-week-3-indexing-display": {
@@ -38,7 +38,7 @@ export const SEA_CAMPAIGN_METADATA = {
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],
     completionBonus: 0,
     topPerformersBonus: 50,
-    kpi: "≥80 learners ship indexed list/detail UI",
+    kpi: "Build an indexing system that displays blockchain data with pagination in your UI",
     weekNumber: 3,
   },
   "sea-week-4-oracle-sponsored": {
@@ -52,7 +52,7 @@ export const SEA_CAMPAIGN_METADATA = {
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],
     completionBonus: 0,
     topPerformersBonus: 50,
-    kpi: "≥60 learners implement either feed read or sponsored flow",
+    kpi: "Integrate price oracles OR implement gasless transactions for better user experience",
     weekNumber: 4,
   },
   "sea-week-5-nft-badge-game": {
@@ -66,7 +66,7 @@ export const SEA_CAMPAIGN_METADATA = {
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],
     completionBonus: 0,
     topPerformersBonus: 50,
-    kpi: "≥40 learners complete a track; 6 demos showcased",
+    kpi: "Create an interactive NFT badge system OR build a simple on-chain game",
     weekNumber: 5,
   },
   "sea-week-6-mini-dex-lending": {
@@ -80,7 +80,7 @@ export const SEA_CAMPAIGN_METADATA = {
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],
     completionBonus: 20, // Next 50 fastest get $20 each
     topPerformersBonus: 50, // Top 10 get $50 each  
-    kpi: "≥30 projects complete an advanced track",
+    kpi: "Build a mini-DEX, lending protocol, OR prediction market application",
     weekNumber: 6,
   }
 } as const;

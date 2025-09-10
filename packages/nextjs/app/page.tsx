@@ -221,7 +221,7 @@ export default function HomePage() {
                     rel="noopener noreferrer"
                     className="link link-primary"
                   >
-                    Get Test ETH
+                    Get Test LSK
                   </a>
                 </div>
               </div>

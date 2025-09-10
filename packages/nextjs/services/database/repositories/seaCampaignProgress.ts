@@ -11,10 +11,11 @@ export async function createSeaCampaignProgress(progress: SeaCampaignProgressIns
 }
 
 export async function getProgressByUser(userAddress: string) {
+  // Use case-insensitive search since userAddress case can vary
   const result = await db
     .select()
     .from(seaCampaignProgress)
-    .where(eq(seaCampaignProgress.userAddress, userAddress.toLowerCase()))
+    .where(sql`lower(${seaCampaignProgress.userAddress}) = lower(${userAddress})`)
     .limit(1);
   
   return result[0] || null;
@@ -25,6 +26,15 @@ export async function updateWeekCompletion(userAddress: string, weekNumber: numb
   const currentProgress = await getProgressByUser(userAddress);
   
   if (!currentProgress) {
+    // Get the actual user address from the users table to match the foreign key
+    const user = await db.query.users.findFirst({
+      where: (users, { eq, sql }) => eq(sql`lower(${users.userAddress})`, userAddress.toLowerCase()),
+    });
+    
+    if (!user) {
+      throw new Error("User not found");
+    }
+    
     // Create new progress record
     const weekColumns = {
       week1Completed: weekNumber === 1,
@@ -36,7 +46,7 @@ export async function updateWeekCompletion(userAddress: string, weekNumber: numb
     };
     
     return await createSeaCampaignProgress({
-      userAddress: userAddress.toLowerCase(),
+      userAddress: user.userAddress, // Use exact case from users table
       ...weekColumns,
       totalWeeksCompleted: 1,
     });
@@ -57,7 +67,7 @@ export async function updateWeekCompletion(userAddress: string, weekNumber: numb
     const result = await db
       .update(seaCampaignProgress)
       .set(updateData)
-      .where(eq(seaCampaignProgress.userAddress, userAddress.toLowerCase()))
+      .where(eq(seaCampaignProgress.userAddress, currentProgress.userAddress)) // Use existing progress address
       .returning();
       
     return result[0];
@@ -68,8 +78,17 @@ export async function markAsParticipant(userAddress: string) {
   const existingProgress = await getProgressByUser(userAddress);
   
   if (!existingProgress) {
+    // Get the actual user address from the users table to match the foreign key
+    const user = await db.query.users.findFirst({
+      where: (users, { eq, sql }) => eq(sql`lower(${users.userAddress})`, userAddress.toLowerCase()),
+    });
+    
+    if (!user) {
+      throw new Error("User not found");
+    }
+    
     return await createSeaCampaignProgress({
-      userAddress: userAddress.toLowerCase(),
+      userAddress: user.userAddress, // Use the exact case from the users table
     });
   }
   

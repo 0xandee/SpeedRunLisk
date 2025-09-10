@@ -1,4 +1,4 @@
-# 🚩 Challenge: 🚀 Deploy & Verify Your First Contracts
+# Deploy & Verify Your First Contracts
 
 📚 This tutorial is meant for developers that already understand the [ 🖍️ basics ](https://www.youtube.com/watch?v=MlJPjJQZtC8).
 
@@ -12,9 +12,7 @@
 
 🌟 The final deliverable is verified smart contracts on Lisk Sepolia testnet with a functional frontend that interacts with your contracts. Deploy your contracts to the testnet, then build and upload your app to a public web server. Submit the urls on [SpeedRunLisk.com](https://speedrunlisk.com)!
 
-💬 Meet other builders working on this challenge and get help in the [Challenge Telegram](https://t.me/+Y2vqXZZ_pEFhMGMx)!
-
-🤖 If you have any questions during your Challenge, you can try out the [Challenge AI assistant](https://scaffold-eth-assistant.streamlit.app/) for Scaffold-ETH related questions, though note that some answers may need to be adapted for Lisk. For Lisk-specific help, please reach us in Telegram!
+💬 Meet other builders working on this challenge and get help in the [@LiskSEA Telegram](https://t.me/LiskSEA)!
 
 ## Checkpoint 0: 📦 Environment 📚
 
@@ -64,7 +62,7 @@ yarn start
 
 > 🔥 We'll use burner wallets on localhost.
 
-> 👛 Explore how burner wallets work in 🏗 Scaffold-ETH 2 by opening a new incognito window and navigate to http://localhost:3000. You'll notice it has a new wallet address in the top right. Copy the incognito browser's address and send localhost test funds to it from your first browser (using the **Faucet** button in the bottom left).
+> 👛 Explore how burner wallets work in 🏗 Scaffold-Lisk by opening a new incognito window and navigate to http://localhost:3000. You'll notice it has a new wallet address in the top right. Copy the incognito browser's address and send localhost test funds to it from your first browser (using the **Faucet** button in the bottom left).
 
 > 👨🏻‍🚒 When you close the incognito window, the account is gone forever. Burner wallets are great for local development but you'll move to more permanent wallets when you interact with public networks.
 
@@ -123,8 +121,8 @@ contract MyNFT is ERC721 {
 Edit `packages/hardhat/deploy/00_deploy_your_contract.ts` to deploy both contracts:
 
 ```typescript
-import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
@@ -167,29 +165,40 @@ deployContracts.tags = ["MyToken", "MyNFT"];
 liskSepolia: {
   url: "https://rpc.sepolia-api.lisk.com",
   accounts: [deployerPrivateKey],
-  verify: {
-    etherscan: {
-      apiUrl: "https://sepolia-blockscout.lisk.com/api",
-    },
-  },
+  chainId: 4202,
 },
 ```
 
-> **Note**: The screenshot above shows Scaffold-ETH, but the process is identical for Lisk. Just ensure you select `liskSepolia` as your network.
+> And add the verification configuration in the main config object:
+
+```typescript
+etherscan: {
+  apiKey: {
+    liskSepolia: process.env.ETHERSCAN_API_KEY || "YOUR_BLOCKSCOUT_API_KEY"
+  },
+  customChains: [
+    {
+      network: "liskSepolia",
+      chainId: 4202,
+      urls: {
+        apiURL: "https://sepolia-blockscout.lisk.com/api",
+        browserURL: "https://sepolia-blockscout.lisk.com"
+      }
+    }
+  ]
+},
+```
 
 🔐 Generate a deployer address with `yarn generate`. This creates a unique deployer address and saves the mnemonic locally.
 
 > This local account will deploy your contracts, allowing you to avoid entering a personal private key.
 
-> **Note**: This screenshot is from Scaffold-ETH, but the command output will be identical for Scaffold-Lisk.
-
 👩‍🚀 Use `yarn account` to view your deployer account balances.
-
-> **Note**: This screenshot is from Scaffold-ETH, but the account display will be identical for Scaffold-Lisk.
 
 ⛽️ You will need to send ETH to your deployer address with your wallet, or get it from a public faucet.
 
 > **Lisk Sepolia Faucets:**
+>
 > - [Lisk Sepolia Faucet](https://sepolia-faucet.lisk.com/) - Official Lisk faucet
 > - [Alchemy Faucet](https://sepoliafaucet.com/) - Alternative faucet
 > - [Google Cloud Faucet](https://cloud.google.com/application/web3/faucet/ethereum/sepolia) - Another option
@@ -215,13 +224,12 @@ ETHERSCAN_API_KEY="your_blockscout_api_key"
 
 > ✏️ Edit your frontend config in `packages/nextjs/scaffold.config.ts` to change the `targetNetwork` to `chains.liskSepolia` :
 
-> **Note**: In your Scaffold-Lisk config, you'll set `targetNetwork: chains.liskSepolia` instead of the network shown in this screenshot.
-
 > You should see the correct network in the frontend (http://localhost:3000):
 
 > 🦊 Since we have deployed to a public testnet, you will now need to connect using a wallet you own or use a burner wallet. By default 🔥 `burner wallets` are only available on `hardhat` . You can enable them on every chain by setting `onlyLocalBurnerWallet: false` in your frontend config (`scaffold.config.ts` in `packages/nextjs/`)
 
 🧪 Test your contracts on the frontend:
+
 - Connect your wallet
 - Try minting an NFT using your deployed contract
 - Check your token balance
@@ -248,14 +256,14 @@ yarn test
 
 #### Configuration of Third-Party Services for Production-Grade Apps.
 
-By default, 🏗 Scaffold-ETH 2 provides predefined API keys for popular services such as Alchemy and Etherscan. This allows you to begin developing and testing your applications more easily, avoiding the need to register for these services.
+By default, 🏗 Scaffold-Lisk provides predefined API keys for popular services such as Alchemy and Blockscout. This allows you to begin developing and testing your applications more easily, avoiding the need to register for these services.
 This is great to complete your **SpeedRunLisk**.
 
 For production-grade applications, it's recommended to obtain your own API keys (to prevent rate limiting issues). You can configure these at:
 
 - 🔷`ALCHEMY_API_KEY` variable in `packages/hardhat/.env` and `packages/nextjs/.env.local`. You can create API keys from the [Alchemy dashboard](https://dashboard.alchemy.com/).
 
-- 📃`ETHERSCAN_API_KEY` variable in `packages/hardhat/.env` with your generated API key. You can get your key [here](https://etherscan.io/myapikey).
+- 📃`ETHERSCAN_API_KEY` variable in `packages/hardhat/.env` for contract verification. Note: Despite the name, this is used for Blockscout verification on Lisk networks. For Lisk Sepolia, you may not need a specific API key as Blockscout often works without one.
 
 > 💬 Hint: It's recommended to store env's for nextjs in Vercel/system env config for live apps and use .env.local for local testing.
 
@@ -282,16 +290,19 @@ yarn verify --network liskSepolia
 If automated verification doesn't work, you can manually verify on [Lisk Sepolia Blockscout](https://sepolia-blockscout.lisk.com):
 
 1. **Navigate to your contract**:
+
    - Go to [sepolia-blockscout.lisk.com](https://sepolia-blockscout.lisk.com)
    - Paste your contract address in the search bar
    - Click on the contract address
 
 2. **Start verification**:
+
    - Click the "Contract" tab
    - Click "Verify & Publish" button
    - Select "Via Solidity file"
 
 3. **Upload contract details**:
+
    - Contract Address: (your deployed address)
    - Contract Name: `MyToken` or `MyNFT`
    - Compiler Version: `v0.8.17+commit.8df45f5f` (or the exact version from your hardhat.config.ts)
@@ -299,6 +310,7 @@ If automated verification doesn't work, you can manually verify on [Lisk Sepolia
    - Optimization: Enabled (runs: 200)
 
 4. **Upload source code**:
+
    - Copy and paste your complete contract source code
    - Include all import statements (OpenZeppelin imports will be automatically resolved)
    - Make sure the pragma version matches exactly: `^0.8.0`
@@ -306,6 +318,7 @@ If automated verification doesn't work, you can manually verify on [Lisk Sepolia
    - For the ERC721 contract, use the updated version without Counters
 
 5. **Constructor Arguments** (if any):
+
    - For these contracts, leave blank as they have no constructor arguments
 
 6. **Submit for verification**:
@@ -326,6 +339,7 @@ If verification fails:
 ### Verify Both Contracts
 
 Make sure to verify both:
+
 - 🪙 **MyToken** (ERC20) contract
 - 🎨 **MyNFT** (ERC721) contract
 
@@ -337,61 +351,7 @@ Make sure to verify both:
 
 🎯 Time to submit your completed challenge to the SEA Campaign!
 
-Go to [Week 1 Submission](https://speedrunlisk.com/sea-campaign/week/1) and provide:
-
-### Required Submission Fields:
-- ✅ **GitHub repository URL** - Your forked scaffold-lisk repo
-- ✅ **ERC20 Token contract address** - Your MyToken address on Lisk Sepolia  
-- ✅ **ERC721 NFT contract address** - Your MyNFT address on Lisk Sepolia
-- ✅ **Deploy transaction hash** - Hash of your deployment tx
-- ✅ **Vercel deployment URL** - Your live frontend app
-- ✅ **Social media post URL** - Your Twitter/X post
-- ✅ **Your country** - Required for SEA Campaign
-- ✅ **Telegram handle** - For support and community
-
-### Social Media Requirements:
-
-Create a post on Twitter/X with:
-- 📸 Screenshot of your verified contracts on Lisk Blockscout
-- 🔗 Link to your live Vercel app
-- 📝 Brief description of what you built
-- 🏷️ **Required hashtags**: `#SpeedrunLiskSEA #W1 @LiskSEA`
-
-### Success Criteria Checklist:
-
-- [ ] Both ERC20 and ERC721 contracts deployed to Lisk Sepolia
-- [ ] Both contracts verified on Lisk Blockscout (green checkmark visible)
-- [ ] Frontend deployed to Vercel and functional
-- [ ] Social media post with required hashtags published
-- [ ] All submission fields completed on SpeedRunLisk.com
-- [ ] Contracts interact correctly with frontend (mint NFT, check token balance)
-
----
-
-## ⚔️ Side Quests
-
-### 🌊 OpenSea Integration
-
-> 🎨 Want to see your NFTs on OpenSea? Head to [Testnets OpenSea](https://testnets.opensea.io/)
-
-> 🎫 Make sure you have minted some NFTs on your Vercel app, then connect to OpenSea using that same wallet.
-
-> 🔍 Search for your contract address or navigate directly to see your collection!
-
-### 🔧 Advanced Contract Features
-
-Try enhancing your contracts:
-
-- Add access controls (Ownable)
-- Implement token URI for metadata
-- Add batch minting functionality
-- Create a token sale contract
-
-### 🎯 Challenge Extensions
-
-- Create a frontend component that displays both your ERC20 balance and NFT collection
-- Add a transfer function to send tokens/NFTs to other addresses
-- Implement a simple marketplace for your NFTs
+Go to [Week 1 Submission](https://speedrunlisk.com/sea-campaign/week/1) to submit your completed challenge.
 
 ---
 
@@ -408,27 +368,28 @@ Try enhancing your contracts:
 
 ### Common Issues:
 
-**Deployment fails**: 
+**Deployment fails**:
+
 - Check you have enough ETH for gas fees on Lisk Sepolia
 - Verify network configuration in hardhat.config.ts includes `liskSepolia`
 - Ensure you're using `yarn deploy --network liskSepolia` or set defaultNetwork
 
 **Verification fails**:
-- Ensure compiler version matches exactly (0.8.17)
+
+- Ensure compiler version matches exactly (contracts use `^0.8.0` but project compiles with 0.8.17)
 - Check all imports are included in the source code
 - Verify contract name spelling (case-sensitive)
 - Make sure optimization settings match (enabled: true, runs: 200)
 
 **Frontend not connecting**:
+
 - Check scaffold.config.ts has `targetNetwork: chains.liskSepolia`
 - Ensure wallet is connected to Lisk Sepolia network
 - Verify contract addresses match your deployed contracts
 - Clear browser cache and reconnect wallet if needed
 
-**Need help?** Join our [Telegram support group](https://t.me/+Y2vqXZZ_pEFhMGMx)! 💬
+**Need help?** Join our [@LiskSEA Telegram](https://t.me/LiskSEA)! 💬
 
 ---
 
-> 🏃 Head to your next challenge [here](https://speedrunlisk.com/speedrun).
-
-> 💬 Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)
+> 💬 Problems, questions, comments on the stack? Post them to [@LiskSEA](https://t.me/LiskSEA)

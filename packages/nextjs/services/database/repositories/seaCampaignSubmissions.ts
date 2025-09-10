@@ -44,10 +44,11 @@ export async function getSubmissionsByWeek(weekNumber: number) {
 }
 
 export async function getSubmissionsByUser(userAddress: string) {
+  // Use case-insensitive search since userAddress case can vary
   return await db
     .select()
     .from(seaCampaignSubmissions)
-    .where(eq(seaCampaignSubmissions.userAddress, userAddress.toLowerCase()))
+    .where(sql`lower(${seaCampaignSubmissions.userAddress}) = lower(${userAddress})`)
     .orderBy(seaCampaignSubmissions.weekNumber);
 }
 

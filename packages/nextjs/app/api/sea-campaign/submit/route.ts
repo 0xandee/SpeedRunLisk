@@ -82,9 +82,9 @@ export async function POST(req: NextRequest) {
     // Ensure user is marked as SEA campaign participant
     await markAsParticipant(userAddress);
 
-    // Create the submission
+    // Create the submission using exact user address from database
     const submission = await createSeaCampaignSubmission({
-      userAddress: userAddress.toLowerCase(),
+      userAddress: user.userAddress, // Use exact case from database
       weekNumber,
       githubUrl,
       contractAddress,
@@ -103,14 +103,14 @@ export async function POST(req: NextRequest) {
 
     // Update user's progress
     try {
-      await updateWeekCompletion(userAddress, weekNumber);
+      await updateWeekCompletion(user.userAddress, weekNumber);
     } catch (error) {
       console.error("Failed to update week completion:", error);
       // Don't fail the request, just log the error
     }
 
     // Get updated progress for response
-    const updatedProgress = await getProgressByUser(userAddress);
+    const updatedProgress = await getProgressByUser(user.userAddress);
 
     return NextResponse.json({
       success: true,
