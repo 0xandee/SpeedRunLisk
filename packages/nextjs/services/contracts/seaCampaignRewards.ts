@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, JsonRpcProvider, Wallet, parseEther, formatEther, keccak256, toUtf8Bytes, isAddress, AbiCoder } from "ethers";
 import { createSeaCampaignReward, updatePaymentStatus } from "~~/services/database/repositories/seaCampaignRewards";
 
 // ABI for the SeaCampaignRewards contract
@@ -41,12 +41,12 @@ export interface RewardAllocation {
 /**
  * Get contract instance for read operations
  */
-export function getRewardsContract(signerOrProvider?: ethers.Signer | ethers.providers.Provider) {
+export function getRewardsContract(signerOrProvider?: ethers.Signer | JsonRpcProvider) {
   if (!CONTRACT_CONFIG.address) {
     throw new Error("SeaCampaignRewards contract address not configured");
   }
 
-  const provider = signerOrProvider || new ethers.providers.JsonRpcProvider(CONTRACT_CONFIG.rpcUrl);
+  const provider = signerOrProvider || new JsonRpcProvider(CONTRACT_CONFIG.rpcUrl);
   return new ethers.Contract(CONTRACT_CONFIG.address, SEA_CAMPAIGN_REWARDS_ABI, provider);
 }
 
@@ -58,8 +58,8 @@ export function getRewardsContractWithSigner() {
     throw new Error("Admin private key not configured");
   }
 
-  const provider = new ethers.providers.JsonRpcProvider(CONTRACT_CONFIG.rpcUrl);
-  const signer = new ethers.Wallet(CONTRACT_CONFIG.privateKey, provider);
+  const provider = new JsonRpcProvider(CONTRACT_CONFIG.rpcUrl);
+  const signer = new Wallet(CONTRACT_CONFIG.privateKey, provider);
   return getRewardsContract(signer);
 }
 
@@ -74,10 +74,10 @@ export async function allocateRewardsOnChain(allocations: RewardAllocation[]) {
     const ETH_USD_RATE = 2000; // Approximate rate - use actual price feed in production
     
     const recipients = allocations.map(a => a.recipient);
-    const amounts = allocations.map(a => ethers.utils.parseEther((a.amount / ETH_USD_RATE).toString()));
+    const amounts = allocations.map(a => parseEther((a.amount / ETH_USD_RATE).toString()));
     const rewardTypes = allocations.map(a => a.rewardType);
     const weekNumbers = allocations.map(a => a.weekNumber);
-    const proofHashes = allocations.map(a => ethers.utils.keccak256(ethers.utils.toUtf8Bytes(a.proofHash)));
+    const proofHashes = allocations.map(a => keccak256(toUtf8Bytes(a.proofHash)));
 
     // Call smart contract
     const tx = await contract.allocateRewards(recipients, amounts, rewardTypes, weekNumbers, proofHashes);
@@ -117,10 +117,10 @@ export async function getContractStats() {
     const stats = await contract.getContractStats();
     
     return {
-      balance: ethers.utils.formatEther(stats.balance),
-      totalAllocated: ethers.utils.formatEther(stats.totalAllocated),
-      totalPaid: ethers.utils.formatEther(stats.totalPaid),
-      remainingBudget: ethers.utils.formatEther(stats.remainingBudget),
+      balance: formatEther(stats.balance),
+      totalAllocated: formatEther(stats.totalAllocated),
+      totalPaid: formatEther(stats.totalPaid),
+      remainingBudget: formatEther(stats.remainingBudget),
     };
   } catch (error) {
     console.error("Error getting contract stats:", error);
@@ -137,8 +137,8 @@ export async function getUserAvailableRewards(userAddress: string) {
     const availableRewards = await contract.getAvailableRewards(userAddress);
     
     return {
-      availableETH: ethers.utils.formatEther(availableRewards),
-      availableUSD: parseFloat(ethers.utils.formatEther(availableRewards)) * 2000 // Approximate conversion
+      availableETH: formatEther(availableRewards),
+      availableUSD: parseFloat(formatEther(availableRewards)) * 2000 // Approximate conversion
     };
   } catch (error) {
     console.error("Error getting user rewards:", error);
@@ -152,7 +152,7 @@ export async function getUserAvailableRewards(userAddress: string) {
 export async function fundContract(amountETH: string) {
   try {
     const contract = getRewardsContractWithSigner();
-    const amount = ethers.utils.parseEther(amountETH);
+    const amount = parseEther(amountETH);
     
     const tx = await contract.fundContract({ value: amount });
     const receipt = await tx.wait();
@@ -180,7 +180,7 @@ export function setupEventListeners() {
     console.log("RewardAllocated event:", {
       rewardId,
       recipient,
-      amount: ethers.utils.formatEther(amount),
+      amount: formatEther(amount),
       rewardType,
       weekNumber,
       proofHash
@@ -195,7 +195,7 @@ export function setupEventListeners() {
     console.log("RewardClaimed event:", {
       rewardId,
       recipient,
-      amount: ethers.utils.formatEther(amount)
+      amount: formatEther(amount)
     });
     
     // Update database records to mark as paid
@@ -207,8 +207,8 @@ export function setupEventListeners() {
  * Generate proof hash for reward allocation
  */
 export function generateProofHash(userAddress: string, weekNumber: number, submissionId: number): string {
-  return ethers.utils.keccak256(
-    ethers.utils.defaultAbiCoder.encode(
+  return keccak256(
+    AbiCoder.defaultAbiCoder().encode(
       ["address", "uint8", "uint256", "uint256"],
       [userAddress, weekNumber, submissionId, Date.now()]
     )
@@ -219,7 +219,7 @@ export function generateProofHash(userAddress: string, weekNumber: number, submi
  * Validate reward allocation before processing
  */
 export function validateRewardAllocation(allocation: RewardAllocation): boolean {
-  if (!ethers.utils.isAddress(allocation.recipient)) return false;
+  if (!isAddress(allocation.recipient)) return false;
   if (allocation.amount <= 0) return false;
   if (allocation.weekNumber < 1 || allocation.weekNumber > 6) return false;
   if (!Object.values(RewardType).includes(allocation.rewardType)) return false;
