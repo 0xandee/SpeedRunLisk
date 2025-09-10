@@ -4,7 +4,7 @@ export const SEA_CAMPAIGN_METADATA = {
     description: "Deploy and verify your first ERC20 token and ERC721 NFT contracts on Lisk Sepolia",
     dueDate: "2025-09-21",
     reward: "NFT Badge for completion",
-    guides: ["/speedrun/start-here", "/speedrun/setup", "/speedrun/ch1-deploy-verify"],
+    guides: ["/speedrun/ch1-deploy-verify"],
     videoUrl: "V1 (10m): From zero → first deploy & verify",
     socialHashtags: ["#SpeedrunLiskSEA", "#W1", "@LiskSEA"],
     requiredSubmissions: ["contract_address", "tx_hash", "github_url", "social_post_url"],

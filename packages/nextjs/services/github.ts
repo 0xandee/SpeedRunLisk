@@ -33,6 +33,20 @@ export async function fetchLocalChallengeReadme(githubString: string): Promise<s
   }
 }
 
+export async function fetchLocalSpeedrunReadme(speedrunId: string): Promise<string> {
+  const fs = await import("fs/promises");
+  const path = await import("path");
+
+  const filePath = path.join(process.cwd(), "public", "speedrun", `${speedrunId}.md`);
+
+  try {
+    const content = await fs.readFile(filePath, "utf-8");
+    return content;
+  } catch (error) {
+    throw new Error(`Failed to read speedrun file: ${filePath}. ${error}`);
+  }
+}
+
 export async function fetchGithubChallengeReadme(githubString: string): Promise<string> {
   const { owner, repo, branch } = parseGithubUrl(githubString);
 
