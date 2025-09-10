@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSeaCampaignSubmission, getSubmissionByUserAndWeek } from "~~/services/database/repositories/seaCampaignSubmissions";
-import { updateWeekCompletion, getProgressByUser, markAsParticipant } from "~~/services/database/repositories/seaCampaignProgress";
+import {
+  getProgressByUser,
+  markAsParticipant,
+  updateWeekCompletion,
+} from "~~/services/database/repositories/seaCampaignProgress";
+import {
+  createSeaCampaignSubmission,
+  getSubmissionByUserAndWeek,
+} from "~~/services/database/repositories/seaCampaignSubmissions";
 import { getUserByAddress } from "~~/services/database/repositories/users";
-import { isSeaCampaignChallenge, getWeekFromChallengeId } from "~~/utils/sea-challenges";
+import { getWeekFromChallengeId, isSeaCampaignChallenge } from "~~/utils/sea-challenges";
 
 export type SeaCampaignSubmitPayload = {
   weekNumber: number;
@@ -31,7 +38,7 @@ export async function POST(req: NextRequest) {
       socialPostUrl,
       country,
       telegramHandle,
-      payoutWallet
+      payoutWallet,
     } = (await req.json()) as SeaCampaignSubmitPayload;
 
     // Validation
@@ -47,9 +54,12 @@ export async function POST(req: NextRequest) {
     // Validate week number matches challenge ID
     const expectedWeek = getWeekFromChallengeId(challengeId);
     if (expectedWeek !== weekNumber) {
-      return NextResponse.json({ 
-        error: `Week number mismatch. Challenge ${challengeId} is for week ${expectedWeek}` 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: `Week number mismatch. Challenge ${challengeId} is for week ${expectedWeek}`,
+        },
+        { status: 400 },
+      );
     }
 
     // Check if user exists
@@ -61,9 +71,12 @@ export async function POST(req: NextRequest) {
     // Check for existing submission for this week
     const existingSubmission = await getSubmissionByUserAndWeek(userAddress, weekNumber);
     if (existingSubmission) {
-      return NextResponse.json({ 
-        error: `You have already submitted for week ${weekNumber}. You cannot submit multiple times for the same week.` 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: `You have already submitted for week ${weekNumber}. You cannot submit multiple times for the same week.`,
+        },
+        { status: 400 },
+      );
     }
 
     // Ensure user is marked as SEA campaign participant
@@ -112,7 +125,7 @@ export async function POST(req: NextRequest) {
         totalWeeksCompleted: updatedProgress?.totalWeeksCompleted || 0,
         isGraduated: updatedProgress?.isGraduated || false,
         nextWeek: updatedProgress?.totalWeeksCompleted === 6 ? null : (updatedProgress?.totalWeeksCompleted || 0) + 1,
-      }
+      },
     });
   } catch (error) {
     console.error("Error submitting SEA campaign challenge:", error);

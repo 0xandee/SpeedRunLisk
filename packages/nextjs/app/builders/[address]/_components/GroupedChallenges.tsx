@@ -63,14 +63,11 @@ export function GroupedChallenges({
 
   // Filter challenges into basic and advanced
   const basicChallenges = userMappedChallenges.filter(
-    challenge =>
-      basicChallengeIds.has(challenge.id as ChallengeId) ||
-      seaBasicChallengeIds.has(challenge.id),
+    challenge => basicChallengeIds.has(challenge.id as ChallengeId) || seaBasicChallengeIds.has(challenge.id),
   );
   const advancedChallenges = userMappedChallenges.filter(
     challenge =>
-      (!basicChallengeIds.has(challenge.id as ChallengeId) &&
-        !seaBasicChallengeIds.has(challenge.id)) ||
+      (!basicChallengeIds.has(challenge.id as ChallengeId) && !seaBasicChallengeIds.has(challenge.id)) ||
       seaAdvancedChallengeIds.has(challenge.id),
   );
 
@@ -90,8 +87,7 @@ export function GroupedChallenges({
 
               const isSeaChallenge = challenge.id.startsWith("sea-week-");
               const isComingSoon =
-                isSeaChallenge &&
-                getSeaChallengeVisibilityStatus(challenge.id).status === "upcoming";
+                isSeaChallenge && getSeaChallengeVisibilityStatus(challenge.id).status === "upcoming";
 
               return (
                 <ChallengeDetails
@@ -123,8 +119,7 @@ export function GroupedChallenges({
 
               const isSeaChallenge = challenge.id.startsWith("sea-week-");
               const isComingSoon =
-                (isSeaChallenge &&
-                  getSeaChallengeVisibilityStatus(challenge.id).status === "upcoming") ||
+                (isSeaChallenge && getSeaChallengeVisibilityStatus(challenge.id).status === "upcoming") ||
                 challenge.id === ChallengeId.DEPLOY_TO_L2;
 
               return (

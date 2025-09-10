@@ -6,12 +6,12 @@ import { ChallengeExpandedCard } from "./ChallengeExpandedCard";
 import { Hero } from "./Hero";
 import { OnboardingBatchesCard } from "./OnboardingBatchesCard";
 import { useAccount } from "wagmi";
+import { SeaChallengeComingSoon } from "~~/components/SeaChallengeComingSoon";
+import { SeaChallengeCountdown } from "~~/components/SeaChallengeCountdown";
 import { useUserChallenges } from "~~/hooks/useUserChallenges";
 import { ChallengeId } from "~~/services/database/config/types";
 import { Challenges } from "~~/services/database/repositories/challenges";
-import { SeaChallengeCountdown } from "~~/components/SeaChallengeCountdown";
-import { SeaChallengeComingSoon } from "~~/components/SeaChallengeComingSoon";
-import { getSeaChallengeVisibilityStatus, seaCampaignChallenges, SEA_CAMPAIGN_CONFIG } from "~~/utils/sea-challenges";
+import { SEA_CAMPAIGN_CONFIG, getSeaChallengeVisibilityStatus, seaCampaignChallenges } from "~~/utils/sea-challenges";
 
 export const HomepageClient = ({ challenges }: { challenges: Challenges }) => {
   const { address: connectedAddress } = useAccount();
@@ -24,16 +24,17 @@ export const HomepageClient = ({ challenges }: { challenges: Challenges }) => {
   const campaignHasStarted = now >= campaignStartDate;
 
   // Filter to only show SEA campaign challenges
-  const seaChallenges = challenges.filter(challenge =>
-    seaCampaignChallenges.includes(challenge.id as any)
-  );
+  const seaChallenges = challenges.filter(challenge => seaCampaignChallenges.includes(challenge.id as any));
 
   // Sort SEA challenges by week number
   const sortedSeaChallenges = seaChallenges.sort((a, b) => {
     const aMeta = getSeaChallengeVisibilityStatus(a.id);
     const bMeta = getSeaChallengeVisibilityStatus(b.id);
-    return aMeta.status === 'active' && bMeta.status !== 'active' ? -1 :
-      bMeta.status === 'active' && aMeta.status !== 'active' ? 1 : 0;
+    return aMeta.status === "active" && bMeta.status !== "active"
+      ? -1
+      : bMeta.status === "active" && aMeta.status !== "active"
+        ? 1
+        : 0;
   });
 
   return (
@@ -47,17 +48,12 @@ export const HomepageClient = ({ challenges }: { challenges: Challenges }) => {
         {campaignHasStarted && (
           <>
             {/* Render SEA challenges based on their timing */}
-            {sortedSeaChallenges.map((challenge) => {
+            {sortedSeaChallenges.map(challenge => {
               const visibilityStatus = getSeaChallengeVisibilityStatus(challenge.id);
 
-              if (visibilityStatus.status === 'upcoming') {
+              if (visibilityStatus.status === "upcoming") {
                 // Show coming soon for upcoming challenges
-                return (
-                  <SeaChallengeComingSoon
-                    key={challenge.id}
-                    challengeId={challenge.id}
-                  />
-                );
+                return <SeaChallengeComingSoon key={challenge.id} challengeId={challenge.id} />;
               } else {
                 // Show active challenge (no more expired status)
                 return (

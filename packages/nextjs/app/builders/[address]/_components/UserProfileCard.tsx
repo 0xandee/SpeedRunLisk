@@ -35,9 +35,9 @@ export const UserProfileCard = ({ user, batch }: UserProfileCardProps) => {
           <div className="flex flex-col items-center gap-4">
             <div className="text-neutral">
               <Address address={user.userAddress} hideAvatar size="xl" cachedEns={user.ens} />
-              <div className="text-center">
+              {/* <div className="text-center">
                 <RefreshEnsButton user={user} />
-              </div>
+              </div> */}
             </div>
 
             {batch && (

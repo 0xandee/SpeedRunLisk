@@ -33,8 +33,7 @@ export const Footer = () => {
           <SwitchTheme className={`pointer-events-auto ${isLocalNetwork ? "self-end md:self-auto" : ""}`} />
         </div>
       </div>
-      <div className="w-full">
-      </div>
+      <div className="w-full"></div>
     </div>
   );
 };

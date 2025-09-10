@@ -8,7 +8,7 @@ export const RouteRefresher = () => {
 
   useEffect(() => {
     router.refresh();
-  }, [router]);
+  }, []);
 
   return null;
 };

@@ -28,9 +28,13 @@ export const Logo = ({ className, ...props }: HTMLProps<SVGSVGElement>) => {
         <path d="M30.5 25.5c0-4 3-7 7-7s7 3 7 7-3 7-7 7-7-3-7-7zm3 0c0 2.2 1.8 4 4 4s4-1.8 4-4-1.8-4-4-4-4 1.8-4 4z" />
         <path d="M48.5 25.5c0-4 3-7 7-7s7 3 7 7-3 7-7 7-7-3-7-7zm3 0c0 2.2 1.8 4 4 4s4-1.8 4-4-1.8-4-4-4-4 1.8-4 4z" />
         <path d="M66.5 8.5h3v13.5l8-8h4l-7 7 8 9.5h-4l-6-7.5-3 3v4.5h-3v-22z" />
-        <text x="85" y="26" fontSize="16" fontWeight="bold" fill={fillColor}>LISK</text>
+        <text x="85" y="26" fontSize="16" fontWeight="bold" fill={fillColor}>
+          LISK
+        </text>
       </g>
-      <text x="8" y="38" fontSize="12" fill={fillColor} opacity="0.7">SpeedRun</text>
+      <text x="8" y="38" fontSize="12" fill={fillColor} opacity="0.7">
+        SpeedRun
+      </text>
     </svg>
   );
 };

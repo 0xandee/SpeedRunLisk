@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface WeeklyKpi {
   weekNumber: number;
   target: number;
   actual: number;
-  status: 'exceeded' | 'on-track' | 'behind';
+  status: "exceeded" | "on-track" | "behind";
   percentage: number;
 }
 
@@ -21,7 +21,7 @@ interface KpiData {
     retentionRate: number;
   };
   kpis: {
-    overallCampaignHealth: 'excellent' | 'good' | 'fair' | 'poor';
+    overallCampaignHealth: "excellent" | "good" | "fair" | "poor";
     participantProgress: number;
     graduateProgress: number;
     targetParticipants: number;
@@ -66,8 +66,8 @@ export function KpiDashboard({ compact = false, showWeekly = true }: KpiDashboar
     const colors = {
       excellent: "text-success",
       good: "text-info",
-      fair: "text-warning", 
-      poor: "text-error"
+      fair: "text-warning",
+      poor: "text-error",
     };
     return colors[health as keyof typeof colors] || "text-base-content";
   };
@@ -76,7 +76,7 @@ export function KpiDashboard({ compact = false, showWeekly = true }: KpiDashboar
     const icons = {
       exceeded: "🎯",
       "on-track": "✅",
-      behind: "⚠️"
+      behind: "⚠️",
     };
     return icons[status as keyof typeof icons] || "📊";
   };
@@ -85,7 +85,7 @@ export function KpiDashboard({ compact = false, showWeekly = true }: KpiDashboar
     const colors = {
       exceeded: "text-success",
       "on-track": "text-info",
-      behind: "text-error"
+      behind: "text-error",
     };
     return colors[status as keyof typeof colors] || "text-base-content";
   };
@@ -127,56 +127,46 @@ export function KpiDashboard({ compact = false, showWeekly = true }: KpiDashboar
               {kpiData.kpis.overallCampaignHealth.toUpperCase()}
             </div>
           </div>
-          
-          <div className={`grid ${compact ? 'grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'} gap-4`}>
+
+          <div
+            className={`grid ${compact ? "grid-cols-2 lg:grid-cols-4" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"} gap-4`}
+          >
             <div className="stat bg-base-200 rounded-lg p-4">
               <div className="stat-title text-xs">Participants</div>
-              <div className="stat-value text-lg text-primary">
-                {kpiData.overview.totalParticipants}
-              </div>
+              <div className="stat-value text-lg text-primary">{kpiData.overview.totalParticipants}</div>
               <div className="stat-desc text-xs">
                 Target: {kpiData.kpis.targetParticipants} ({kpiData.kpis.participantProgress}%)
               </div>
-              <progress 
-                className="progress progress-primary w-full mt-1" 
-                value={kpiData.kpis.participantProgress} 
+              <progress
+                className="progress progress-primary w-full mt-1"
+                value={kpiData.kpis.participantProgress}
                 max="100"
               ></progress>
             </div>
 
             <div className="stat bg-base-200 rounded-lg p-4">
               <div className="stat-title text-xs">Graduates</div>
-              <div className="stat-value text-lg text-success">
-                {kpiData.overview.graduates}
-              </div>
+              <div className="stat-value text-lg text-success">{kpiData.overview.graduates}</div>
               <div className="stat-desc text-xs">
                 Target: {kpiData.kpis.targetGraduates} ({kpiData.kpis.graduateProgress}%)
               </div>
-              <progress 
-                className="progress progress-success w-full mt-1" 
-                value={kpiData.kpis.graduateProgress} 
+              <progress
+                className="progress progress-success w-full mt-1"
+                value={kpiData.kpis.graduateProgress}
                 max="100"
               ></progress>
             </div>
 
             <div className="stat bg-base-200 rounded-lg p-4">
               <div className="stat-title text-xs">Completion Rate</div>
-              <div className="stat-value text-lg text-info">
-                {kpiData.overview.completionRate}%
-              </div>
-              <div className="stat-desc text-xs">
-                Avg: {kpiData.overview.averageWeeksCompleted.toFixed(1)} weeks
-              </div>
+              <div className="stat-value text-lg text-info">{kpiData.overview.completionRate}%</div>
+              <div className="stat-desc text-xs">Avg: {kpiData.overview.averageWeeksCompleted.toFixed(1)} weeks</div>
             </div>
 
             <div className="stat bg-base-200 rounded-lg p-4">
               <div className="stat-title text-xs">Retention</div>
-              <div className="stat-value text-lg text-warning">
-                {kpiData.overview.retentionRate}%
-              </div>
-              <div className="stat-desc text-xs">
-                Week 1 → Week 2
-              </div>
+              <div className="stat-value text-lg text-warning">{kpiData.overview.retentionRate}%</div>
+              <div className="stat-desc text-xs">Week 1 → Week 2</div>
             </div>
           </div>
 
@@ -191,41 +181,37 @@ export function KpiDashboard({ compact = false, showWeekly = true }: KpiDashboar
         <div className="card bg-base-100 shadow-lg">
           <div className="card-body">
             <h3 className="card-title text-lg mb-4">🎯 Weekly Targets vs Actual</h3>
-            
+
             <div className="space-y-3">
-              {kpiData.weeklyStats.map((week) => (
+              {kpiData.weeklyStats.map(week => (
                 <div key={week.weekNumber} className="flex items-center justify-between p-3 bg-base-200 rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="text-lg">{getStatusIcon(week.status)}</div>
                     <div>
                       <div className="font-medium">Week {week.weekNumber}</div>
-                      <div className={`text-xs ${getStatusColor(week.status)}`}>
-                        {week.status}
-                      </div>
+                      <div className={`text-xs ${getStatusColor(week.status)}`}>{week.status}</div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-4">
                     <div className="text-right">
                       <div className="font-semibold">{week.actual}</div>
-                      <div className="text-xs text-base-content/60">
-                        / {week.target} target
-                      </div>
+                      <div className="text-xs text-base-content/60">/ {week.target} target</div>
                     </div>
-                    
+
                     <div className="w-24">
-                      <progress 
+                      <progress
                         className={`progress ${
-                          week.status === 'exceeded' ? 'progress-success' : 
-                          week.status === 'on-track' ? 'progress-info' : 
-                          'progress-error'
+                          week.status === "exceeded"
+                            ? "progress-success"
+                            : week.status === "on-track"
+                              ? "progress-info"
+                              : "progress-error"
                         }`}
-                        value={Math.min(week.actual, week.target)} 
+                        value={Math.min(week.actual, week.target)}
                         max={week.target}
                       ></progress>
-                      <div className="text-xs text-center mt-1">
-                        {week.percentage}%
-                      </div>
+                      <div className="text-xs text-center mt-1">{week.percentage}%</div>
                     </div>
                   </div>
                 </div>

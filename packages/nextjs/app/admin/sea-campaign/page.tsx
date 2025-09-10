@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useAccount } from "wagmi";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useAccount } from "wagmi";
 
 interface CampaignStats {
   overview: {
@@ -18,7 +18,7 @@ interface CampaignStats {
     weekNumber: number;
     target: number;
     actual: number;
-    status: 'exceeded' | 'on-track' | 'behind';
+    status: "exceeded" | "on-track" | "behind";
     percentage: number;
   }>;
   countryStats: Array<{
@@ -42,7 +42,7 @@ interface CampaignStats {
     targetGraduates: number;
     actualGraduates: number;
     graduateProgress: number;
-    overallCampaignHealth: 'excellent' | 'good' | 'fair' | 'poor';
+    overallCampaignHealth: "excellent" | "good" | "fair" | "poor";
   };
   lastUpdated: string;
 }
@@ -52,7 +52,7 @@ export default function SeaCampaignAdminPage() {
   const [stats, setStats] = useState<CampaignStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedWeek, setSelectedWeek] = useState(1);
-  const [activeTab, setActiveTab] = useState<'overview' | 'weekly' | 'rewards' | 'participants'>('overview');
+  const [activeTab, setActiveTab] = useState<"overview" | "weekly" | "rewards" | "participants">("overview");
 
   useEffect(() => {
     fetchStats();
@@ -80,7 +80,7 @@ export default function SeaCampaignAdminPage() {
       excellent: "badge-success",
       good: "badge-info",
       fair: "badge-warning",
-      poor: "badge-error"
+      poor: "badge-error",
     };
     return badges[health as keyof typeof badges] || "badge-ghost";
   };
@@ -89,7 +89,7 @@ export default function SeaCampaignAdminPage() {
     const badges = {
       exceeded: "badge-success",
       "on-track": "badge-info",
-      behind: "badge-error"
+      behind: "badge-error",
     };
     return badges[status as keyof typeof badges] || "badge-ghost";
   };
@@ -133,41 +133,36 @@ export default function SeaCampaignAdminPage() {
           </div>
         </div>
 
-        <div className="text-xs text-base-content/60">
-          Last updated: {new Date(stats.lastUpdated).toLocaleString()}
-        </div>
+        <div className="text-xs text-base-content/60">Last updated: {new Date(stats.lastUpdated).toLocaleString()}</div>
       </header>
 
       {/* Tabs */}
       <div className="tabs tabs-bordered mb-8">
         <button
-          className={`tab ${activeTab === 'overview' ? 'tab-active' : ''}`}
-          onClick={() => setActiveTab('overview')}
+          className={`tab ${activeTab === "overview" ? "tab-active" : ""}`}
+          onClick={() => setActiveTab("overview")}
         >
           Overview
         </button>
-        <button
-          className={`tab ${activeTab === 'weekly' ? 'tab-active' : ''}`}
-          onClick={() => setActiveTab('weekly')}
-        >
+        <button className={`tab ${activeTab === "weekly" ? "tab-active" : ""}`} onClick={() => setActiveTab("weekly")}>
           Weekly Progress
         </button>
         <button
-          className={`tab ${activeTab === 'rewards' ? 'tab-active' : ''}`}
-          onClick={() => setActiveTab('rewards')}
+          className={`tab ${activeTab === "rewards" ? "tab-active" : ""}`}
+          onClick={() => setActiveTab("rewards")}
         >
           Rewards
         </button>
         <button
-          className={`tab ${activeTab === 'participants' ? 'tab-active' : ''}`}
-          onClick={() => setActiveTab('participants')}
+          className={`tab ${activeTab === "participants" ? "tab-active" : ""}`}
+          onClick={() => setActiveTab("participants")}
         >
           Participants
         </button>
       </div>
 
       {/* Overview Tab */}
-      {activeTab === 'overview' && (
+      {activeTab === "overview" && (
         <div className="space-y-8">
           {/* KPI Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -199,9 +194,7 @@ export default function SeaCampaignAdminPage() {
               </div>
               <div className="stat-title">Completion Rate</div>
               <div className="stat-value text-info">{stats.overview.completionRate}%</div>
-              <div className="stat-desc">
-                Avg: {stats.overview.averageWeeksCompleted} weeks
-              </div>
+              <div className="stat-desc">Avg: {stats.overview.averageWeeksCompleted} weeks</div>
             </div>
 
             <div className="stat bg-base-200 rounded-lg">
@@ -210,9 +203,7 @@ export default function SeaCampaignAdminPage() {
               </div>
               <div className="stat-title">Retention Rate</div>
               <div className="stat-value text-warning">{stats.overview.retentionRate}%</div>
-              <div className="stat-desc">
-                Week 1 → Week 2
-              </div>
+              <div className="stat-desc">Week 1 → Week 2</div>
             </div>
           </div>
 
@@ -237,30 +228,30 @@ export default function SeaCampaignAdminPage() {
       )}
 
       {/* Weekly Progress Tab */}
-      {activeTab === 'weekly' && (
+      {activeTab === "weekly" && (
         <div className="space-y-8">
           <div className="card bg-base-100 shadow-lg">
             <div className="card-body">
               <h2 className="card-title mb-6">Weekly KPI Tracking</h2>
               <div className="space-y-4">
-                {stats.weeklyStats.map((week) => (
+                {stats.weeklyStats.map(week => (
                   <div key={week.weekNumber} className="flex items-center justify-between p-4 bg-base-200 rounded-lg">
                     <div className="flex items-center gap-4">
                       <div className="font-bold text-lg">Week {week.weekNumber}</div>
-                      <div className={`badge ${getStatusBadge(week.status)}`}>
-                        {week.status}
-                      </div>
+                      <div className={`badge ${getStatusBadge(week.status)}`}>{week.status}</div>
                     </div>
 
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <div className="font-semibold">{week.actual} / {week.target}</div>
+                        <div className="font-semibold">
+                          {week.actual} / {week.target}
+                        </div>
                         <div className="text-sm text-base-content/60">{week.percentage}% of target</div>
                       </div>
 
                       <div className="w-32">
                         <progress
-                          className={`progress ${week.status === 'exceeded' ? 'progress-success' : week.status === 'on-track' ? 'progress-info' : 'progress-error'}`}
+                          className={`progress ${week.status === "exceeded" ? "progress-success" : week.status === "on-track" ? "progress-info" : "progress-error"}`}
                           value={week.actual}
                           max={week.target}
                         ></progress>
@@ -275,7 +266,7 @@ export default function SeaCampaignAdminPage() {
       )}
 
       {/* Rewards Tab */}
-      {activeTab === 'rewards' && (
+      {activeTab === "rewards" && (
         <div className="space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="card bg-base-100 shadow-lg">
@@ -323,15 +314,15 @@ export default function SeaCampaignAdminPage() {
                     <div className="text-xs">Distributed</div>
                   </div>
                   <div className="text-center p-4 bg-base-200 rounded">
-                    <div className="text-2xl font-bold text-secondary">${stats.rewardStats.remainingBudget.toFixed(0)}</div>
+                    <div className="text-2xl font-bold text-secondary">
+                      ${stats.rewardStats.remainingBudget.toFixed(0)}
+                    </div>
                     <div className="text-xs">Remaining</div>
                   </div>
                 </div>
 
                 <div className="mt-6">
-                  <button className="btn btn-primary btn-block">
-                    Process Pending Payments
-                  </button>
+                  <button className="btn btn-primary btn-block">Process Pending Payments</button>
                 </div>
               </div>
             </div>
@@ -340,7 +331,7 @@ export default function SeaCampaignAdminPage() {
       )}
 
       {/* Participants Tab */}
-      {activeTab === 'participants' && (
+      {activeTab === "participants" && (
         <div className="space-y-8">
           <div className="card bg-base-100 shadow-lg">
             <div className="card-body">

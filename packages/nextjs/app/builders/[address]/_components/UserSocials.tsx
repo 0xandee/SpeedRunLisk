@@ -41,15 +41,7 @@ export const UserSocials = ({ user }: { user: NonNullable<UserByAddress> }) => {
             })}
         </div>
       ) : isProfileOwner ? (
-        <div className="bg-warning p-3 text-neutral text-xs flex items-center gap-1">
-          You haven&apos;t set your socials
-          <div
-            className="tooltip tooltip-info"
-            data-tip="It's our way of reaching out to you. We could sponsor you an ENS, offer to be part of a build or set up an ETH stream for you."
-          >
-            <QuestionIcon className="w-3 h-3" />
-          </div>
-        </div>
+        <></>
       ) : null}
 
       {isProfileOwner && (

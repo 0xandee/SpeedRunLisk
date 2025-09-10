@@ -6,9 +6,9 @@ import { Metadata } from "next";
 import { isAddress } from "viem";
 import { RouteRefresher } from "~~/components/RouteRefresher";
 import { getBatchById } from "~~/services/database/repositories/batches";
-import { getAllSeaChallenges, getSeaChallengeVisibilityStatus } from "~~/utils/sea-challenges";
 import { getLatestSubmissionPerChallengeByUser } from "~~/services/database/repositories/userChallenges";
 import { getUserByAddress, getUserPoints } from "~~/services/database/repositories/users";
+import { getAllSeaChallenges, getSeaChallengeVisibilityStatus } from "~~/utils/sea-challenges";
 import { getShortAddressAndEns } from "~~/utils/short-address-and-ens";
 import { getTotalXP } from "~~/utils/xp";
 
@@ -107,7 +107,7 @@ export default async function BuilderPage(props: { params: Promise<{ address: st
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <div>
             <UserProfileCard user={user} batch={userBatch} />
-            <PointsBar points={points} totalPoints={totalPoints} />
+            {/* <PointsBar points={points} totalPoints={totalPoints} /> */}
           </div>
           <div className="lg:col-span-3">
             <GroupedChallenges address={address} challenges={transformedChallenges} userChallenges={userChallenges} />

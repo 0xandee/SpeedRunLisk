@@ -20,7 +20,7 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   useInitializeNativeCurrencyPrice();
 
   const pathname = usePathname();
-  const isSeaCampaignPage = pathname?.startsWith('/sea-campaign');
+  const isSeaCampaignPage = pathname?.startsWith("/sea-campaign");
 
   return (
     <>

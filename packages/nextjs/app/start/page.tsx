@@ -56,11 +56,11 @@ const StartLandingPage = async () => {
           </div>
           <div className="max-w-3xl mx-auto">
             <p className="my-10 text-lg md:my-14 md:text-center md:text-xl md:leading-relaxed">
-              SpeedRunLisk is a <TargetIcon className="inline-block w-6 h-6" /> hands-on series of challenges
-              designed to help you <strong>learn by building</strong>. Each challenge delivers one key "aha" moment,{" "}
+              SpeedRunLisk is a <TargetIcon className="inline-block w-6 h-6" /> hands-on series of challenges designed
+              to help you <strong>learn by building</strong>. Each challenge delivers one key "aha" moment,{" "}
               <LightbulbIcon className="inline-block w-6 h-6" /> a mental unlock about how{" "}
-              <MachineIcon className="inline-block w-6 h-6" /> Lisk really works. At the same time, you'll be
-              building your Lisk portfolio.
+              <MachineIcon className="inline-block w-6 h-6" /> Lisk really works. At the same time, you'll be building
+              your Lisk portfolio.
             </p>
           </div>
         </div>
@@ -141,8 +141,8 @@ const StartLandingPage = async () => {
             usable decentralized apps from day one.
           </p>
           <p>
-            Along the way, you can submit completed challenges to your SpeedRunLisk portfolio. Each challenge
-            becomes a public proof of your learning.
+            Along the way, you can submit completed challenges to your SpeedRunLisk portfolio. Each challenge becomes a
+            public proof of your learning.
           </p>
           <p className="mt-8 mb-4">
             You'll use{" "}

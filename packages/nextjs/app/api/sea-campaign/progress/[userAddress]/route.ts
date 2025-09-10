@@ -1,16 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProgressByUser } from "~~/services/database/repositories/seaCampaignProgress";
-import { getSubmissionsByUser } from "~~/services/database/repositories/seaCampaignSubmissions";
 import { getRewardsByUser, getUserTotalRewards } from "~~/services/database/repositories/seaCampaignRewards";
+import { getSubmissionsByUser } from "~~/services/database/repositories/seaCampaignSubmissions";
 import { getUserByAddress } from "~~/services/database/repositories/users";
 import { SEA_CAMPAIGN_METADATA } from "~~/utils/sea-challenges";
 
-export async function GET(
-  req: NextRequest, 
-  props: { params: Promise<{ userAddress: string }> }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ userAddress: string }> }) {
   const params = await props.params;
-  
+
   try {
     const { userAddress } = params;
 
@@ -29,7 +26,7 @@ export async function GET(
       getProgressByUser(userAddress),
       getSubmissionsByUser(userAddress),
       getRewardsByUser(userAddress),
-      getUserTotalRewards(userAddress)
+      getUserTotalRewards(userAddress),
     ]);
 
     // Build weekly progress summary
@@ -39,22 +36,24 @@ export async function GET(
       const submission = submissions.find(s => s.weekNumber === weekNumber);
       const challengeId = Object.keys(SEA_CAMPAIGN_METADATA)[i];
       const challengeMetadata = SEA_CAMPAIGN_METADATA[challengeId as keyof typeof SEA_CAMPAIGN_METADATA];
-      
+
       return {
         weekNumber,
         challengeId,
         title: challengeMetadata.title,
         dueDate: challengeMetadata.dueDate,
-        completed: progress ? progress[weekKey as keyof typeof progress] as boolean : false,
-        submission: submission ? {
-          id: submission.id,
-          submissionDate: submission.submissionDate,
-          reviewStatus: submission.reviewStatus,
-          githubUrl: submission.githubUrl,
-          demoUrl: submission.demoUrl,
-          socialPostUrl: submission.socialPostUrl,
-          mentorFeedback: submission.mentorFeedback,
-        } : null,
+        completed: progress ? (progress[weekKey as keyof typeof progress] as boolean) : false,
+        submission: submission
+          ? {
+              id: submission.id,
+              submissionDate: submission.submissionDate,
+              reviewStatus: submission.reviewStatus,
+              githubUrl: submission.githubUrl,
+              demoUrl: submission.demoUrl,
+              socialPostUrl: submission.socialPostUrl,
+              mentorFeedback: submission.mentorFeedback,
+            }
+          : null,
         isOverdue: new Date() > new Date(challengeMetadata.dueDate),
       };
     });
@@ -78,12 +77,14 @@ export async function GET(
         totalBonusEarned: parseFloat(progress?.totalBonusEarned || "0"),
       },
       weeklyProgress,
-      nextWeek: nextWeek ? {
-        weekNumber: nextWeek.weekNumber,
-        title: nextWeek.title,
-        dueDate: nextWeek.dueDate,
-        challengeId: nextWeek.challengeId,
-      } : null,
+      nextWeek: nextWeek
+        ? {
+            weekNumber: nextWeek.weekNumber,
+            title: nextWeek.title,
+            dueDate: nextWeek.dueDate,
+            challengeId: nextWeek.challengeId,
+          }
+        : null,
       rewards: {
         total: totalRewards,
         recentRewards: rewards.slice(0, 5), // Last 5 rewards
@@ -93,7 +94,7 @@ export async function GET(
         approvedSubmissions: submissions.filter(s => s.reviewStatus === "APPROVED").length,
         pendingSubmissions: submissions.filter(s => s.reviewStatus === "SUBMITTED").length,
         rejectedSubmissions: submissions.filter(s => s.reviewStatus === "REJECTED").length,
-      }
+      },
     });
   } catch (error) {
     console.error("Error fetching user progress:", error);

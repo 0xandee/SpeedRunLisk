@@ -1,10 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useAccount } from "wagmi";
-import { useRouter } from "next/navigation";
-import { SEA_CAMPAIGN_METADATA, SEA_CAMPAIGN_CONFIG, getAllSeaChallenges, getChallengeStartDate, getSeaChallengeVisibilityStatus } from "~~/utils/sea-challenges";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAccount } from "wagmi";
+import {
+  SEA_CAMPAIGN_CONFIG,
+  SEA_CAMPAIGN_METADATA,
+  getAllSeaChallenges,
+  getChallengeStartDate,
+  getSeaChallengeVisibilityStatus,
+} from "~~/utils/sea-challenges";
 
 interface UserProgress {
   isParticipant: boolean;
@@ -25,16 +31,11 @@ export default function HomePage() {
   const router = useRouter();
   const [userProgress, setUserProgress] = useState<UserProgress | null>(null);
   const [loading, setLoading] = useState(false);
+  const [lastFetchedAddress, setLastFetchedAddress] = useState<string | undefined>();
 
   const challenges = getAllSeaChallenges();
 
-  useEffect(() => {
-    if (address) {
-      fetchUserProgress();
-    }
-  }, [address]);
-
-  const fetchUserProgress = async () => {
+  const fetchUserProgress = useCallback(async () => {
     if (!address) return;
 
     setLoading(true);
@@ -49,33 +50,34 @@ export default function HomePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [address]);
+
+  useEffect(() => {
+    if (address && address !== lastFetchedAddress) {
+      fetchUserProgress();
+      setLastFetchedAddress(address);
+    }
+  }, [address, fetchUserProgress]);
 
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Hero Section */}
       <header className="text-center mb-12">
         <div className="mb-6">
-          <h1 className="text-4xl md:text-6xl font-bold text-primary mb-4">
-            🏃‍♂️ Speedrun Lisk
-          </h1>
-          <h2 className="text-2xl md:text-3xl font-semibold mb-4">
-            Onboarding Challenge
-          </h2>
+          <h1 className="text-4xl md:text-6xl font-bold text-primary mb-4">🏃‍♂️ Speedrun Lisk</h1>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-4">Onboarding Challenge</h2>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
           <div className="badge badge-lg badge-outline p-4">
             From {SEA_CAMPAIGN_CONFIG.startDate} to {SEA_CAMPAIGN_CONFIG.endDate}
           </div>
-          <div className="badge badge-lg badge-primary p-4">
-            💰 $2,000 Total Completion Bonuses
-          </div>
+          <div className="badge badge-lg badge-primary p-4">💰 $2,000 Total Completion Bonuses</div>
         </div>
 
         <p className="text-lg text-base-content/70 max-w-3xl mx-auto mb-8">
-          Join Southeast Asia&apos;s premier Web3 onboarding challenge! Master blockchain development
-          on Lisk in 6 progressive weeks, from your first smart contract to advanced DeFi applications.
+          Join Southeast Asia&apos;s premier Web3 onboarding challenge! Master blockchain development on Lisk in 6
+          progressive weeks, from your first smart contract to advanced DeFi applications.
         </p>
 
         {/* User Status */}
@@ -83,27 +85,28 @@ export default function HomePage() {
           <></>
         ) : (
           <div className="alert alert-info max-w-sm mx-auto px-8">
-            <span className="block text-center whitespace-normal">Connect your wallet to track your progress and submit challenges!</span>
+            <span className="block text-center whitespace-normal">
+              Connect your wallet to track your progress and submit challenges!
+            </span>
           </div>
         )}
       </header>
 
       {/* Weekly Timeline */}
       <section className="mb-12">
-        <h2 className="text-3xl font-bold text-center mb-8">
-          6-Week Progressive Learning Path
-        </h2>
+        <h2 className="text-3xl font-bold text-center mb-8">6-Week Progressive Learning Path</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {challenges.map((challenge, index) => (
             <div
               key={challenge.id}
-              className={`card shadow-lg transition-all hover:shadow-xl border-2 ${userProgress?.progress?.totalWeeksCompleted >= challenge.weekNumber
-                ? 'border-success bg-success/10'
-                : userProgress?.nextWeek?.weekNumber === challenge.weekNumber
-                  ? 'border-primary bg-primary/10'
-                  : 'border-base-300 bg-base-100'
-                }`}
+              className={`card shadow-lg transition-all hover:shadow-xl border-2 ${
+                userProgress?.progress?.totalWeeksCompleted >= challenge.weekNumber
+                  ? "border-success bg-success/10"
+                  : userProgress?.nextWeek?.weekNumber === challenge.weekNumber
+                    ? "border-primary bg-primary/10"
+                    : "border-base-300 bg-base-100"
+              }`}
             >
               <div className="card-body">
                 <div className="flex items-center justify-between mb-3">
@@ -115,32 +118,23 @@ export default function HomePage() {
                 </div>
 
                 <h3 className="card-title text-lg mb-2">{challenge.title}</h3>
-                <p className="text-sm text-base-content/70 mb-4 line-clamp-3">
-                  {challenge.description}
-                </p>
+                <p className="text-sm text-base-content/70 mb-4 line-clamp-3">{challenge.description}</p>
 
-                <div className="flex flex-wrap gap-1 mb-4">
+                {/* <div className="flex flex-wrap gap-1 mb-4">
                   {challenge.socialHashtags.map((tag, i) => (
                     <span key={i} className="badge badge-outline badge-xs p-3">
                       {tag}
                     </span>
                   ))}
-                </div>
-
+                </div> */}
 
                 <div className="card-actions justify-end mt-4">
-                  {getSeaChallengeVisibilityStatus(challenge.id).status === 'upcoming' && challenge.weekNumber !== 1 ? (
-                    <button
-                      className="btn btn-sm btn-outline btn-disabled"
-                      disabled
-                    >
+                  {getSeaChallengeVisibilityStatus(challenge.id).status === "upcoming" && challenge.weekNumber !== 1 ? (
+                    <button className="btn btn-sm btn-outline btn-disabled" disabled>
                       Coming Soon
                     </button>
                   ) : (
-                    <Link
-                      href={`/sea-campaign/week/${challenge.weekNumber}`}
-                      className="btn btn-sm btn-primary"
-                    >
+                    <Link href={`/sea-campaign/week/${challenge.weekNumber}`} className="btn btn-sm btn-primary">
                       View Challenge
                     </Link>
                   )}
@@ -203,9 +197,7 @@ export default function HomePage() {
               </div>
               <div className="stat bg-base-200 rounded-lg">
                 <div className="stat-title">RPC URL</div>
-                <div className="stat-value text-xs break-all">
-                  {SEA_CAMPAIGN_CONFIG.networkConfig.rpcUrl}
-                </div>
+                <div className="stat-value text-xs break-all">{SEA_CAMPAIGN_CONFIG.networkConfig.rpcUrl}</div>
               </div>
               <div className="stat bg-base-200 rounded-lg">
                 <div className="stat-title">Explorer</div>
@@ -237,7 +229,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }

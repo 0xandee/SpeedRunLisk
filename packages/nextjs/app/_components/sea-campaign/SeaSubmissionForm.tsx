@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useAccount } from "wagmi";
 import { toast } from "react-hot-toast";
+import { useAccount } from "wagmi";
 import { SEA_COUNTRIES } from "~~/utils/sea-challenges";
 
 interface SeaSubmissionFormProps {
@@ -16,43 +16,43 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
   const [formData, setFormData] = useState({
     githubUrl: "",
     contractAddress: "",
-    txHash: "", 
+    txHash: "",
     demoUrl: "",
     socialPostUrl: "",
     country: "",
     telegramHandle: "",
-    payoutWallet: address || ""
+    payoutWallet: address || "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.githubUrl.trim()) {
       newErrors.githubUrl = "GitHub URL is required";
     } else if (!formData.githubUrl.includes("github.com")) {
       newErrors.githubUrl = "Please provide a valid GitHub URL";
     }
-    
+
     if (!formData.socialPostUrl.trim()) {
       newErrors.socialPostUrl = "Social media post URL is required";
     } else if (!isValidSocialUrl(formData.socialPostUrl)) {
       newErrors.socialPostUrl = "Please provide a valid social media post URL (Twitter, LinkedIn, etc.)";
     }
-    
+
     if (formData.contractAddress && !isValidEthereumAddress(formData.contractAddress)) {
       newErrors.contractAddress = "Please provide a valid contract address";
     }
-    
+
     if (formData.txHash && !isValidTxHash(formData.txHash)) {
       newErrors.txHash = "Please provide a valid transaction hash";
     }
-    
+
     if (formData.payoutWallet && !isValidEthereumAddress(formData.payoutWallet)) {
       newErrors.payoutWallet = "Please provide a valid wallet address";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -66,13 +66,13 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
   };
 
   const isValidSocialUrl = (url: string): boolean => {
-    const socialDomains = ['twitter.com', 'x.com', 'linkedin.com', 'facebook.com', 'instagram.com'];
+    const socialDomains = ["twitter.com", "x.com", "linkedin.com", "facebook.com", "instagram.com"];
     return socialDomains.some(domain => url.includes(domain));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!address) {
       toast.error("Please connect your wallet first");
       return;
@@ -84,7 +84,7 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
     }
 
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch("/api/sea-campaign/submit", {
         method: "POST",
@@ -93,34 +93,34 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
           weekNumber,
           challengeId,
           userAddress: address,
-          ...formData
-        })
+          ...formData,
+        }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         toast.success("Submission successful! 🎉");
-        
+
         // Reset form
         setFormData({
           githubUrl: "",
           contractAddress: "",
           txHash: "",
-          demoUrl: "", 
+          demoUrl: "",
           socialPostUrl: "",
           country: "",
           telegramHandle: "",
-          payoutWallet: address
+          payoutWallet: address,
         });
-        
+
         // Show progress update
         if (data.progress) {
           toast.success(`Progress: ${data.progress.totalWeeksCompleted}/6 weeks completed!`, {
             duration: 4000,
           });
         }
-        
+
         // Call success callback
         onSuccess?.();
       } else {
@@ -137,19 +137,17 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
   return (
     <div className="card bg-base-100 shadow-lg">
       <div className="card-body">
-        <h2 className="card-title text-2xl mb-2">
-          📝 Submit Your Week {weekNumber} Challenge
-        </h2>
+        <h2 className="card-title text-2xl mb-2">📝 Submit Your Week {weekNumber} Challenge</h2>
         <p className="text-base-content/70 mb-6">
-          Complete all required fields to submit your challenge. Make sure to test your application 
-          and verify your smart contracts before submitting.
+          Complete all required fields to submit your challenge. Make sure to test your application and verify your
+          smart contracts before submitting.
         </p>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Required Fields */}
           <div className="border-2 border-primary/20 rounded-lg p-6">
             <h3 className="font-bold text-lg mb-4 text-primary">Required Fields</h3>
-            
+
             <div className="grid grid-cols-1 gap-4">
               <div className="form-control">
                 <label className="label">
@@ -158,9 +156,9 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
                 <input
                   type="url"
                   placeholder="https://github.com/username/repository"
-                  className={`input input-bordered ${errors.githubUrl ? 'input-error' : ''}`}
+                  className={`input input-bordered ${errors.githubUrl ? "input-error" : ""}`}
                   value={formData.githubUrl}
-                  onChange={(e) => setFormData({...formData, githubUrl: e.target.value})}
+                  onChange={e => setFormData({ ...formData, githubUrl: e.target.value })}
                   required
                 />
                 {errors.githubUrl && (
@@ -178,9 +176,9 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
                 <input
                   type="url"
                   placeholder="https://twitter.com/username/status/... or LinkedIn post"
-                  className={`input input-bordered ${errors.socialPostUrl ? 'input-error' : ''}`}
+                  className={`input input-bordered ${errors.socialPostUrl ? "input-error" : ""}`}
                   value={formData.socialPostUrl}
-                  onChange={(e) => setFormData({...formData, socialPostUrl: e.target.value})}
+                  onChange={e => setFormData({ ...formData, socialPostUrl: e.target.value })}
                   required
                 />
                 {errors.socialPostUrl && (
@@ -200,7 +198,7 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
           {/* Smart Contract Fields */}
           <div className="border-2 border-secondary/20 rounded-lg p-6">
             <h3 className="font-bold text-lg mb-4 text-secondary">Smart Contract Details</h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="form-control">
                 <label className="label">
@@ -210,9 +208,9 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
                 <input
                   type="text"
                   placeholder="0x..."
-                  className={`input input-bordered ${errors.contractAddress ? 'input-error' : ''}`}
+                  className={`input input-bordered ${errors.contractAddress ? "input-error" : ""}`}
                   value={formData.contractAddress}
-                  onChange={(e) => setFormData({...formData, contractAddress: e.target.value})}
+                  onChange={e => setFormData({ ...formData, contractAddress: e.target.value })}
                 />
                 {errors.contractAddress && (
                   <label className="label">
@@ -229,9 +227,9 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
                 <input
                   type="text"
                   placeholder="0x..."
-                  className={`input input-bordered ${errors.txHash ? 'input-error' : ''}`}
+                  className={`input input-bordered ${errors.txHash ? "input-error" : ""}`}
                   value={formData.txHash}
-                  onChange={(e) => setFormData({...formData, txHash: e.target.value})}
+                  onChange={e => setFormData({ ...formData, txHash: e.target.value })}
                 />
                 {errors.txHash && (
                   <label className="label">
@@ -245,7 +243,7 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
           {/* Demo and Profile */}
           <div className="border-2 border-accent/20 rounded-lg p-6">
             <h3 className="font-bold text-lg mb-4 text-accent">Demo & Profile</h3>
-            
+
             <div className="grid grid-cols-1 gap-4">
               <div className="form-control">
                 <label className="label">
@@ -257,7 +255,7 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
                   placeholder="https://your-app.vercel.app"
                   className="input input-bordered"
                   value={formData.demoUrl}
-                  onChange={(e) => setFormData({...formData, demoUrl: e.target.value})}
+                  onChange={e => setFormData({ ...formData, demoUrl: e.target.value })}
                 />
               </div>
 
@@ -266,14 +264,16 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
                   <label className="label">
                     <span className="label-text">Country</span>
                   </label>
-                  <select 
+                  <select
                     className="select select-bordered"
                     value={formData.country}
-                    onChange={(e) => setFormData({...formData, country: e.target.value})}
+                    onChange={e => setFormData({ ...formData, country: e.target.value })}
                   >
                     <option value="">Select your country</option>
-                    {SEA_COUNTRIES.map((country) => (
-                      <option key={country} value={country}>{country}</option>
+                    {SEA_COUNTRIES.map(country => (
+                      <option key={country} value={country}>
+                        {country}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -287,7 +287,7 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
                     placeholder="@username"
                     className="input input-bordered"
                     value={formData.telegramHandle}
-                    onChange={(e) => setFormData({...formData, telegramHandle: e.target.value})}
+                    onChange={e => setFormData({ ...formData, telegramHandle: e.target.value })}
                   />
                 </div>
               </div>
@@ -300,9 +300,9 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
                 <input
                   type="text"
                   placeholder="0x... (defaults to connected wallet)"
-                  className={`input input-bordered ${errors.payoutWallet ? 'input-error' : ''}`}
+                  className={`input input-bordered ${errors.payoutWallet ? "input-error" : ""}`}
                   value={formData.payoutWallet}
-                  onChange={(e) => setFormData({...formData, payoutWallet: e.target.value})}
+                  onChange={e => setFormData({ ...formData, payoutWallet: e.target.value })}
                 />
                 {errors.payoutWallet && (
                   <label className="label">
@@ -329,9 +329,9 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
 
           {/* Submit Button */}
           <div className="form-control">
-            <button 
-              type="submit" 
-              className={`btn btn-primary btn-lg ${isSubmitting ? 'loading' : ''}`}
+            <button
+              type="submit"
+              className={`btn btn-primary btn-lg ${isSubmitting ? "loading" : ""}`}
               disabled={isSubmitting}
             >
               {isSubmitting ? "Submitting..." : `Submit Week ${weekNumber} Challenge`}

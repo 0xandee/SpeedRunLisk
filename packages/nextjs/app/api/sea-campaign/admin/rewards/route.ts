@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { allocateRewardsOnChain, RewardType, generateProofHash, validateRewardAllocation } from "~~/services/contracts/seaCampaignRewards";
-import { getSubmissionsByWeek } from "~~/services/database/repositories/seaCampaignSubmissions";
+import {
+  RewardType,
+  allocateRewardsOnChain,
+  generateProofHash,
+  validateRewardAllocation,
+} from "~~/services/contracts/seaCampaignRewards";
 import { UserRole } from "~~/services/database/config/types";
+import { getSubmissionsByWeek } from "~~/services/database/repositories/seaCampaignSubmissions";
 import { authOptions } from "~~/utils/auth";
 
 // Admin endpoint for processing reward distribution
@@ -31,8 +36,8 @@ export async function POST(req: NextRequest) {
 
     // Get submissions for the week to validate recipients
     const weekSubmissions = await getSubmissionsByWeek(weekNumber);
-    const validSubmissions = weekSubmissions.filter(s => 
-      recipientAddresses.includes(s.userAddress) && s.reviewStatus === "APPROVED"
+    const validSubmissions = weekSubmissions.filter(
+      s => recipientAddresses.includes(s.userAddress) && s.reviewStatus === "APPROVED",
     );
 
     if (validSubmissions.length === 0) {
@@ -48,16 +53,19 @@ export async function POST(req: NextRequest) {
       amount: rewardAmounts[index],
       rewardType: RewardType[rewardType as keyof typeof RewardType],
       weekNumber: weekNumber,
-      proofHash: generateProofHash(submission.userAddress, weekNumber, submission.id)
+      proofHash: generateProofHash(submission.userAddress, weekNumber, submission.id),
     }));
 
     // Validate all allocations
     const invalidAllocations = allocations.filter(a => !validateRewardAllocation(a));
     if (invalidAllocations.length > 0) {
-      return NextResponse.json({ 
-        error: "Invalid allocations found",
-        details: invalidAllocations 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: "Invalid allocations found",
+          details: invalidAllocations,
+        },
+        { status: 400 },
+      );
     }
 
     // Process rewards on-chain
@@ -69,15 +77,17 @@ export async function POST(req: NextRequest) {
       transactionHash: result.transactionHash,
       allocatedCount: result.allocatedCount,
       totalAmount: allocations.reduce((sum, a) => sum + a.amount, 0),
-      gasUsed: result.gasUsed
+      gasUsed: result.gasUsed,
     });
-
   } catch (error) {
     console.error("Reward distribution error:", error);
-    return NextResponse.json({ 
-      error: "Failed to distribute rewards",
-      details: error instanceof Error ? error.message : "Unknown error"
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: "Failed to distribute rewards",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    );
   }
 }
 
@@ -98,21 +108,23 @@ export async function GET(req: NextRequest) {
       rewardStructure: {
         topQuality: { amount: 50, count: 10, description: "Top 10 quality submissions per week" },
         topEngagement: { amount: 50, count: 10, description: "Top 10 social engagement per week" },
-        fastCompletion: { amount: 20, count: 50, description: "Next 50 fastest completions (Week 6 only)" }
+        fastCompletion: { amount: 20, count: 50, description: "Next 50 fastest completions (Week 6 only)" },
       },
       weeklyLimits: {
         maxTopQuality: 10,
         maxTopEngagement: 10,
-        maxFastCompletion: 50 // Only for week 6
-      }
+        maxFastCompletion: 50, // Only for week 6
+      },
     });
-
   } catch (error) {
     console.error("Error getting reward stats:", error);
-    return NextResponse.json({ 
-      error: "Failed to get reward statistics",
-      details: error instanceof Error ? error.message : "Unknown error"
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: "Failed to get reward statistics",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    );
   }
 }
 
@@ -121,18 +133,18 @@ export async function GET(req: NextRequest) {
  */
 function getRewardAmounts(rewardType: keyof typeof RewardType, recipientCount: number): number[] {
   switch (rewardType) {
-    case 'TOP_QUALITY':
+    case "TOP_QUALITY":
       // Top 10 quality submissions get $50 each
       return Array(Math.min(recipientCount, 10)).fill(50);
-    
-    case 'TOP_ENGAGEMENT':
+
+    case "TOP_ENGAGEMENT":
       // Top 10 engagement submissions get $50 each
       return Array(Math.min(recipientCount, 10)).fill(50);
-    
-    case 'FAST_COMPLETION':
+
+    case "FAST_COMPLETION":
       // Next 50 fastest get $20 each (Week 6 only)
       return Array(Math.min(recipientCount, 50)).fill(20);
-    
+
     default:
       throw new Error(`Unknown reward type: ${rewardType}`);
   }

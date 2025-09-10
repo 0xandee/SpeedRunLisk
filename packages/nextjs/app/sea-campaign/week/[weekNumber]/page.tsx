@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
-import { SEA_CAMPAIGN_METADATA, getChallengeByWeek } from "~~/utils/sea-challenges";
-import Link from "next/link";
 import { SeaSubmissionForm } from "~~/app/_components/sea-campaign/SeaSubmissionForm";
 import { WeeklyLeaderboard } from "~~/app/_components/sea-campaign/WeeklyLeaderboard";
+import { SEA_CAMPAIGN_METADATA, getChallengeByWeek } from "~~/utils/sea-challenges";
 
 interface WeeklyProgress {
   weekNumber: number;
@@ -29,13 +29,7 @@ export default function WeeklyChallengePage() {
   const weekNumber = parseInt(params.weekNumber as string);
   const challenge = getChallengeByWeek(weekNumber);
 
-  useEffect(() => {
-    if (address && challenge) {
-      fetchUserProgress();
-    }
-  }, [address, challenge]);
-
-  const fetchUserProgress = async () => {
+  const fetchUserProgress = useCallback(async () => {
     if (!address) return;
 
     setLoading(true);
@@ -51,7 +45,13 @@ export default function WeeklyChallengePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [address, weekNumber]);
+
+  useEffect(() => {
+    if (address && challenge) {
+      fetchUserProgress();
+    }
+  }, [address, challenge, fetchUserProgress]);
 
   const handleSubmissionSuccess = () => {
     fetchUserProgress(); // Refresh progress after successful submission
@@ -80,7 +80,11 @@ export default function WeeklyChallengePage() {
       <header className="mb-8">
         <div className="breadcrumbs text-sm mb-4">
           <ul>
-            <li><Link href="/" className="link">Home</Link></li>
+            <li>
+              <Link href="/" className="link">
+                Home
+              </Link>
+            </li>
             <li>Week {weekNumber}</li>
           </ul>
         </div>
@@ -98,7 +102,7 @@ export default function WeeklyChallengePage() {
           )}
         </div>
 
-        <div className="flex flex-wrap gap-4 mb-6">
+        {/* <div className="flex flex-wrap gap-4 mb-6">
           <div className="badge badge-primary badge-lg">Due: {challenge.dueDate}</div>
           <div className="badge badge-secondary badge-lg">{challenge.reward}</div>
           {challenge.topPerformersBonus > 0 && (
@@ -116,7 +120,7 @@ export default function WeeklyChallengePage() {
               ⏰ Overdue
             </div>
           )}
-        </div>
+        </div> */}
       </header>
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
@@ -149,7 +153,9 @@ export default function WeeklyChallengePage() {
                 <p>Share your progress with these hashtags:</p>
                 <div className="flex flex-wrap gap-2 my-2">
                   {challenge.socialHashtags.map((tag, index) => (
-                    <span key={index} className="badge badge-outline">{tag}</span>
+                    <span key={index} className="badge badge-outline">
+                      {tag}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -160,21 +166,25 @@ export default function WeeklyChallengePage() {
           {weeklyProgress?.completed ? (
             <div className="card bg-success/10 border-2 border-success shadow-lg">
               <div className="card-body">
-                <h2 className="card-title text-success">
-                  ✅ Challenge Completed!
-                </h2>
+                <h2 className="card-title text-success">✅ Challenge Completed!</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                   <div>
                     <h3 className="font-semibold mb-2">Submission Details</h3>
                     <p className="text-sm">
-                      <strong>Submitted:</strong> {new Date(weeklyProgress.submission?.submissionDate || '').toLocaleDateString()}
+                      <strong>Submitted:</strong>{" "}
+                      {new Date(weeklyProgress.submission?.submissionDate || "").toLocaleDateString()}
                     </p>
                     <p className="text-sm">
                       <strong>Status:</strong>
-                      <span className={`ml-2 badge ${weeklyProgress.submission?.reviewStatus === 'APPROVED' ? 'badge-success' :
-                          weeklyProgress.submission?.reviewStatus === 'REJECTED' ? 'badge-error' :
-                            'badge-warning'
-                        }`}>
+                      <span
+                        className={`ml-2 badge ${
+                          weeklyProgress.submission?.reviewStatus === "APPROVED"
+                            ? "badge-success"
+                            : weeklyProgress.submission?.reviewStatus === "REJECTED"
+                              ? "badge-error"
+                              : "badge-warning"
+                        }`}
+                      >
                         {weeklyProgress.submission?.reviewStatus}
                       </span>
                     </p>
@@ -183,9 +193,7 @@ export default function WeeklyChallengePage() {
                   {weeklyProgress.submission?.mentorFeedback && (
                     <div>
                       <h3 className="font-semibold mb-2">Mentor Feedback</h3>
-                      <p className="text-sm bg-base-200 p-3 rounded">
-                        {weeklyProgress.submission.mentorFeedback}
-                      </p>
+                      <p className="text-sm bg-base-200 p-3 rounded">{weeklyProgress.submission.mentorFeedback}</p>
                     </div>
                   )}
                 </div>
@@ -206,9 +214,7 @@ export default function WeeklyChallengePage() {
           ) : isOverdue ? (
             <div className="card bg-error/10 border-2 border-error shadow-lg">
               <div className="card-body text-center">
-                <h2 className="card-title text-error justify-center">
-                  ⏰ Challenge Overdue
-                </h2>
+                <h2 className="card-title text-error justify-center">⏰ Challenge Overdue</h2>
                 <p className="text-base-content/70">
                   This challenge was due on {challenge.dueDate}. Submissions are no longer accepted.
                 </p>
@@ -222,20 +228,14 @@ export default function WeeklyChallengePage() {
           ) : !isConnected ? (
             <div className="card bg-warning/10 border-2 border-warning shadow-lg">
               <div className="card-body text-center">
-                <h2 className="card-title text-warning justify-center">
-                  👋 Connect Wallet Required
-                </h2>
+                <h2 className="card-title text-warning justify-center">👋 Connect Wallet Required</h2>
                 <p className="text-base-content/70 mb-4">
                   Please connect your wallet to submit challenges and track your progress.
                 </p>
               </div>
             </div>
           ) : (
-            <SeaSubmissionForm
-              weekNumber={weekNumber}
-              challengeId={challenge.id}
-              onSuccess={handleSubmissionSuccess}
-            />
+            <SeaSubmissionForm weekNumber={weekNumber} challengeId={challenge.id} onSuccess={handleSubmissionSuccess} />
           )}
         </div>
 
@@ -312,24 +312,15 @@ export default function WeeklyChallengePage() {
               <h3 className="card-title text-lg">🧭 Navigation</h3>
               <div className="space-y-2">
                 {weekNumber > 1 && (
-                  <Link
-                    href={`/sea-campaign/week/${weekNumber - 1}`}
-                    className="btn btn-sm btn-outline w-full"
-                  >
+                  <Link href={`/sea-campaign/week/${weekNumber - 1}`} className="btn btn-sm btn-outline w-full">
                     ← Week {weekNumber - 1}
                   </Link>
                 )}
-                <Link
-                  href="/"
-                  className="btn btn-sm btn-outline w-full"
-                >
+                <Link href="/" className="btn btn-sm btn-outline w-full">
                   📊 Campaign Dashboard
                 </Link>
                 {weekNumber < 6 && (
-                  <Link
-                    href={`/sea-campaign/week/${weekNumber + 1}`}
-                    className="btn btn-sm btn-outline w-full"
-                  >
+                  <Link href={`/sea-campaign/week/${weekNumber + 1}`} className="btn btn-sm btn-outline w-full">
                     Week {weekNumber + 1} →
                   </Link>
                 )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 interface LeaderboardEntry {
@@ -54,11 +54,11 @@ export function WeeklyLeaderboard({ weekNumber }: WeeklyLeaderboardProps) {
 
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'approved':
+      case "approved":
         return <span className="badge badge-success badge-xs">✅</span>;
-      case 'rejected':
+      case "rejected":
         return <span className="badge badge-error badge-xs">❌</span>;
-      case 'submitted':
+      case "submitted":
         return <span className="badge badge-warning badge-xs">⏳</span>;
       default:
         return <span className="badge badge-ghost badge-xs">{status}</span>;
@@ -112,55 +112,43 @@ export function WeeklyLeaderboard({ weekNumber }: WeeklyLeaderboardProps) {
       <div className="card-body">
         <div className="flex items-center justify-between mb-4">
           <h3 className="card-title">🏆 Week {weekNumber} Leaderboard</h3>
-          <div className="badge badge-primary">
-            {leaderboardData.totalSubmissions} submissions
-          </div>
+          <div className="badge badge-primary">{leaderboardData.totalSubmissions} submissions</div>
         </div>
-        
+
         <div className="space-y-2 max-h-96 overflow-y-auto">
-          {displayedEntries.map((entry) => (
-            <div 
-              key={`${entry.userAddress}-${entry.rank}`} 
+          {displayedEntries.map(entry => (
+            <div
+              key={`${entry.userAddress}-${entry.rank}`}
               className={`flex items-center justify-between p-3 rounded-lg transition-colors ${
-                entry.rank <= 3 ? 'bg-warning/20 border border-warning/30' : 'bg-base-100'
+                entry.rank <= 3 ? "bg-warning/20 border border-warning/30" : "bg-base-100"
               } hover:bg-base-300/50`}
             >
               <div className="flex items-center gap-3 flex-1 min-w-0">
-                <div className="flex-shrink-0 w-8 text-center font-bold">
-                  {getRankBadge(entry.rank)}
-                </div>
-                
+                <div className="flex-shrink-0 w-8 text-center font-bold">{getRankBadge(entry.rank)}</div>
+
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-mono text-sm truncate">
-                      {formatAddress(entry.userAddress)}
-                    </span>
+                    <span className="font-mono text-sm truncate">{formatAddress(entry.userAddress)}</span>
                     {getStatusBadge(entry.reviewStatus)}
                   </div>
-                  
-                  {entry.country && (
-                    <div className="text-xs text-base-content/60">{entry.country}</div>
-                  )}
+
+                  {entry.country && <div className="text-xs text-base-content/60">{entry.country}</div>}
                 </div>
 
                 <div className="flex-shrink-0 text-right">
                   <div className="flex items-center gap-2 text-xs">
                     {entry.qualityScore && (
                       <div className="tooltip" data-tip="Quality Score">
-                        <span className="badge badge-info badge-xs">
-                          Q: {entry.qualityScore}/10
-                        </span>
+                        <span className="badge badge-info badge-xs">Q: {entry.qualityScore}/10</span>
                       </div>
                     )}
                     {entry.socialEngagement && (
                       <div className="tooltip" data-tip="Social Engagement">
-                        <span className="badge badge-secondary badge-xs">
-                          E: {entry.socialEngagement}
-                        </span>
+                        <span className="badge badge-secondary badge-xs">E: {entry.socialEngagement}</span>
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="text-xs text-base-content/60 mt-1">
                     {new Date(entry.submissionDate).toLocaleDateString()}
                   </div>
@@ -178,34 +166,19 @@ export function WeeklyLeaderboard({ weekNumber }: WeeklyLeaderboardProps) {
                     </div>
                     <ul>
                       <li>
-                        <a 
-                          href={entry.githubUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-xs"
-                        >
+                        <a href={entry.githubUrl} target="_blank" rel="noopener noreferrer" className="text-xs">
                           📂 GitHub Repository
                         </a>
                       </li>
                       {entry.demoUrl && (
                         <li>
-                          <a 
-                            href={entry.demoUrl} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-xs"
-                          >
+                          <a href={entry.demoUrl} target="_blank" rel="noopener noreferrer" className="text-xs">
                             🌐 Live Demo
                           </a>
                         </li>
                       )}
                       <li>
-                        <a 
-                          href={entry.socialPostUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-xs"
-                        >
+                        <a href={entry.socialPostUrl} target="_blank" rel="noopener noreferrer" className="text-xs">
                           📱 Social Post
                         </a>
                       </li>
@@ -219,11 +192,8 @@ export function WeeklyLeaderboard({ weekNumber }: WeeklyLeaderboardProps) {
 
         {leaderboardData.leaderboard.length > 10 && (
           <div className="text-center mt-4">
-            <button 
-              className="btn btn-sm btn-outline"
-              onClick={() => setShowAll(!showAll)}
-            >
-              {showAll ? 'Show Top 10' : `Show All ${leaderboardData.totalSubmissions}`}
+            <button className="btn btn-sm btn-outline" onClick={() => setShowAll(!showAll)}>
+              {showAll ? "Show Top 10" : `Show All ${leaderboardData.totalSubmissions}`}
             </button>
           </div>
         )}
