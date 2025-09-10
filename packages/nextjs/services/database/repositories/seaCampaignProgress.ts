@@ -1,0 +1,150 @@
+import { InferInsertModel, eq, sql } from "drizzle-orm";
+import { db } from "~~/services/database/config/postgresClient";
+import { seaCampaignProgress } from "~~/services/database/config/schema";
+
+export type SeaCampaignProgressInsert = InferInsertModel<typeof seaCampaignProgress>;
+export type SeaCampaignProgressSelect = Awaited<ReturnType<typeof getProgressByUser>>;
+
+export async function createSeaCampaignProgress(progress: SeaCampaignProgressInsert) {
+  const result = await db.insert(seaCampaignProgress).values(progress).returning();
+  return result[0];
+}
+
+export async function getProgressByUser(userAddress: string) {
+  const result = await db
+    .select()
+    .from(seaCampaignProgress)
+    .where(eq(seaCampaignProgress.userAddress, userAddress.toLowerCase()))
+    .limit(1);
+  
+  return result[0] || null;
+}
+
+export async function updateWeekCompletion(userAddress: string, weekNumber: number) {
+  // First, get current progress
+  const currentProgress = await getProgressByUser(userAddress);
+  
+  if (!currentProgress) {
+    // Create new progress record
+    const weekColumns = {
+      week1Completed: weekNumber === 1,
+      week2Completed: weekNumber === 2,
+      week3Completed: weekNumber === 3,
+      week4Completed: weekNumber === 4,
+      week5Completed: weekNumber === 5,
+      week6Completed: weekNumber === 6,
+    };
+    
+    return await createSeaCampaignProgress({
+      userAddress: userAddress.toLowerCase(),
+      ...weekColumns,
+      totalWeeksCompleted: 1,
+    });
+  } else {
+    // Update existing progress
+    const weekColumn = `week${weekNumber}Completed` as keyof SeaCampaignProgressInsert;
+    const updateData: Partial<SeaCampaignProgressInsert> = {
+      [weekColumn]: true,
+      totalWeeksCompleted: currentProgress.totalWeeksCompleted + 1,
+    };
+    
+    // Check if this makes them a graduate (completed all 6 weeks)
+    if (currentProgress.totalWeeksCompleted + 1 === 6) {
+      updateData.isGraduated = true;
+      updateData.graduationDate = new Date();
+    }
+    
+    const result = await db
+      .update(seaCampaignProgress)
+      .set(updateData)
+      .where(eq(seaCampaignProgress.userAddress, userAddress.toLowerCase()))
+      .returning();
+      
+    return result[0];
+  }
+}
+
+export async function markAsParticipant(userAddress: string) {
+  const existingProgress = await getProgressByUser(userAddress);
+  
+  if (!existingProgress) {
+    return await createSeaCampaignProgress({
+      userAddress: userAddress.toLowerCase(),
+    });
+  }
+  
+  return existingProgress;
+}
+
+export async function getCampaignStatistics() {
+  const result = await db
+    .select({
+      totalParticipants: sql<number>`count(*)::int`,
+      graduates: sql<number>`sum(case when is_graduated then 1 else 0 end)::int`,
+      averageWeeksCompleted: sql<number>`avg(total_weeks_completed)::float`,
+      totalBonusDistributed: sql<number>`sum(total_bonus_earned)::float`,
+    })
+    .from(seaCampaignProgress);
+    
+  return result[0] || {
+    totalParticipants: 0,
+    graduates: 0,
+    averageWeeksCompleted: 0,
+    totalBonusDistributed: 0,
+  };
+}
+
+export async function getProgressDistribution() {
+  return await db
+    .select({
+      weeksCompleted: seaCampaignProgress.totalWeeksCompleted,
+      count: sql<number>`count(*)::int`,
+    })
+    .from(seaCampaignProgress)
+    .groupBy(seaCampaignProgress.totalWeeksCompleted)
+    .orderBy(seaCampaignProgress.totalWeeksCompleted);
+}
+
+export async function getGraduates(limit?: number) {
+  let query = db
+    .select()
+    .from(seaCampaignProgress)
+    .where(eq(seaCampaignProgress.isGraduated, true))
+    .orderBy(seaCampaignProgress.graduationDate);
+    
+  if (limit) {
+    query = query.limit(limit);
+  }
+  
+  return await query;
+}
+
+export async function updateBonusEarned(userAddress: string, bonusAmount: number) {
+  const currentProgress = await getProgressByUser(userAddress);
+  
+  if (!currentProgress) {
+    throw new Error("User progress not found");
+  }
+  
+  const newTotalBonus = parseFloat(currentProgress.totalBonusEarned || "0") + bonusAmount;
+  
+  const result = await db
+    .update(seaCampaignProgress)
+    .set({
+      totalBonusEarned: newTotalBonus.toString(),
+    })
+    .where(eq(seaCampaignProgress.userAddress, userAddress.toLowerCase()))
+    .returning();
+    
+  return result[0];
+}
+
+export async function getTopParticipants(limit: number = 10) {
+  return await db
+    .select()
+    .from(seaCampaignProgress)
+    .orderBy(
+      sql`${seaCampaignProgress.totalWeeksCompleted} DESC, ${seaCampaignProgress.registrationDate} ASC`
+    )
+    .limit(limit);
+}

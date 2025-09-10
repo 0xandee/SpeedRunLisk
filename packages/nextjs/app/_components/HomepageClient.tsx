@@ -9,107 +9,93 @@ import { useAccount } from "wagmi";
 import { useUserChallenges } from "~~/hooks/useUserChallenges";
 import { ChallengeId } from "~~/services/database/config/types";
 import { Challenges } from "~~/services/database/repositories/challenges";
+import { SeaChallengeCountdown } from "~~/components/SeaChallengeCountdown";
+import { SeaChallengeComingSoon } from "~~/components/SeaChallengeComingSoon";
+import { getSeaChallengeVisibilityStatus, seaCampaignChallenges, SEA_CAMPAIGN_CONFIG } from "~~/utils/sea-challenges";
 
 export const HomepageClient = ({ challenges }: { challenges: Challenges }) => {
   const { address: connectedAddress } = useAccount();
 
   const { data: userChallenges } = useUserChallenges(connectedAddress);
 
+  // Check if campaign has started
+  const now = new Date();
+  const campaignStartDate = new Date(SEA_CAMPAIGN_CONFIG.startDate);
+  const campaignHasStarted = now >= campaignStartDate;
+
+  // Filter to only show SEA campaign challenges
+  const seaChallenges = challenges.filter(challenge =>
+    seaCampaignChallenges.includes(challenge.id as any)
+  );
+
+  // Sort SEA challenges by week number
+  const sortedSeaChallenges = seaChallenges.sort((a, b) => {
+    const aMeta = getSeaChallengeVisibilityStatus(a.id);
+    const bMeta = getSeaChallengeVisibilityStatus(b.id);
+    return aMeta.status === 'active' && bMeta.status !== 'active' ? -1 :
+      bMeta.status === 'active' && aMeta.status !== 'active' ? 1 : 0;
+  });
+
   return (
     <div>
       <Hero />
       <div className="bg-base-200">
-        <ChallengeExpandedCard
-          key={ChallengeId.SIMPLE_NFT_EXAMPLE}
-          challengeId={ChallengeId.SIMPLE_NFT_EXAMPLE}
-          userChallenges={userChallenges}
-          challenges={challenges}
-        />
-        <ChallengeExpandedCard
-          key={ChallengeId.DECENTRALIZED_STAKING}
-          challengeId={ChallengeId.DECENTRALIZED_STAKING}
-          userChallenges={userChallenges}
-          challenges={challenges}
-        />
-        <ChallengeExpandedCard
-          key={ChallengeId.TOKEN_VENDOR}
-          challengeId={ChallengeId.TOKEN_VENDOR}
-          userChallenges={userChallenges}
-          challenges={challenges}
-        />
-        <ChallengeExpandedCard
-          key={ChallengeId.DICE_GAME}
-          challengeId={ChallengeId.DICE_GAME}
-          userChallenges={userChallenges}
-          challenges={challenges}
-        />
-        <ChallengeExpandedCard
-          key={ChallengeId.DEX}
-          challengeId={ChallengeId.DEX}
-          userChallenges={userChallenges}
-          challenges={challenges}
-        />
+        {/* Show countdown if there are upcoming challenges */}
+        <SeaChallengeCountdown />
 
-        <OnboardingBatchesCard userChallenges={userChallenges} />
-        <ChallengeExpandedCard
-          key={ChallengeId.OVER_COLLATERALIZED_LENDING}
-          challengeId={ChallengeId.OVER_COLLATERALIZED_LENDING}
-          userChallenges={userChallenges}
-          challenges={challenges}
-        />
-        <ChallengeExpandedCard
-          key={ChallengeId.STABLECOINS}
-          challengeId={ChallengeId.STABLECOINS}
-          userChallenges={userChallenges}
-          challenges={challenges}
-        />
-        <ChallengeExpandedCard
-          key={ChallengeId.PREDICTION_MARKETS}
-          challengeId={ChallengeId.PREDICTION_MARKETS}
-          userChallenges={userChallenges}
-          challenges={challenges}
-        />
-        <ChallengeExpandedCard
-          key={ChallengeId.DEPLOY_TO_L2}
-          challengeId={ChallengeId.DEPLOY_TO_L2}
-          userChallenges={userChallenges}
-          challenges={challenges}
-          comingSoon
-        />
-        <ChallengeExpandedCard
-          key={ChallengeId.MULTISIG}
-          challengeId={ChallengeId.MULTISIG}
-          userChallenges={userChallenges}
-          challenges={challenges}
-        />
-        <ChallengeExpandedCard
-          key={ChallengeId.SVG_NFT}
-          challengeId={ChallengeId.SVG_NFT}
-          userChallenges={userChallenges}
-          challenges={challenges}
-        />
+        {/* Only show content below countdown if campaign has started */}
+        {campaignHasStarted && (
+          <>
+            {/* Render SEA challenges based on their timing */}
+            {sortedSeaChallenges.map((challenge) => {
+              const visibilityStatus = getSeaChallengeVisibilityStatus(challenge.id);
 
-        <div className="flex flex-col xl:flex-row justify-center mx-auto relative">
-          <AfterSreLine />
-          <div className="hidden xl:flex flex-grow bg-[#96EAEA] dark:bg-[#3AACAD]" />
-          <AfterSreCard
-            title="ETH Tech Tree"
-            description="Check this advanced Solidity challenges to test your Ethereum dev skills."
-            externalLink="https://www.ethtechtree.com"
-            buttonText="Join"
-            previewImage="/assets/challenges/techTree.svg"
-            bgClassName="bg-[#96EAEA] dark:bg-[#3AACAD]"
-          />
-          <AfterSreCard
-            title="Capture the Flag"
-            description="Join our CTF game and hack your way through 12 Smart Contract challenges."
-            externalLink="https://ctf.buidlguidl.com"
-            buttonText="Start"
-            previewImage="/assets/challenges/ctf.svg"
-            bgClassName="bg-base-300"
-          />
-          <div className="hidden xl:flex flex-grow bg-base-300" />
-        </div>
+              if (visibilityStatus.status === 'upcoming') {
+                // Show coming soon for upcoming challenges
+                return (
+                  <SeaChallengeComingSoon
+                    key={challenge.id}
+                    challengeId={challenge.id}
+                  />
+                );
+              } else {
+                // Show active challenge (no more expired status)
+                return (
+                  <ChallengeExpandedCard
+                    key={challenge.id}
+                    challengeId={challenge.id as ChallengeId}
+                    userChallenges={userChallenges}
+                    challenges={challenges}
+                  />
+                );
+              }
+            })}
+
+            <OnboardingBatchesCard userChallenges={userChallenges} />
+
+            <div className="flex flex-col xl:flex-row justify-center mx-auto relative">
+              <AfterSreLine />
+              <div className="hidden xl:flex flex-grow bg-[#96EAEA] dark:bg-[#3AACAD]" />
+              <AfterSreCard
+                title="Lisk Tech Tree"
+                description="Check this advanced Solidity challenges to test your Lisk dev skills."
+                externalLink="https://www.ethtechtree.com"
+                buttonText="Join"
+                previewImage="/assets/challenges/techTree.svg"
+                bgClassName="bg-[#96EAEA] dark:bg-[#3AACAD]"
+              />
+              <AfterSreCard
+                title="Capture the Flag"
+                description="Join our CTF game and hack your way through 12 Smart Contract challenges."
+                externalLink="https://ctf.buidlguidl.com"
+                buttonText="Start"
+                previewImage="/assets/challenges/ctf.svg"
+                bgClassName="bg-base-300"
+              />
+              <div className="hidden xl:flex flex-grow bg-base-300" />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

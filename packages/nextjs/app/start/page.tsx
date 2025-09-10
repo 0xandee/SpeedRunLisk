@@ -19,9 +19,9 @@ import { getAllChallenges } from "~~/services/database/repositories/challenges";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
-  title: "Build your first Apps on Ethereum",
+  title: "Build your first Apps on Lisk",
   description:
-    "Build your first Ethereum apps with hands-on challenges. Learn smart contracts and dapp development through real, practical experience.",
+    "Build your first Lisk apps with hands-on challenges. Learn smart contracts and dapp development through real, practical experience.",
 });
 
 const StartLandingPage = async () => {
@@ -49,18 +49,18 @@ const StartLandingPage = async () => {
         />
         <div className="relative z-10 px-6 lg:pb-12">
           <p className="text-center mb-10 dark:text-gray-200">
-            Learn how to build on <strong>Ethereum</strong>; the superpowers and the gotchas.
+            Learn how to build on <strong>Lisk</strong>; the superpowers and the gotchas.
           </p>
           <div className="flex justify-center w-full">
             <HeroLogo className="max-w-[600px]" />
           </div>
           <div className="max-w-3xl mx-auto">
             <p className="my-10 text-lg md:my-14 md:text-center md:text-xl md:leading-relaxed">
-              SpeedRunEthereum is a <TargetIcon className="inline-block w-6 h-6" /> hands-on series of challenges
+              SpeedRunLisk is a <TargetIcon className="inline-block w-6 h-6" /> hands-on series of challenges
               designed to help you <strong>learn by building</strong>. Each challenge delivers one key "aha" moment,{" "}
               <LightbulbIcon className="inline-block w-6 h-6" /> a mental unlock about how{" "}
-              <MachineIcon className="inline-block w-6 h-6" /> Ethereum really works. At the same time, you'll be
-              building your Ethereum portfolio.
+              <MachineIcon className="inline-block w-6 h-6" /> Lisk really works. At the same time, you'll be
+              building your Lisk portfolio.
             </p>
           </div>
         </div>
@@ -134,14 +134,14 @@ const StartLandingPage = async () => {
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-lg lg:pb-12">
           <div className="mb-12 flex flex-col items-center gap-4 lg:flex-row lg:gap-4 lg:justify-center">
             <ToolsIcon />
-            <h2 className="m-0 text-center text-2xl font-medium md:text-4xl">How does SpeedRunEthereum work?</h2>
+            <h2 className="m-0 text-center text-2xl font-medium md:text-4xl">How does SpeedRunLisk work?</h2>
           </div>
           <p>
             You'll be able to <strong>tinker with smart contracts</strong>, deploy locally, test interactions, and build
             usable decentralized apps from day one.
           </p>
           <p>
-            Along the way, you can submit completed challenges to your SpeedRunEthereum portfolio. Each challenge
+            Along the way, you can submit completed challenges to your SpeedRunLisk portfolio. Each challenge
             becomes a public proof of your learning.
           </p>
           <p className="mt-8 mb-4">
@@ -152,7 +152,7 @@ const StartLandingPage = async () => {
             , a powerful developer toolkit that gives you:
           </p>
           <ul className="list-disc pl-6 mb-8 space-y-4">
-            <li>⚙️ A full Ethereum dev environment with local blockchain</li>
+            <li>⚙️ A full Lisk dev environment with local blockchain</li>
             <li>🔌 A frontend connected to your contracts</li>
             <li>🔍 Built-in Debug tools, Faucets, wallet connection, and powerful hooks and components.</li>
           </ul>

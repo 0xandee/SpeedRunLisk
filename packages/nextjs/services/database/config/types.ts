@@ -24,6 +24,13 @@ export enum ChallengeId {
   MULTISIG = "multisig",
   SVG_NFT = "svg-nft",
   STATE_CHANNELS = "state-channels",
+  // SEA Campaign Challenges
+  SEA_WEEK_1_HELLO_TOKEN_NFT = "sea-week-1-hello-token-nft",
+  SEA_WEEK_2_FRONTEND_CONNECT = "sea-week-2-frontend-connect",
+  SEA_WEEK_3_INDEXING_DISPLAY = "sea-week-3-indexing-display",
+  SEA_WEEK_4_ORACLE_SPONSORED = "sea-week-4-oracle-sponsored",
+  SEA_WEEK_5_NFT_BADGE_GAME = "sea-week-5-nft-badge-game",
+  SEA_WEEK_6_MINI_DEX_LENDING = "sea-week-6-mini-dex-lending",
 }
 
 export enum BatchStatus {
@@ -70,4 +77,40 @@ export type UTMParams = {
 export enum BatchNetwork {
   ARBITRUM = "arbitrum",
   OPTIMISM = "optimism",
+  LISK_SEPOLIA = "lisk-sepolia",
 }
+
+export enum CampaignType {
+  DEFAULT = "default",
+  SEA = "sea",
+}
+
+export enum SeaCampaignRewardType {
+  TOP_QUALITY = "TOP_QUALITY",
+  TOP_ENGAGEMENT = "TOP_ENGAGEMENT",
+  FAST_COMPLETION = "FAST_COMPLETION",
+}
+
+export enum SeaCampaignSubmissionStatus {
+  SUBMITTED = "SUBMITTED",
+  REVIEWED = "REVIEWED",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+}
+
+export enum SeaCampaignPaymentStatus {
+  PENDING = "PENDING",
+  PAID = "PAID",
+  FAILED = "FAILED",
+}
+
+export const seaCampaignChallenges = [
+  "sea-week-1-hello-token-nft",
+  "sea-week-2-frontend-connect", 
+  "sea-week-3-indexing-display",
+  "sea-week-4-oracle-sponsored",
+  "sea-week-5-nft-badge-game",
+  "sea-week-6-mini-dex-lending"
+] as const;
+
+export type SeaCampaignChallenge = typeof seaCampaignChallenges[number];

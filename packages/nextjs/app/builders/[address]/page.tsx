@@ -2,14 +2,11 @@ import { notFound } from "next/navigation";
 import { GroupedChallenges } from "./_components/GroupedChallenges";
 import { PointsBar } from "./_components/PointsBar";
 import { UserProfileCard } from "./_components/UserProfileCard";
-import { Builds } from "./_components/builds/Builds";
 import { Metadata } from "next";
 import { isAddress } from "viem";
 import { RouteRefresher } from "~~/components/RouteRefresher";
-import { ReviewAction } from "~~/services/database/config/types";
 import { getBatchById } from "~~/services/database/repositories/batches";
-import { getBuildsByUserAddress } from "~~/services/database/repositories/builds";
-import { getAllChallenges } from "~~/services/database/repositories/challenges";
+import { getAllSeaChallenges, getSeaChallengeVisibilityStatus } from "~~/utils/sea-challenges";
 import { getLatestSubmissionPerChallengeByUser } from "~~/services/database/repositories/userChallenges";
 import { getUserByAddress, getUserPoints } from "~~/services/database/repositories/users";
 import { getShortAddressAndEns } from "~~/utils/short-address-and-ens";
@@ -67,26 +64,39 @@ export default async function BuilderPage(props: { params: Promise<{ address: st
   const params = await props.params;
   const { address } = params;
 
-  const challenges = await getAllChallenges();
+  const challenges = getAllSeaChallenges();
   const userChallenges = await getLatestSubmissionPerChallengeByUser(address);
-  const userCompletedChallenges = userChallenges.filter(challenge => challenge.reviewAction === ReviewAction.ACCEPTED);
   const user = await getUserByAddress(address);
 
   let userBatch;
   if (user?.batchId) {
     userBatch = await getBatchById(user.batchId);
   }
-  const builds = await getBuildsByUserAddress(address);
   const points = await getUserPoints(address);
 
   if (!user) {
     notFound();
   }
 
-  const userHasCompletedChallenges = userCompletedChallenges.length > 0;
+  // Filter SEA challenges to show active or upcoming ones
+  const filteredChallenges = challenges.filter(challenge => {
+    const status = getSeaChallengeVisibilityStatus(challenge.id);
+    return status.status === "active" || status.status === "upcoming";
+  });
 
-  // Filter out disabled and non-autograding challenges
-  const filteredChallenges = challenges.filter(challenge => challenge.autograding === true && !challenge.disabled);
+  // Transform SEA challenges to match the expected database challenge format
+  const transformedChallenges = filteredChallenges.map(challenge => ({
+    id: challenge.id,
+    challengeName: challenge.title,
+    description: challenge.description,
+    sortOrder: challenge.weekNumber,
+    github: "",
+    autograding: true,
+    disabled: false,
+    previewImage: "",
+    icon: "",
+    externalLink: null,
+  }));
 
   const totalPoints = getTotalXP(filteredChallenges.length);
 
@@ -100,13 +110,7 @@ export default async function BuilderPage(props: { params: Promise<{ address: st
             <PointsBar points={points} totalPoints={totalPoints} />
           </div>
           <div className="lg:col-span-3">
-            <GroupedChallenges
-              address={address}
-              challenges={filteredChallenges}
-              userChallenges={userChallenges}
-              userHasCompletedChallenges={userHasCompletedChallenges}
-            />
-            <Builds address={address} builds={builds} userHasCompletedChallenges={userHasCompletedChallenges} />
+            <GroupedChallenges address={address} challenges={transformedChallenges} userChallenges={userChallenges} />
           </div>
         </div>
       </div>

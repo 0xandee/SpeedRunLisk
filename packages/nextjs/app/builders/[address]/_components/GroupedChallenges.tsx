@@ -7,6 +7,7 @@ import { type Address } from "viem";
 import { ChallengeId, ReviewAction } from "~~/services/database/config/types";
 import type { Challenges } from "~~/services/database/repositories/challenges";
 import type { UserChallenges } from "~~/services/database/repositories/userChallenges";
+import { getSeaChallengeVisibilityStatus } from "~~/utils/sea-challenges";
 
 const basicChallengeIds = new Set<ChallengeId>([
   ChallengeId.SIMPLE_NFT_EXAMPLE,
@@ -14,6 +15,16 @@ const basicChallengeIds = new Set<ChallengeId>([
   ChallengeId.TOKEN_VENDOR,
   ChallengeId.DICE_GAME,
 ]);
+
+// SEA challenge IDs
+const seaBasicChallengeIds = new Set<string>([
+  "sea-week-1-hello-token-nft",
+  "sea-week-2-frontend-connect",
+  "sea-week-3-indexing-display",
+  "sea-week-4-oracle-sponsored",
+]);
+
+const seaAdvancedChallengeIds = new Set<string>(["sea-week-5-nft-badge-game", "sea-week-6-mini-dex-lending"]);
 
 export type MappedChallenges = Challenges[number] & {
   reviewAction?: ReviewAction | null;
@@ -27,12 +38,10 @@ export function GroupedChallenges({
   address,
   challenges,
   userChallenges,
-  userHasCompletedChallenges,
 }: {
   address: Address;
   challenges: Challenges;
   userChallenges: UserChallenges;
-  userHasCompletedChallenges: boolean;
 }) {
   // Map challenges with user challenges
   const userMappedChallenges: MappedChallenges[] = challenges
@@ -53,9 +62,16 @@ export function GroupedChallenges({
     .sort((a, b) => a.sortOrder - b.sortOrder);
 
   // Filter challenges into basic and advanced
-  const basicChallenges = userMappedChallenges.filter(challenge => basicChallengeIds.has(challenge.id as ChallengeId));
+  const basicChallenges = userMappedChallenges.filter(
+    challenge =>
+      basicChallengeIds.has(challenge.id as ChallengeId) ||
+      seaBasicChallengeIds.has(challenge.id),
+  );
   const advancedChallenges = userMappedChallenges.filter(
-    challenge => !basicChallengeIds.has(challenge.id as ChallengeId),
+    challenge =>
+      (!basicChallengeIds.has(challenge.id as ChallengeId) &&
+        !seaBasicChallengeIds.has(challenge.id)) ||
+      seaAdvancedChallengeIds.has(challenge.id),
   );
 
   return (
@@ -72,13 +88,25 @@ export function GroupedChallenges({
                 return <ChallengeDetailsStatus key={challenge.id} challenge={challenge} />;
               }
 
-              return <ChallengeDetails key={challenge.id} address={address} challenge={challenge} />;
+              const isSeaChallenge = challenge.id.startsWith("sea-week-");
+              const isComingSoon =
+                isSeaChallenge &&
+                getSeaChallengeVisibilityStatus(challenge.id).status === "upcoming";
+
+              return (
+                <ChallengeDetails
+                  key={challenge.id}
+                  address={address}
+                  challenge={challenge}
+                  comingSoon={isComingSoon}
+                />
+              );
             })}
           </div>
         </div>
       </div>
       <div className="mt-4 collapse collapse-arrow bg-base-300 rounded-lg">
-        <input type="checkbox" defaultChecked={userHasCompletedChallenges} />
+        <input type="checkbox" defaultChecked={true} />
         <div className="collapse-title text-base font-medium">
           <GroupedChallengeTitle
             title="Advanced Concepts"
@@ -93,12 +121,18 @@ export function GroupedChallenges({
                 return <ChallengeDetailsStatus key={challenge.id} challenge={challenge} />;
               }
 
+              const isSeaChallenge = challenge.id.startsWith("sea-week-");
+              const isComingSoon =
+                (isSeaChallenge &&
+                  getSeaChallengeVisibilityStatus(challenge.id).status === "upcoming") ||
+                challenge.id === ChallengeId.DEPLOY_TO_L2;
+
               return (
                 <ChallengeDetails
                   key={challenge.id}
                   address={address}
                   challenge={challenge}
-                  comingSoon={challenge.id === ChallengeId.DEPLOY_TO_L2}
+                  comingSoon={isComingSoon}
                 />
               );
             })}

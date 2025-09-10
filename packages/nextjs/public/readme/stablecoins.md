@@ -1,6 +1,6 @@
 # 💰 MyUSD Stablecoin
 
-![readme-stablecoin](https://speedrunethereum.com/hero/stablecoins.png)
+![readme-stablecoin](https://speedrunlisk.com/hero/stablecoins.png)
 
 🪙 Build your own decentralized stablecoin! In this challenge, you'll build the core engine for **MyUSD**, a crypto-backed stablecoin designed to maintain a peg to $1 USD.
 
@@ -24,13 +24,13 @@ Stablecoins are cryptocurrencies designed to maintain a stable value relative to
 ---
 
 🌟 The final deliverable is an app that allows users to mint and manage a decentralized stablecoin (MyUSD) backed by ETH collateral, with features for depositing collateral, minting/burning tokens, managing positions, and participating in liquidations.
-Deploy your contracts to a testnet then build and upload your app to a public web server. Submit the url on [SpeedRunEthereum.com](https://speedrunethereum.com)!
+Deploy your contracts to a testnet then build and upload your app to a public web server. Submit the url on [SpeedRunLisk.com](https://speedrunlisk.com)!
 
 🔍 First we should mention there are lots of different types of stablecoins on the market. Some are backed 1:1 with actual USD-denominated assets in a bank (USDC, USDT). Others are backed by crypto and use special mechanisms to maintain their peg (Dai, RAI, LUSD/BOLD).
 
 📚 This challenge is modeled after one of the first crypto-backed stablecoins called Dai - back when the only thing backing it was ETH. Later Dai would allow multiple types of collateral and change its design somewhat. The version we are building is commonly referred to as "single collateral Dai".
 
-⚠️ You are highly encouraged to have completed the [Over-collateralized Lending challenge](https://speedrunethereum.com/challenge/over-collateralized-lending) prior to attempting this one since we will be building on that same basic system but won't be discussing it in detail.
+⚠️ You are highly encouraged to have completed the [Over-collateralized Lending challenge](https://speedrunlisk.com/challenge/over-collateralized-lending) prior to attempting this one since we will be building on that same basic system but won't be discussing it in detail.
 
 💬 Meet other builders working on this challenge and get help in the [Stablecoin Challenge Telegram](https://t.me/+y93US5WbP5dkNDFh)
 
@@ -1139,7 +1139,7 @@ Well done on building a stablecoin engine! Now, let's get it on a public testnet
 #### Configuration of Third-Party Services for Production-Grade Apps.
 
 By default, 🏗 Scaffold-ETH 2 provides predefined API keys for popular services such as Alchemy and Etherscan. This allows you to begin developing and testing your applications more easily, avoiding the need to register for these services.
-This is great to complete your **SpeedRunEthereum**.
+This is great to complete your **SpeedRunLisk**.
 
 For production-grade applications, it's recommended to obtain your own API keys (to prevent rate limiting issues). You can configure these at:
 
@@ -1155,13 +1155,13 @@ For production-grade applications, it's recommended to obtain your own API keys 
 
 Run the `yarn verify --network your_network` command to verify your contracts on Etherscan 🛰.
 
-👉 Search your deployed `MyUSDEngine` contract address on [Sepolia Etherscan](https://sepolia.etherscan.io/) to get the URL you submit to 🏃‍♀️[SpeedRunEthereum.com](https://speedrunethereum.com).
+👉 Search your deployed `MyUSDEngine` contract address on [Sepolia Etherscan](https://sepolia.etherscan.io/) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.com](https://speedrunlisk.com).
 
 ---
 
 > 🎉 Congratulations on completing the MyUSD Stablecoin Engine Challenge! You've gained valuable insights into the mechanics of decentralized stablecoins.
 
-> 🏃 Head to your next challenge [here](https://speedrunethereum.com).
+> 🏃 Head to your next challenge [here](https://speedrunlisk.com).
 
 > 💬 Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)
 

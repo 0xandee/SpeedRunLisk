@@ -11,9 +11,32 @@ export type ScaffoldConfig = {
 export const DEFAULT_ALCHEMY_API_KEY = "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
 export const BG_MAINNET_RPC_URL = "https://mainnet.rpc.buidlguidl.com";
 
+// Lisk Sepolia testnet configuration
+export const liskSepolia = {
+  id: 4202,
+  name: "Lisk Sepolia Testnet",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Sepolia Ether",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.sepolia-api.lisk.com"],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "Lisk Sepolia Blockscout",
+      url: "https://sepolia-blockscout.lisk.com",
+    },
+  },
+  testnet: true,
+} as const satisfies chains.Chain;
+
 const scaffoldConfig = {
   // The networks on which your DApp is live
-  targetNetworks: [chains.mainnet],
+  targetNetworks: [liskSepolia],
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)

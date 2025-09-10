@@ -1,6 +1,6 @@
 # 🚩 Challenge: 🎁 SVG NFT
 
-![readme-7](https://speedrunethereum.com/hero/svg-nft.png)
+![readme-7](https://speedrunlisk.com/hero/svg-nft.png)
 
 🎨 Creating on-chain SVG NFTs is an exciting way to leverage the power of smart contracts for generating unique digital art. This challenge will have you build a contract that generates dynamic SVG images directly on the blockchain. Users will be able to mint their own unique NFTs with customizable SVG graphics and metadata.
 
@@ -118,7 +118,7 @@ yarn start
 #### Configuration of Third-Party Services for Production-Grade Apps.
 
 By default, 🏗 Scaffold-ETH 2 provides predefined API keys for popular services such as Alchemy and Etherscan. This allows you to begin developing and testing your applications more easily, avoiding the need to register for these services.
-This is great to complete your **SpeedRunEthereum**.
+This is great to complete your **SpeedRunLisk**.
 
 For production-grade applications, it's recommended to obtain your own API keys (to prevent rate limiting issues). You can configure these at:
 
@@ -138,6 +138,6 @@ Run the `yarn verify --network your_network` command to verify your contracts on
 
 > 👩‍❤️‍👨 Share your public url with friends, showcase your art on-chain, and enjoy the minting experience together🎉!!
 
-> 🏃 Head to your next challenge [here](https://speedrunethereum.com).
+> 🏃 Head to your next challenge [here](https://speedrunlisk.com).
 
 > 💬 Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)

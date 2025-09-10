@@ -1,6 +1,6 @@
 # 🚩 Challenge: 🎟 Simple NFT Example
 
-![readme-0](https://speedrunethereum.com/hero/simple-nft-example.png)
+![readme-0](https://speedrunlisk.com/hero/simple-nft-example.png)
 
 📚 This tutorial is meant for developers that already understand the [ 🖍️ basics ](https://www.youtube.com/watch?v=MlJPjJQZtC8).
 
@@ -10,9 +10,9 @@
 
 🎫 Create a simple NFT:
 
-👷‍♀️ You'll compile and deploy your first smart contracts. Then, you'll use a template NextJS app full of important Ethereum components and hooks. Finally, you'll deploy an NFT to a public network to share with friends! 🚀
+👷‍♀️ You'll compile and deploy your first smart contracts. Then, you'll use a template NextJS app full of important Lisk components and hooks. Finally, you'll deploy an NFT to a public network to share with friends! 🚀
 
-🌟 The final deliverable is an app that lets users purchase and transfer NFTs. Deploy your contracts to a testnet, then build and upload your app to a public web server. Submit the url on [SpeedRunEthereum.com](https://speedrunethereum.com)!
+🌟 The final deliverable is an app that lets users purchase and transfer NFTs. Deploy your contracts to a testnet, then build and upload your app to a public web server. Submit the url on [SpeedRunLisk.com](https://speedrunlisk.com)!
 
 💬 Meet other builders working on this challenge and get help in the [Challenge Telegram](https://t.me/+Y2vqXZZ_pEFhMGMx)!
 
@@ -175,7 +175,7 @@ yarn test
 #### Configuration of Third-Party Services for Production-Grade Apps.
 
 By default, 🏗 Scaffold-ETH 2 provides predefined API keys for popular services such as Alchemy and Etherscan. This allows you to begin developing and testing your applications more easily, avoiding the need to register for these services.
-This is great to complete your **SpeedRunEthereum**.
+This is great to complete your **SpeedRunLisk**.
 
 For production-grade applications, it's recommended to obtain your own API keys (to prevent rate limiting issues). You can configure these at:
 
@@ -189,13 +189,13 @@ For production-grade applications, it's recommended to obtain your own API keys 
 
 ## Checkpoint 5: 📜 Contract Verification
 
-You can verify your smart contract on Etherscan by running (`yarn verify --network network_name`) :
+You can verify your smart contract on Lisk Blockscout by running (`yarn verify --network liskSepolia`) :
 
 ```shell
-yarn verify --network sepolia
+yarn verify --network liskSepolia
 ```
 
-> It is okay if it says your contract is already verified. Copy the address of YourCollectable.sol and search it on sepolia Etherscan to find the correct URL you need to submit this challenge.
+> It is okay if it says your contract is already verified. Copy the address of YourCollectable.sol and search it on Lisk Sepolia Blockscout to find the correct URL you need to submit this challenge.
 
 ## Checkpoint 6: 💪 Flex!
 

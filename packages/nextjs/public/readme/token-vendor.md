@@ -1,6 +1,6 @@
 # 🚩 Challenge: 🏵 Token Vendor 🤖
 
-![readme](https://speedrunethereum.com/hero/token-vendor.png)
+![readme](https://speedrunlisk.com/hero/token-vendor.png)
 
 🤖 Smart contracts are kind of like "always on" _vending machines_ that **anyone** can access. Let's make a decentralized, digital currency. Then, let's build an unstoppable vending machine that will buy and sell the currency. We'll learn about the "approve" pattern for ERC20s and how contract to contract interactions work.
 
@@ -10,7 +10,7 @@
 
 🔍 It will be important to verify your token's source code in the block explorer after you deploy. Supporters will want to be sure that it has a fixed supply and you can't just mint more.
 
-🌟 The final deliverable is an app that lets users purchase your ERC20 token, transfer it, and sell it back to the vendor. Deploy your contracts on your public chain of choice and then `yarn vercel` your app to a public web server. Submit the url on [SpeedRunEthereum.com](https://speedrunethereum.com)!
+🌟 The final deliverable is an app that lets users purchase your ERC20 token, transfer it, and sell it back to the vendor. Deploy your contracts on your public chain of choice and then `yarn vercel` your app to a public web server. Submit the url on [SpeedRunLisk.com](https://speedrunlisk.com)!
 
 > 💬 Meet other builders working on this challenge and get help in the [Challenge Telegram](https://t.me/joinchat/IfARhZFc5bfPwpjq)!
 
@@ -235,7 +235,7 @@ await vendor.transferOwnership("**YOUR FRONTEND ADDRESS**");
 #### Configuration of Third-Party Services for Production-Grade Apps.
 
 By default, 🏗 Scaffold-ETH 2 provides predefined API keys for popular services such as Alchemy and Etherscan. This allows you to begin developing and testing your applications more easily, avoiding the need to register for these services.
-This is great to complete your **SpeedRunEthereum**.
+This is great to complete your **SpeedRunLisk**.
 
 For production-grade applications, it's recommended to obtain your own API keys (to prevent rate limiting issues). You can configure these at:
 
@@ -253,10 +253,10 @@ Run the `yarn verify --network your_network` command to verify your contracts on
 
 👀 You may see an address for both YourToken and Vendor. You will want the Vendor address.
 
-👉 Search this address on [Sepolia Etherscan](https://sepolia.etherscan.io/) (or [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia) to get the URL you submit to 🏃‍♀️[SpeedRunEthereum.com](https://speedrunethereum.com).
+👉 Search this address on [Sepolia Etherscan](https://sepolia.etherscan.io/) (or [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.com](https://speedrunlisk.com).
 
 ---
 
-> 🏃 Head to your next challenge [here](https://speedrunethereum.com).
+> 🏃 Head to your next challenge [here](https://speedrunlisk.com).
 
 > 💬 Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)

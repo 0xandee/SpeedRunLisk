@@ -1,6 +1,6 @@
 # 💳🌽 Over-Collateralized Lending
 
-![readme-lending](https://speedrunethereum.com/hero/over-collateralized-lending.png)
+![readme-lending](https://speedrunlisk.com/hero/over-collateralized-lending.png)
 
 💳 Build your own lending and borrowing platform. Let's write a contract that takes collateral and lets you borrow other assets against the value of the collateral. What happens when the collateral changes in value? We will be able to borrow more if it is higher, or if it is lower, we will also build a system for liquidating the debt position.
 
@@ -23,7 +23,7 @@ First, traditional lending usually involves one party (such as a bank) offering 
 💬 The Lending contract accepts ETH deposits and allows depositor's to take out a loan in CORN 🌽. The contract tracks each depositor's address and only allows them to borrow as long as they maintain at least 120% of the loans value in ETH. If the collateral falls in value (relative to CORN) then the borrower's position may be liquidated by anyone who pays back the loan. The liquidator has an incentive to do this because they collect a 10% fee on top of the value of the loan. This incentive ensures that loans are _"guaranteed"_ to be closed out before they are worth less than 100% of the collateral value, which keeps the lending protocol from taking on bad debt (i.e. people walking away with borrowed assets that are worth more than the underlying collateral left in the protocol).
 
 🌟 The final deliverable is an app that allows anyone to take out a loan in CORN while making sure it is always backed by it's value in ETH.
-Deploy your contracts to a testnet then build and upload your app to a public web server. Submit the url on [SpeedRunEthereum.com](https://speedrunethereum.com)!
+Deploy your contracts to a testnet then build and upload your app to a public web server. Submit the url on [SpeedRunLisk.com](https://speedrunlisk.com)!
 
 💬 Meet other builders working on this challenge and get help in the [Over-Collateralized Lending Challenge Telegram Group](https://t.me/+xQr5d-oVhLMwZmUx)
 
@@ -856,7 +856,7 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
 #### Configuration of Third-Party Services for Production-Grade Apps.
 
 🛠️ By default, 🏗 Scaffold-ETH 2 provides predefined API keys for popular services such as Alchemy and Etherscan. This allows you to begin developing and testing your applications more easily, avoiding the need to register for these services.
-This is great to complete your **SpeedRunEthereum**.
+This is great to complete your **SpeedRunLisk**.
 
 🔑 For production-grade applications, it's recommended to obtain your own API keys (to prevent rate limiting issues). You can configure these at:
 
@@ -872,10 +872,10 @@ This is great to complete your **SpeedRunEthereum**.
 
 ✅ Run the `yarn verify --network your_network` command to verify your contracts on etherscan 🛰
 
-👉 Search this address on [Sepolia Etherscan](https://sepolia.etherscan.io/) (or [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia) to get the URL you submit to 🏃‍♀️[SpeedRunEthereum.com](https://speedrunethereum.com).
+👉 Search this address on [Sepolia Etherscan](https://sepolia.etherscan.io/) (or [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.com](https://speedrunlisk.com).
 
 ---
 
-> 🏃 Head to your next challenge [here](https://speedrunethereum.com).
+> 🏃 Head to your next challenge [here](https://speedrunlisk.com).
 
 > 🙋‍♂️ Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)

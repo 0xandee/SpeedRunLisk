@@ -17,7 +17,7 @@ export const SubmitChallengeButton = ({ challengeId }: { challengeId: string }) 
       <div
         className={`${isDisabled ? "tooltip " : ""}fixed bottom-8 inset-x-0 mx-auto w-fit`}
         data-tip={
-          isDisabled ? "Please connect your wallet and register in SpeedRunEthereum to submit a challenge" : undefined
+          isDisabled ? "Please connect your wallet and register in SpeedRunLisk to submit a challenge" : undefined
         }
       >
         <button

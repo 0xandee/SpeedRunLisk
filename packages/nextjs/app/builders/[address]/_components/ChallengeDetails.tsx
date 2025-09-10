@@ -31,7 +31,6 @@ export function ChallengeDetails({
               <Link href={`/challenge/${challenge.id}`} className="hover:underline">
                 {challenge.challengeName}
               </Link>
-              {comingSoon && ` - Coming Soon`}
             </h2>
           </div>
           <div className="pl-8">
@@ -41,9 +40,15 @@ export function ChallengeDetails({
 
         {isProfileOwner && (
           <div className="shrink-0 flex flex-col items-center">
-            <Link href={`/challenge/${challenge.id}`} className="btn btn-primary btn-sm rounded-md">
-              Start
-            </Link>
+            {comingSoon ? (
+              <button className="btn btn-outline btn-sm rounded-md" disabled>
+                Coming Soon
+              </button>
+            ) : (
+              <Link href={`/challenge/${challenge.id}`} className="btn btn-primary btn-sm rounded-md">
+                Start
+              </Link>
+            )}
             <p className="text-base-content mt-2 mb-0 text-xs font-medium">+10 XP</p>
           </div>
         )}

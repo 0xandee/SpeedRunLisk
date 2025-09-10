@@ -5,6 +5,9 @@ import {
   BuildCategory,
   BuildType,
   ReviewAction,
+  SeaCampaignPaymentStatus,
+  SeaCampaignRewardType,
+  SeaCampaignSubmissionStatus,
   UTMParams,
   UserRole,
 } from "./types";
@@ -12,6 +15,7 @@ import { SQL, relations, sql } from "drizzle-orm";
 import {
   AnyPgColumn,
   boolean,
+  decimal,
   index,
   integer,
   jsonb,
@@ -38,10 +42,15 @@ export const buildTypeEnum = pgEnum("build_type_enum", BuildType);
 export const buildCategoryEnum = pgEnum("build_category_enum", BuildCategory);
 export const batchNetworkEnum = pgEnum("batch_network", BatchNetwork);
 
+// SEA Campaign Enums
+export const seaCampaignSubmissionStatusEnum = pgEnum("sea_campaign_submission_status_enum", SeaCampaignSubmissionStatus);
+export const seaCampaignRewardTypeEnum = pgEnum("sea_campaign_reward_type_enum", SeaCampaignRewardType);
+export const seaCampaignPaymentStatusEnum = pgEnum("sea_campaign_payment_status_enum", SeaCampaignPaymentStatus);
+
 export const users = pgTable(
   "users",
   {
-    userAddress: varchar({ length: 42 }).primaryKey(), // Ethereum wallet address
+    userAddress: varchar({ length: 42 }).primaryKey(), // Wallet address
     role: userRoleEnum().default(UserRole.USER),
     createdAt: timestamp().defaultNow().notNull(),
     updatedAt: timestamp().defaultNow().notNull(),
@@ -59,6 +68,10 @@ export const users = pgTable(
     batchStatus: batchUserStatusEnum(),
     referrer: varchar({ length: 255 }),
     originalUtmParams: jsonb("original_utm_params").$type<UTMParams>(),
+    // SEA Campaign specific fields
+    country: varchar({ length: 100 }),
+    seaCampaignParticipant: boolean().default(false),
+    seaCampaignRegistrationDate: timestamp(),
   },
   table => [uniqueIndex("idUniqueIndex").on(lower(table.userAddress))],
 );
@@ -108,6 +121,12 @@ export const userChallenges = pgTable(
     submittedAt: timestamp().notNull().defaultNow(),
     reviewAction: reviewActionEnum(),
     signature: varchar({ length: 255 }),
+    // SEA Campaign specific fields
+    campaignId: varchar({ length: 50 }),
+    weekNumber: integer(),
+    socialPostUrl: text(),
+    mentorAssigned: varchar({ length: 42 }),
+    completionTimeHours: integer(),
   },
   table => [
     index("user_challenge_lookup_idx").on(table.userAddress),
@@ -221,4 +240,112 @@ export const buildBuildersRelations = relations(buildBuilders, ({ one }) => ({
     fields: [buildBuilders.userAddress],
     references: [users.userAddress],
   }),
+}));
+
+// SEA Campaign Tables
+export const seaCampaignSubmissions = pgTable(
+  "sea_campaign_submissions",
+  {
+    id: serial().primaryKey(),
+    userAddress: varchar({ length: 42 })
+      .notNull()
+      .references(() => users.userAddress),
+    weekNumber: integer().notNull(),
+    githubUrl: text().notNull(),
+    contractAddress: varchar({ length: 42 }),
+    txHash: varchar({ length: 66 }),
+    demoUrl: text(),
+    socialPostUrl: text().notNull(),
+    country: varchar({ length: 100 }),
+    telegramHandle: varchar({ length: 100 }),
+    payoutWallet: varchar({ length: 42 }),
+    submissionDate: timestamp().defaultNow().notNull(),
+    reviewStatus: seaCampaignSubmissionStatusEnum().default("SUBMITTED"),
+    mentorFeedback: text(),
+    completionBonusAmount: decimal({ precision: 10, scale: 2 }).default("0"),
+  },
+  table => [
+    index("sea_submissions_week_idx").on(table.weekNumber),
+    index("sea_submissions_user_idx").on(table.userAddress),
+    index("sea_submissions_status_idx").on(table.reviewStatus),
+    uniqueIndex("sea_submissions_user_week_unique").on(table.userAddress, table.weekNumber),
+  ]
+);
+
+export const seaCampaignProgress = pgTable(
+  "sea_campaign_progress",
+  {
+    id: serial().primaryKey(),
+    userAddress: varchar({ length: 42 })
+      .notNull()
+      .references(() => users.userAddress),
+    week1Completed: boolean().default(false),
+    week2Completed: boolean().default(false),
+    week3Completed: boolean().default(false),
+    week4Completed: boolean().default(false),
+    week5Completed: boolean().default(false),
+    week6Completed: boolean().default(false),
+    totalWeeksCompleted: integer().default(0),
+    isGraduated: boolean().default(false),
+    registrationDate: timestamp().defaultNow().notNull(),
+    graduationDate: timestamp(),
+    totalBonusEarned: decimal({ precision: 10, scale: 2 }).default("0"),
+  },
+  table => [
+    index("sea_progress_user_idx").on(table.userAddress),
+    uniqueIndex("sea_progress_user_unique").on(table.userAddress),
+  ]
+);
+
+export const seaCampaignRewards = pgTable(
+  "sea_campaign_rewards",
+  {
+    id: serial().primaryKey(),
+    userAddress: varchar({ length: 42 })
+      .notNull()
+      .references(() => users.userAddress),
+    weekNumber: integer().notNull(),
+    rewardType: seaCampaignRewardTypeEnum().notNull(),
+    rewardAmount: decimal({ precision: 10, scale: 2 }).notNull(),
+    awardedDate: timestamp().defaultNow().notNull(),
+    paidDate: timestamp(),
+    paymentStatus: seaCampaignPaymentStatusEnum().default("PENDING"),
+    paymentTxHash: varchar({ length: 66 }),
+  },
+  table => [
+    index("sea_rewards_user_idx").on(table.userAddress),
+    index("sea_rewards_week_idx").on(table.weekNumber),
+  ]
+);
+
+// SEA Campaign Relations
+export const seaCampaignSubmissionsRelations = relations(seaCampaignSubmissions, ({ one }) => ({
+  user: one(users, {
+    fields: [seaCampaignSubmissions.userAddress],
+    references: [users.userAddress],
+  }),
+}));
+
+export const seaCampaignProgressRelations = relations(seaCampaignProgress, ({ one }) => ({
+  user: one(users, {
+    fields: [seaCampaignProgress.userAddress],
+    references: [users.userAddress],
+  }),
+}));
+
+export const seaCampaignRewardsRelations = relations(seaCampaignRewards, ({ one }) => ({
+  user: one(users, {
+    fields: [seaCampaignRewards.userAddress],
+    references: [users.userAddress],
+  }),
+}));
+
+// Update users relation to include SEA campaign data
+export const usersSeaCampaignRelations = relations(users, ({ one, many }) => ({
+  seaCampaignProgress: one(seaCampaignProgress, {
+    fields: [users.userAddress],
+    references: [seaCampaignProgress.userAddress],
+  }),
+  seaCampaignSubmissions: many(seaCampaignSubmissions),
+  seaCampaignRewards: many(seaCampaignRewards),
 }));

@@ -19,7 +19,7 @@ export const WelcomeBanner = () => {
   return (
     <div className="w-full max-w-4xl mx-auto mb-8 md:mb-16 p-6 bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-2xl">
       <div className="text-center space-y-4">
-        <h2 className="text-lg md:text-2xl font-bold text-primary">🚀 Welcome to SpeedRunEthereum! 🏃‍♀️</h2>
+        <h2 className="text-lg md:text-2xl font-bold text-primary">🚀 Welcome to SpeedRunLisk! 🏃‍♀️</h2>
 
         <p className="text-sm md:text-lg text-base-content/80">
           You&apos;re viewing this challenge as a <span className="font-bold">guest</span>. Want to start building your
@@ -27,7 +27,7 @@ export const WelcomeBanner = () => {
         </p>
 
         <div className="bg-base-100/50 rounded-lg p-4 space-y-3 hidden md:block">
-          <p className="text-sm font-bold">Register to unlock the full SpeedRunEthereum experience:</p>
+          <p className="text-sm font-bold">Register to unlock the full SpeedRunLisk experience:</p>
           <ul className="text-sm text-left space-y-1 text-base-content/70">
             <li>✅ Track your progress</li>
             <li>✅ Submit challenges that get autograded by our system</li>

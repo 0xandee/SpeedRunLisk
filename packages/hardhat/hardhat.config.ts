@@ -143,6 +143,16 @@ const config: HardhatUserConfig = {
       url: "https://rpc.scroll.io",
       accounts: [deployerPrivateKey],
     },
+    liskSepolia: {
+      url: "https://rpc.sepolia-api.lisk.com",
+      accounts: [deployerPrivateKey],
+      verify: {
+        etherscan: {
+          apiUrl: "https://sepolia-blockscout.lisk.com/api",
+          apiKey: "abc",
+        },
+      },
+    },
     celo: {
       url: "https://forno.celo.org",
       accounts: [deployerPrivateKey],

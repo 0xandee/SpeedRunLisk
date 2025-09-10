@@ -13,15 +13,15 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata = getMetadata({
-  title: "Speed Run Ethereum",
-  description: "Learn Solidity development to build dapps on Ethereum with hands-on blockchain challenges.",
+  title: "Speedrun Lisk",
+  description: "Learn Solidity development to build dapps on Lisk with hands-on blockchain challenges.",
 });
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning className={spaceGrotesk.className}>
       <head>
-        <PlausibleProvider domain="speedrunethereum.com" />
+        <PlausibleProvider domain="speedrunlisk.com" />
       </head>
       <body>
         <ThemeProvider enableSystem>

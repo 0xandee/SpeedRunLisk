@@ -8,7 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useDebounceValue } from "usehooks-ts";
 import * as chains from "viem/chains";
 import EditIcon from "~~/app/_assets/icons/EditIcon";
-import EthereumIcon from "~~/app/_assets/icons/EthereumIcon";
+import LiskIcon from "~~/app/_assets/icons/LiskIcon";
 import GithubIcon from "~~/app/_assets/icons/GithubIcon";
 import SearchIcon from "~~/app/_assets/icons/SearchIcon";
 import TelegramIcon from "~~/app/_assets/icons/TelegramIcon";
@@ -124,7 +124,7 @@ export default function BatchesPage() {
                   rel="noopener noreferrer"
                   className="link"
                 >
-                  <EthereumIcon className="w-4 h-4" />
+                  <LiskIcon className="w-4 h-4" />
                 </a>
               )}
 

@@ -26,12 +26,13 @@ export const HeaderMenuLinks = ({ hideItemsByLabel, user }: { hideItemsByLabel?:
       {
         label: "Home",
         href: "/",
+        icon: <span className="text-lg">🏃‍♂️</span>,
       },
     ];
 
     const userMenuLinks: HeaderMenuLink[] = [
       {
-        label: "Portfolio",
+        label: "My Progress",
         href: user ? `/builders/${user.userAddress}` : "/",
         availableForRoles: [UserRole.USER, UserRole.BUILDER, UserRole.ADMIN],
       },
@@ -42,10 +43,25 @@ export const HeaderMenuLinks = ({ hideItemsByLabel, user }: { hideItemsByLabel?:
       },
     ];
 
+    const adminMenuLinks: HeaderMenuLink[] = [
+      {
+        label: "Admin",
+        href: "/admin/batches",
+        icon: <span className="text-lg">⚙️</span>,
+        availableForRoles: [UserRole.ADMIN],
+      },
+      {
+        label: "SEA Admin",
+        href: "/admin/sea-campaign",
+        icon: <span className="text-lg">🏃‍♂️</span>,
+        availableForRoles: [UserRole.ADMIN],
+      },
+    ];
+
     let menuLinks = [...alwaysVisibleMenuLinks];
 
     if (user) {
-      menuLinks = [...menuLinks, ...userMenuLinks];
+      menuLinks = [...menuLinks, ...userMenuLinks, ...adminMenuLinks];
     }
 
     return menuLinks.filter(({ label, availableForRoles }) => {
@@ -71,9 +87,8 @@ export const HeaderMenuLinks = ({ hideItemsByLabel, user }: { hideItemsByLabel?:
             <Link
               href={href}
               passHref
-              className={`${
-                isActive ? "underline" : ""
-              } hover:underline py-1.5 lg:py-2 px-3 lg:px-4 text-base font-medium rounded-full gap-2 grid grid-flow-col`}
+              className={`${isActive ? "underline" : ""
+                } hover:underline py-1.5 lg:py-2 px-3 lg:px-4 text-base font-medium rounded-full gap-2 grid grid-flow-col`}
             >
               {icon}
               <span>{label}</span>
@@ -111,11 +126,19 @@ export const Header = () => {
             </Link>
           )}
           <ul className="hidden lg:flex flex-nowrap px-1 gap-2">
-            <HeaderMenuLinks hideItemsByLabel={["Home"]} user={user} />
+            <HeaderMenuLinks hideItemsByLabel={["Home", "My Progress"]} user={user} />
           </ul>
         </div>
       </div>
       <div className="navbar-end flex-grow mr-2">
+        {user && (
+          <Link
+            href={`/builders/${user.userAddress}`}
+            className="btn btn-sm btn-ghost mr-2"
+          >
+            My Progress
+          </Link>
+        )}
         <RainbowKitCustomConnectButton />
       </div>
     </div>
