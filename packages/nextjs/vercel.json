@@ -5,7 +5,7 @@
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
-    "packages/nextjs/app/api/**/*.ts": {
+    "app/api/**/*.ts": {
       "maxDuration": 30
     }
   },
