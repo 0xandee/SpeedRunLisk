@@ -11,6 +11,7 @@
     "account": "yarn hardhat:account",
     "account:generate": "yarn workspace @speedrun-lisk/hardhat account:generate",
     "account:import": "yarn workspace @speedrun-lisk/hardhat account:import",
+    "build": "yarn next:build",
     "chain": "yarn hardhat:chain",
     "compile": "yarn hardhat:compile",
     "db:seed": "yarn workspace @speedrun-lisk/nextjs db:seed",
