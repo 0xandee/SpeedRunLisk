@@ -324,7 +324,7 @@ export default function WeeklyChallengePage() {
                   <div>Chain ID: 4202</div>
                   <div>
                     <a
-                      href="https://sepolia-faucet.lisk.com"
+                      href="https://docs.lisk.com/lisk-tools/faucets/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="link link-primary"
@@ -334,7 +334,7 @@ export default function WeeklyChallengePage() {
                   </div>
                   <div>
                     <a
-                      href="https://docs.lisk.com/lisk-tools/faucets/"
+                      href="https://sepolia-blockscout.lisk.com"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="link link-primary"
