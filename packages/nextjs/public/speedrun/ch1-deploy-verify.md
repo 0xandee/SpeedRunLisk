@@ -10,7 +10,7 @@
 
 👷‍♀️ You'll compile and deploy both an ERC20 token and ERC721 NFT contract using modern Solidity best practices. Then, you'll use a template NextJS app full of important Lisk components and hooks. Finally, you'll deploy your contracts to Lisk Sepolia testnet and verify them on Lisk Blockscout! 🌟
 
-🌟 The final deliverable is verified smart contracts on Lisk Sepolia testnet with a functional frontend that interacts with your contracts. Deploy your contracts to the testnet, then build and upload your app to a public web server. Submit the urls on [SpeedRunLisk.com](https://speedrunlisk.com)!
+🌟 The final deliverable is verified smart contracts on Lisk Sepolia testnet with a functional frontend that interacts with your contracts. Deploy your contracts to the testnet, then build and upload your app to a public web server. Submit the urls on [SpeedRunLisk.xyz](https://speedrunlisk.xyz)!
 
 💬 Meet other builders working on this challenge and get help in the [@LiskSEA Telegram](https://t.me/LiskSEA)!
 
@@ -199,11 +199,10 @@ etherscan: {
 
 > **Lisk Sepolia Faucets:**
 >
-> - [Lisk Sepolia Faucet](https://sepolia-faucet.lisk.com/) - Official Lisk faucet
+> - [Lisk Sepolia Faucet](https://docs.lisk.com/lisk-tools/faucets) - Official Lisk faucet
 > - [Alchemy Faucet](https://sepoliafaucet.com/) - Alternative faucet
 > - [Google Cloud Faucet](https://cloud.google.com/application/web3/faucet/ethereum/sepolia) - Another option
 
-> ⚔️ Side Quest: Keep a 🧑‍🎤 [punkwallet.io](https://punkwallet.io) on your phone's home screen and keep it loaded with testnet eth. 🧙‍♂️ You'll look like a wizard when you can fund your deployer address from your phone in seconds.
 
 🚀 Deploy your smart contracts with `yarn deploy`.
 
@@ -220,70 +219,25 @@ ETHERSCAN_API_KEY="your_blockscout_api_key"
 
 ---
 
-## Checkpoint 4: 🚢 Ship your frontend! 🚁
-
-> ✏️ Edit your frontend config in `packages/nextjs/scaffold.config.ts` to change the `targetNetwork` to `chains.liskSepolia` :
-
-> You should see the correct network in the frontend (http://localhost:3000):
-
-> 🦊 Since we have deployed to a public testnet, you will now need to connect using a wallet you own or use a burner wallet. By default 🔥 `burner wallets` are only available on `hardhat` . You can enable them on every chain by setting `onlyLocalBurnerWallet: false` in your frontend config (`scaffold.config.ts` in `packages/nextjs/`)
-
-🧪 Test your contracts on the frontend:
-
-- Connect your wallet
-- Try minting an NFT using your deployed contract
-- Check your token balance
-
-🚀 Deploy your NextJS App
-
-```shell
-yarn vercel
-```
-
-> You might need to log in to Vercel first by running `yarn vercel:login`. Once you log in (email, GitHub, etc), the default options should work.
-
-> If you want to redeploy to the same production URL you can run `yarn vercel --prod`. If you omit the `--prod` flag it will deploy it to a preview/test URL.
-
-> Follow the steps to deploy to Vercel. It'll give you a public URL.
-
-⚠️ Run the automated testing function to make sure your app passes
-
-```shell
-yarn test
-```
-
-> This will run the Hardhat tests in `packages/hardhat/test/` to ensure your contracts work correctly. All tests should pass before submitting your challenge.
-
-#### Configuration of Third-Party Services for Production-Grade Apps.
-
-By default, 🏗 Scaffold-Lisk provides predefined API keys for popular services such as Alchemy and Blockscout. This allows you to begin developing and testing your applications more easily, avoiding the need to register for these services.
-This is great to complete your **SpeedRunLisk**.
-
-For production-grade applications, it's recommended to obtain your own API keys (to prevent rate limiting issues). You can configure these at:
-
-- 🔷`ALCHEMY_API_KEY` variable in `packages/hardhat/.env` and `packages/nextjs/.env.local`. You can create API keys from the [Alchemy dashboard](https://dashboard.alchemy.com/).
-
-- 📃`ETHERSCAN_API_KEY` variable in `packages/hardhat/.env` for contract verification. Note: Despite the name, this is used for Blockscout verification on Lisk networks. For Lisk Sepolia, you may not need a specific API key as Blockscout often works without one.
-
-> 💬 Hint: It's recommended to store env's for nextjs in Vercel/system env config for live apps and use .env.local for local testing.
-
----
-
-## Checkpoint 5: 📜 Contract Verification 🔍
+## Checkpoint 4: 📜 Contract Verification 🔍
 
 🔍 Now for the main event - verifying your smart contracts on Lisk Blockscout!
 
 ### Method 1: Automated Verification (Recommended)
 
-You can verify your smart contracts automatically using Hardhat:
+You can verify your smart contracts using Hardhat with the specific contract addresses:
 
 ```shell
-yarn verify --network liskSepolia
+yarn hardhat-verify --network liskSepolia --contract contracts/MyToken.sol:MyToken 0xE0158f92Dc219E40827F870AF0cee6207447ae0B
 ```
 
-> ✅ This command will automatically verify all deployed contracts using the deployment artifacts.
+```shell
+yarn hardhat-verify --network liskSepolia --contract contracts/MyNFT.sol:MyNFT 0x97eFEC5Fba1E6Afa7128a6B2FF49f7e2a120B1BE
+```
 
-> ⚠️ **Note**: If automated verification fails, it's often due to the Blockscout API configuration. Make sure your hardhat.config.ts includes the correct verify configuration for Lisk Sepolia (see the network configuration section above).
+> ✅ Replace the contract addresses with your actual deployed contract addresses from the deployment output.
+
+> ⚠️ **Note**: If verification fails, make sure your hardhat.config.ts includes the correct verify configuration for Lisk Sepolia (see the network configuration section above).
 
 ### Method 2: Manual Verification via Blockscout
 
@@ -347,11 +301,11 @@ Make sure to verify both:
 
 ---
 
-## Checkpoint 6: 📋 Submit Your Challenge
+## Checkpoint 5: 📋 Submit Your Challenge
 
 🎯 Time to submit your completed challenge to the SEA Campaign!
 
-Go to [Week 1 Submission](https://speedrunlisk.com/sea-campaign/week/1) to submit your completed challenge.
+Go to [Week 1 Submission](https://speedrunlisk.xyz/sea-campaign/week/1) to submit your completed challenge.
 
 ---
 

@@ -10,7 +10,7 @@
 
 🔍 It will be important to verify your token's source code in the block explorer after you deploy. Supporters will want to be sure that it has a fixed supply and you can't just mint more.
 
-🌟 The final deliverable is an app that lets users purchase your ERC20 token, transfer it, and sell it back to the vendor. Deploy your contracts on your public chain of choice and then `yarn vercel` your app to a public web server. Submit the url on [SpeedRunLisk.com](https://speedrunlisk.com)!
+🌟 The final deliverable is an app that lets users purchase your ERC20 token, transfer it, and sell it back to the vendor. Deploy your contracts on your public chain of choice and then `yarn vercel` your app to a public web server. Submit the url on [SpeedRunLisk.xyz](https://speedrunlisk.xyz)!
 
 > 💬 Meet other builders working on this challenge and get help in the [Challenge Telegram](https://t.me/joinchat/IfARhZFc5bfPwpjq)!
 
@@ -253,7 +253,7 @@ Run the `yarn verify --network your_network` command to verify your contracts on
 
 👀 You may see an address for both YourToken and Vendor. You will want the Vendor address.
 
-👉 Search this address on [Sepolia Etherscan](https://sepolia.etherscan.io/) (or [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.com](https://speedrunlisk.com).
+👉 Search this address on [Sepolia Etherscan](https://sepolia.etherscan.io/) (or [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.xyz](https://speedrunlisk.xyz).
 
 ---
 

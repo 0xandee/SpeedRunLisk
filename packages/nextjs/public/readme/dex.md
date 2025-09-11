@@ -5,7 +5,7 @@
 This challenge will help you build/understand a simple decentralized exchange, with one token-pair (ERC20 BALLOONS ($BAL) and ETH). This repo is an updated version of the [original tutorial](https://medium.com/@austin_48503/%EF%B8%8F-minimum-viable-exchange-d84f30bd0c90) and challenge repos before it. Please read the intro for a background on what we are building first!
 
 🌟 The final deliverable is an app that allows users to seamlessly trade ERC20 BALLOONS ($BAL) with ETH in a decentralized manner. Users will be able to connect their wallets, view their token balances, and buy or sell their tokens according to a price formula!
-Deploy your contracts to a testnet then build and upload your app to a public web server. Submit the url on [SpeedRunLisk.com](https://speedrunlisk.com)!
+Deploy your contracts to a testnet then build and upload your app to a public web server. Submit the url on [SpeedRunLisk.xyz](https://speedrunlisk.xyz)!
 
 There is also a 🎥 [Youtube video](https://www.youtube.com/watch?v=eP5w6Ger1EQ) that may help you understand the concepts covered within this challenge too:
 
@@ -757,7 +757,7 @@ For production-grade applications, it's recommended to obtain your own API keys 
 
 Run the `yarn verify --network your_network` command to verify your contracts on etherscan 🛰
 
-👉 Search this address on [Sepolia Etherscan](https://sepolia.etherscan.io/) (or [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.com](https://speedrunlisk.com).
+👉 Search this address on [Sepolia Etherscan](https://sepolia.etherscan.io/) (or [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.xyz](https://speedrunlisk.xyz).
 
 ## Checkpoint 10: 💪 Flex!
 

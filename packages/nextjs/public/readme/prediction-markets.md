@@ -1492,7 +1492,7 @@ For production-grade applications, it's recommended to obtain your own API keys 
 
 Run the `yarn verify --network your_network` command to verify your contracts on etherscan 🛰
 
-👉 Search this address on [Sepolia Etherscan](https://sepolia.etherscan.io/) (or [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.com](https://speedrunlisk.com/).
+👉 Search this address on [Sepolia Etherscan](https://sepolia.etherscan.io/) (or [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.xyz](https://speedrunlisk.xyz/).
 
 ## **Checkpoint 12: 🧠 🍔 Final consideration and food for thought**
 

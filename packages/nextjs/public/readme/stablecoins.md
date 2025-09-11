@@ -24,7 +24,7 @@ Stablecoins are cryptocurrencies designed to maintain a stable value relative to
 ---
 
 🌟 The final deliverable is an app that allows users to mint and manage a decentralized stablecoin (MyUSD) backed by ETH collateral, with features for depositing collateral, minting/burning tokens, managing positions, and participating in liquidations.
-Deploy your contracts to a testnet then build and upload your app to a public web server. Submit the url on [SpeedRunLisk.com](https://speedrunlisk.com)!
+Deploy your contracts to a testnet then build and upload your app to a public web server. Submit the url on [SpeedRunLisk.xyz](https://speedrunlisk.xyz)!
 
 🔍 First we should mention there are lots of different types of stablecoins on the market. Some are backed 1:1 with actual USD-denominated assets in a bank (USDC, USDT). Others are backed by crypto and use special mechanisms to maintain their peg (Dai, RAI, LUSD/BOLD).
 
@@ -1155,7 +1155,7 @@ For production-grade applications, it's recommended to obtain your own API keys 
 
 Run the `yarn verify --network your_network` command to verify your contracts on Etherscan 🛰.
 
-👉 Search your deployed `MyUSDEngine` contract address on [Sepolia Etherscan](https://sepolia.etherscan.io/) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.com](https://speedrunlisk.com).
+👉 Search your deployed `MyUSDEngine` contract address on [Sepolia Etherscan](https://sepolia.etherscan.io/) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.xyz](https://speedrunlisk.xyz).
 
 ---
 

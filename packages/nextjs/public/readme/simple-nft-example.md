@@ -12,7 +12,7 @@
 
 👷‍♀️ You'll compile and deploy your first smart contracts. Then, you'll use a template NextJS app full of important Lisk components and hooks. Finally, you'll deploy an NFT to a public network to share with friends! 🚀
 
-🌟 The final deliverable is an app that lets users purchase and transfer NFTs. Deploy your contracts to a testnet, then build and upload your app to a public web server. Submit the url on [SpeedRunLisk.com](https://speedrunlisk.com)!
+🌟 The final deliverable is an app that lets users purchase and transfer NFTs. Deploy your contracts to a testnet, then build and upload your app to a public web server. Submit the url on [SpeedRunLisk.xyz](https://speedrunlisk.xyz)!
 
 💬 Meet other builders working on this challenge and get help in the [Challenge Telegram](https://t.me/+Y2vqXZZ_pEFhMGMx)!
 

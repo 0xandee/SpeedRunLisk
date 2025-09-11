@@ -10,7 +10,7 @@
 
 > 📝 Note: If you use named arguments in your event (e.g. `event Stake(address indexed staker, uint256 amount)`), you'll need to update `/packages/nextjs/app/stakings/page.tsx` to reference event parameters by their names instead of numeric indices.
 
-🌟 The final deliverable is deploying a Dapp that lets users send ether to a contract and stake if the conditions are met, then `yarn vercel` your app to a public webserver. Submit the url on [SpeedRunLisk.com](https://speedrunlisk.com)!
+🌟 The final deliverable is deploying a Dapp that lets users send ether to a contract and stake if the conditions are met, then `yarn vercel` your app to a public webserver. Submit the url on [SpeedRunLisk.xyz](https://speedrunlisk.xyz)!
 
 > 💬 Meet other builders working on this challenge and get help in the [challenge Telegram](https://t.me/joinchat/E6r91UFt4oMJlt01)!
 
@@ -183,6 +183,56 @@ Your `Staker UI` tab should be almost done and working at this point.
 
 📡 Edit the `defaultNetwork` to [your choice of public EVM networks](https://ethereum.org/en/developers/docs/networks/) in `packages/hardhat/hardhat.config.ts`
 
+### 🔧 Configure Lisk Sepolia with Blockscout
+
+If you're deploying to **Lisk Sepolia**, you'll need to update your `hardhat.config.ts` to use Blockscout instead of Etherscan for contract verification:
+
+1. **Modify the etherscan configuration section:**
+
+```typescript
+// Current:
+etherscan: {
+  apiKey: `${etherscanApiKey}`,
+},
+
+// Change to:
+etherscan: {
+  apiKey: {
+    liskSepolia: "123"  // Blockscout doesn't need a real API key
+  },
+  customChains: [
+    {
+      network: "liskSepolia",
+      chainId: 4202,
+      urls: {
+        apiURL: "https://sepolia-blockscout.lisk.com/api",
+        browserURL: "https://sepolia-blockscout.lisk.com"
+      }
+    }
+  ]
+},
+```
+
+2. **Update the verify configuration section:**
+
+```typescript
+// Current:
+verify: {
+  etherscan: {
+    apiKey: `${etherscanApiKey}`,
+  },
+},
+
+// Change to:
+verify: {
+  etherscan: {
+    apiKey: {
+      liskSepolia: "123"
+    },
+  },
+},
+```
+
 🔐 You will need to generate a **deployer address** using `yarn generate` This creates a mnemonic and saves it locally.
 
 👩‍🚀 Use `yarn account` to view your deployer account balances.
@@ -234,9 +284,14 @@ For production-grade applications, it's recommended to obtain your own API keys 
 
 ## Checkpoint 6: 📜 Contract Verification
 
-Run the `yarn verify --network your_network` command to verify your contracts on etherscan 🛰
+Run the `yarn verify --network your_network` command to verify your contracts on the block explorer 🛰
 
-👉 Search this address on [Sepolia Etherscan](https://sepolia.etherscan.io/) (or [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia) to get the URL you submit to 🏃‍♀️[SpeedRunLisk.com](https://speedrunlisk.com).
+👉 Search this address on:
+- [Lisk Sepolia Blockscout](https://sepolia-blockscout.lisk.com/) if you deployed to Lisk Sepolia
+- [Sepolia Etherscan](https://sepolia.etherscan.io/) if you deployed to Ethereum Sepolia
+- [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia
+
+Get the URL you submit to 🏃‍♀️[SpeedRunLisk.xyz](https://speedrunlisk.xyz).
 
 ---
 
