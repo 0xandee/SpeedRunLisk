@@ -33,7 +33,30 @@ export const Footer = () => {
           <SwitchTheme className={`pointer-events-auto ${isLocalNetwork ? "self-end md:self-auto" : ""}`} />
         </div>
       </div>
-      <div className="w-full"></div>
+      <div className="w-full">
+        <div className="flex justify-center items-center gap-2 text-sm">
+          {/* <div className="flex items-center gap-2">
+            <HeartIcon className="h-4 w-4" />
+            <span>Built with</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <BuidlGuidlLogo className="w-3 h-5 pb-px" />
+            <span className="font-bold">BuidlGuidl</span>
+          </div>
+          <span>•</span> */}
+          <Link href="https://lisk.com/" target="_blank" rel="noopener noreferrer" className="link">
+            Website
+          </Link>
+          <span>•</span>
+          <Link href="https://x.com/lisksea" target="_blank" rel="noopener noreferrer" className="link">
+            Twitter
+          </Link>
+          <span>•</span>
+          <Link href="https://lisksea.notion.site/" target="_blank" rel="noopener noreferrer" className="link">
+            Notion
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
