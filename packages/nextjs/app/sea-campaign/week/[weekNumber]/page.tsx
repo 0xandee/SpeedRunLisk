@@ -219,10 +219,10 @@ export default function WeeklyChallengePage() {
                       <strong>Status:</strong>
                       <span
                         className={`ml-2 badge ${weeklyProgress.submission?.reviewStatus === "APPROVED"
-                            ? "badge-success"
-                            : weeklyProgress.submission?.reviewStatus === "REJECTED"
-                              ? "badge-error"
-                              : "badge-warning"
+                          ? "badge-success"
+                          : weeklyProgress.submission?.reviewStatus === "REJECTED"
+                            ? "badge-error"
+                            : "badge-warning"
                           }`}
                       >
                         {weeklyProgress.submission?.reviewStatus}
@@ -329,12 +329,12 @@ export default function WeeklyChallengePage() {
                       rel="noopener noreferrer"
                       className="link link-primary"
                     >
-                      Get Test LSK
+                      Get Test ETH
                     </a>
                   </div>
                   <div>
                     <a
-                      href="https://sepolia-blockscout.lisk.com"
+                      href="https://docs.lisk.com/lisk-tools/faucets/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="link link-primary"
