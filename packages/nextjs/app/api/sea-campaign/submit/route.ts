@@ -8,6 +8,7 @@ import {
   createSeaCampaignSubmission,
   getSubmissionByUserAndWeek,
 } from "~~/services/database/repositories/seaCampaignSubmissions";
+import { SeaCampaignSubmissionStatus } from "~~/services/database/config/types";
 import { getUserByAddress } from "~~/services/database/repositories/users";
 import { getWeekFromChallengeId, isSeaCampaignChallenge } from "~~/utils/sea-challenges";
 
@@ -94,7 +95,7 @@ export async function POST(req: NextRequest) {
       country,
       telegramHandle,
       payoutWallet,
-      reviewStatus: "SUBMITTED",
+      reviewStatus: SeaCampaignSubmissionStatus.SUBMITTED,
     });
 
     if (!submission) {

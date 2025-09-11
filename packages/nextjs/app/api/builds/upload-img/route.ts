@@ -4,6 +4,11 @@ import { bucket } from "~~/services/firebase";
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if Firebase is configured
+    if (!bucket) {
+      return NextResponse.json({ error: "File upload not configured" }, { status: 503 });
+    }
+
     if (!request.body) {
       return NextResponse.json({ error: "No request body" }, { status: 400 });
     }

@@ -76,13 +76,12 @@ export default function BatchBuildersPage() {
           return (
             <div className="flex w-full justify-center items-center">
               <div
-                className={`rounded-sm px-2 py-0.5 font-semibold ${
-                  row.batchStatus === BatchUserStatus.GRADUATE
+                className={`rounded-sm px-2 py-0.5 font-semibold ${row.batchStatus === BatchUserStatus.GRADUATE
                     ? "bg-green-500/30"
                     : "text-yellow-600 dark:text-yellow-400 bg-warning/30"
-                }`}
+                  }`}
               >
-                {row.batch?.name.toString().toUpperCase()}
+                {row.batch?.name?.toString().toUpperCase()}
               </div>
             </div>
           );

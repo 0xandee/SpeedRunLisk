@@ -260,7 +260,7 @@ export const seaCampaignSubmissions = pgTable(
     telegramHandle: varchar({ length: 100 }),
     payoutWallet: varchar({ length: 42 }),
     submissionDate: timestamp().defaultNow().notNull(),
-    reviewStatus: seaCampaignSubmissionStatusEnum().default("SUBMITTED"),
+    reviewStatus: seaCampaignSubmissionStatusEnum().default(SeaCampaignSubmissionStatus.SUBMITTED),
     mentorFeedback: text(),
     completionBonusAmount: decimal({ precision: 10, scale: 2 }).default("0"),
   },
@@ -309,7 +309,7 @@ export const seaCampaignRewards = pgTable(
     rewardAmount: decimal({ precision: 10, scale: 2 }).notNull(),
     awardedDate: timestamp().defaultNow().notNull(),
     paidDate: timestamp(),
-    paymentStatus: seaCampaignPaymentStatusEnum().default("PENDING"),
+    paymentStatus: seaCampaignPaymentStatusEnum().default(SeaCampaignPaymentStatus.PENDING),
     paymentTxHash: varchar({ length: 66 }),
   },
   table => [

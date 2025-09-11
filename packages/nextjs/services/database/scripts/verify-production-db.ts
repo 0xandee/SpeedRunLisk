@@ -44,7 +44,8 @@ async function verifyDatabase() {
     
     // Simple connection test
     const result = await db.execute("SELECT 1 as test");
-    if (!result || result.length === 0) {
+    const resultArray = Array.isArray(result) ? result : result.rows || [];
+    if (!result || resultArray.length === 0) {
       throw new Error("❌ Database connection test failed");
     }
     console.log("✅ Database connection OK\n");
@@ -59,7 +60,8 @@ async function verifyDatabase() {
     `;
     
     const tables = await db.execute(tableCheckQuery);
-    const existingTables = tables.map((row: any) => row.table_name);
+    const tablesArray = Array.isArray(tables) ? tables : tables.rows || [];
+    const existingTables = tablesArray.map((row: any) => row.table_name);
     
     console.log(`Found ${existingTables.length} tables: ${existingTables.join(', ')}`);
     
@@ -85,11 +87,12 @@ async function verifyDatabase() {
       `;
       
       const columns = await db.execute(columnQuery);
-      if (columns.length === 0) {
+      const columnsArray = Array.isArray(columns) ? columns : columns.rows || [];
+      if (columnsArray.length === 0) {
         throw new Error(`❌ Table ${tableName} has no columns`);
       }
       
-      console.log(`✅ ${tableName}: ${columns.length} columns`);
+      console.log(`✅ ${tableName}: ${columnsArray.length} columns`);
     }
     
     console.log("\n5. Testing basic operations...");
@@ -97,7 +100,8 @@ async function verifyDatabase() {
     // Test read operation
     try {
       const challengeCount = await db.execute("SELECT COUNT(*) as count FROM challenges");
-      console.log(`✅ Read test: Found ${challengeCount[0]?.count || 0} challenges`);
+      const challengeCountArray = Array.isArray(challengeCount) ? challengeCount : challengeCount.rows || [];
+      console.log(`✅ Read test: Found ${challengeCountArray[0]?.count || 0} challenges`);
     } catch (error) {
       console.log(`❌ Read test failed: ${error}`);
       throw error;
@@ -111,7 +115,8 @@ async function verifyDatabase() {
         AND column_name IN ('id', 'address', 'created_at')
       `);
       
-      if (userColumns.length < 3) {
+      const userColumnsArray = Array.isArray(userColumns) ? userColumns : userColumns.rows || [];
+      if (userColumnsArray.length < 3) {
         throw new Error("Users table missing required columns");
       }
       console.log("✅ Users table structure OK");

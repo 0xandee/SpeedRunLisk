@@ -1,5 +1,6 @@
 import { ethers, JsonRpcProvider, Wallet, parseEther, formatEther, keccak256, toUtf8Bytes, isAddress, AbiCoder } from "ethers";
 import { createSeaCampaignReward, updatePaymentStatus } from "~~/services/database/repositories/seaCampaignRewards";
+import { SeaCampaignPaymentStatus } from "~~/services/database/config/types";
 
 // ABI for the SeaCampaignRewards contract
 const SEA_CAMPAIGN_REWARDS_ABI = [
@@ -91,7 +92,7 @@ export async function allocateRewardsOnChain(allocations: RewardAllocation[]) {
         weekNumber: allocation.weekNumber,
         rewardType: Object.keys(RewardType)[allocation.rewardType] as any,
         rewardAmount: allocation.amount.toString(),
-        paymentStatus: "PENDING",
+        paymentStatus: SeaCampaignPaymentStatus.PENDING,
         paymentTxHash: tx.hash,
       });
     }

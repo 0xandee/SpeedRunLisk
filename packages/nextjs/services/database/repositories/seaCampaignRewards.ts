@@ -1,6 +1,7 @@
 import { InferInsertModel, eq, and, desc, sql } from "drizzle-orm";
 import { db } from "~~/services/database/config/postgresClient";
 import { seaCampaignRewards } from "~~/services/database/config/schema";
+import { SeaCampaignPaymentStatus } from "~~/services/database/config/types";
 
 export type SeaCampaignRewardInsert = InferInsertModel<typeof seaCampaignRewards>;
 export type SeaCampaignRewardsSelect = Awaited<ReturnType<typeof getRewardsByUser>>;
@@ -61,7 +62,7 @@ export async function getPendingRewards() {
   return await db
     .select()
     .from(seaCampaignRewards)
-    .where(eq(seaCampaignRewards.paymentStatus, "PENDING"))
+    .where(eq(seaCampaignRewards.paymentStatus, SeaCampaignPaymentStatus.PENDING))
     .orderBy(seaCampaignRewards.awardedDate);
 }
 

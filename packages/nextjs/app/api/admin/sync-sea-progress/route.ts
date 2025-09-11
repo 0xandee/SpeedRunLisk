@@ -19,6 +19,13 @@ export async function POST(req: NextRequest) {
   try {
     console.log("Starting SEA campaign progress synchronization...");
 
+    const results = {
+      usersProcessed: 0,
+      usersCreated: 0,
+      usersUpdated: 0,
+      errors: [] as string[],
+    };
+
     // Get all SEA challenge submissions for debugging
     const allSeaSubmissions = await db
       .select({
@@ -42,7 +49,7 @@ export async function POST(req: NextRequest) {
 
     // Get only accepted submissions for processing
     const seaChallengeSubmissions = allSeaSubmissions.filter(
-      sub => sub.reviewAction === ReviewAction.ACCEPT
+      sub => sub.reviewAction === ReviewAction.ACCEPTED
     );
 
     console.log(`Found ${seaChallengeSubmissions.length} accepted SEA challenge submissions`);
@@ -101,7 +108,7 @@ export async function POST(req: NextRequest) {
                 challengeId,
                 frontendUrl: '',
                 contractUrl: '',
-                reviewAction: ReviewAction.ACCEPT,
+                reviewAction: ReviewAction.ACCEPTED,
                 reviewComment: 'Synced from SEA campaign progress',
                 submittedAt: progress.registrationDate || new Date(),
               });
@@ -134,13 +141,6 @@ export async function POST(req: NextRequest) {
     }
 
     console.log(`Processing ${userSubmissions.size} unique users...`);
-
-    const results = {
-      usersProcessed: 0,
-      usersCreated: 0,
-      usersUpdated: 0,
-      errors: [] as string[],
-    };
 
     for (const [userAddr, submissions] of userSubmissions) {
       try {

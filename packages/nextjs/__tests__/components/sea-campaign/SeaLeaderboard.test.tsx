@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SeaLeaderboard } from '../../../app/_components/sea-campaign/SeaLeaderboard';
+import { WeeklyLeaderboard as SeaLeaderboard } from '../../../app/_components/sea-campaign/WeeklyLeaderboard';
 import * as reactQuery from '@tanstack/react-query';
 
 // Mock react-query
@@ -55,7 +55,7 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     expect(screen.getByText(/loading leaderboard/i)).toBeInTheDocument();
   });
@@ -71,7 +71,7 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     // Check headers
     expect(screen.getByText('Rank')).toBeInTheDocument();
@@ -98,7 +98,7 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     expect(screen.getByText('0x1111...1111')).toBeInTheDocument();
     expect(screen.getByText('0x2222...2222')).toBeInTheDocument();
@@ -116,7 +116,7 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     // First place should have gold styling
     const firstPlaceRow = screen.getByText('1').closest('tr');
@@ -145,7 +145,7 @@ describe('SeaLeaderboard', () => {
       refetch: mockRefetch,
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     // Should have week filter dropdown
     const weekFilter = screen.getByLabelText(/select week/i);
@@ -174,7 +174,7 @@ describe('SeaLeaderboard', () => {
       refetch: mockRefetch,
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     const weekFilter = screen.getByLabelText(/select week/i);
     await user.selectOptions(weekFilter, 'all');
@@ -193,7 +193,7 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     expect(screen.getByText(/no participants yet/i)).toBeInTheDocument();
     expect(screen.getByText(/be the first to submit/i)).toBeInTheDocument();
@@ -207,7 +207,7 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     expect(screen.getByText(/error loading leaderboard/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /retry/i })).toBeInTheDocument();
@@ -224,7 +224,7 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     // Check scores for first place
     expect(screen.getByText('95')).toBeInTheDocument(); // Total score
@@ -249,7 +249,7 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     // Should show formatted timestamps
     expect(screen.getByText(/Jan 15/)).toBeInTheDocument();
@@ -266,7 +266,7 @@ describe('SeaLeaderboard', () => {
       refetch: mockRefetch,
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     const retryButton = screen.getByRole('button', { name: /retry/i });
     await user.click(retryButton);
@@ -297,7 +297,7 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     // Should show only first 50 entries by default
     expect(screen.getAllByRole('row')).toHaveLength(51); // 50 data rows + 1 header row
@@ -326,7 +326,7 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     const addressElement = screen.getByText('0x1111...1111');
     await user.click(addressElement);
@@ -334,9 +334,7 @@ describe('SeaLeaderboard', () => {
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x1111111111111111111111111111111111111111');
   });
 
-  it('should highlight current user if provided', () => {
-    const currentUserAddress = '0x2222222222222222222222222222222222222222';
-
+  it('should display leaderboard without user highlighting', () => {
     mockUseQuery.mockReturnValue({
       data: {
         leaderboard: mockLeaderboardData,
@@ -347,12 +345,10 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard currentUserAddress={currentUserAddress} />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
-    // Second row should be highlighted as it matches current user
-    const currentUserRow = screen.getByText('0x2222...2222').closest('tr');
-    expect(currentUserRow).toHaveClass('bg-blue-50');
-    expect(screen.getByText('(You)')).toBeInTheDocument();
+    // Should display all addresses without special highlighting
+    expect(screen.getByText('0x2222...2222')).toBeInTheDocument();
   });
 
   it('should show quality indicators for scores', () => {
@@ -366,7 +362,7 @@ describe('SeaLeaderboard', () => {
       refetch: jest.fn(),
     } as any);
 
-    render(<SeaLeaderboard />);
+    render(<SeaLeaderboard weekNumber={1} />);
 
     // High scores should have success styling
     const highScore = screen.getByText('100'); // Engagement score of 100

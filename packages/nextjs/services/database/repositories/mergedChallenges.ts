@@ -73,6 +73,11 @@ export async function getMergedUserChallenges(userAddress: string): Promise<Merg
     socialPostUrl: tc.socialPostUrl || null,
     mentorAssigned: tc.mentorAssigned || null,
     completionTimeHours: tc.completionTimeHours || null,
+    challenge: {
+      ...tc.challenge,
+      autograding: tc.challenge.autograding ?? false,
+      disabled: tc.challenge.disabled ?? false,
+    },
   }));
   
   // Convert SEA campaign submissions to merged format

@@ -83,7 +83,7 @@ async function analyzeDatabaseState() {
     console.log(`\nUser: ${userAddr}`);
     console.log(`Submissions: ${submissions.length}`);
     
-    const approvedSubmissions = submissions.filter(s => s.reviewAction === ReviewAction.ACCEPT);
+    const approvedSubmissions = submissions.filter(s => s.reviewAction === ReviewAction.ACCEPTED);
     console.log(`Approved submissions: ${approvedSubmissions.length}`);
     
     if (approvedSubmissions.length > 0) {
@@ -123,7 +123,7 @@ async function synchronizeProgress(dryRun: boolean = true) {
   const { userSubmissions } = await analyzeDatabaseState();
 
   for (const [userAddr, submissions] of userSubmissions) {
-    const approvedSubmissions = submissions.filter(s => s.reviewAction === ReviewAction.ACCEPT);
+    const approvedSubmissions = submissions.filter(s => s.reviewAction === ReviewAction.ACCEPTED);
     
     if (approvedSubmissions.length === 0) {
       console.log(`Skipping ${userAddr} - no approved submissions`);

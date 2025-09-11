@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SeaSubmissionForm } from '../../../app/_components/sea-campaign/SeaSubmissionForm';
-import { SeaChallengeId } from '../../../services/database/config/types';
+import { ChallengeId } from '../../../services/database/config/types';
 
 // Mock fetch globally
 global.fetch = jest.fn();
@@ -10,7 +10,7 @@ const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
 describe('SeaSubmissionForm', () => {
   const defaultProps = {
     weekNumber: 1,
-    challengeId: SeaChallengeId.SEA_DEPLOY_VERIFY,
+    challengeId: ChallengeId.SEA_WEEK_1_HELLO_TOKEN_NFT,
     userAddress: '0x1234567890123456789012345678901234567890',
   };
 
@@ -187,11 +187,11 @@ describe('SeaSubmissionForm', () => {
     expect(screen.getByLabelText(/contract address/i)).toBeInTheDocument();
 
     // Week 2 should show frontend-specific fields
-    rerender(<SeaSubmissionForm {...defaultProps} weekNumber={2} challengeId={SeaChallengeId.SEA_FRONTEND_CONNECT} />);
+    rerender(<SeaSubmissionForm {...defaultProps} weekNumber={2} challengeId={ChallengeId.SEA_WEEK_2_FRONTEND_CONNECT} />);
     expect(screen.getByLabelText(/github repository url/i)).toBeInTheDocument();
 
     // Week 3 should show indexing-specific fields
-    rerender(<SeaSubmissionForm {...defaultProps} weekNumber={3} challengeId={SeaChallengeId.SEA_INDEXING_DISPLAY} />);
+    rerender(<SeaSubmissionForm {...defaultProps} weekNumber={3} challengeId={ChallengeId.SEA_WEEK_3_INDEXING_DISPLAY} />);
     expect(screen.getByLabelText(/github repository url/i)).toBeInTheDocument();
   });
 

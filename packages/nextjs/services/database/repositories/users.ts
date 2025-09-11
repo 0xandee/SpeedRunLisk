@@ -15,7 +15,18 @@ export type UserUpdate = Partial<Omit<UserInsert, "userAddress">>;
 export type UserByAddress = Awaited<ReturnType<typeof getUserByAddress>>;
 export type UserSocials = PickSocials<NonNullable<UserByAddress>>;
 export type UserWithChallengesData = Awaited<ReturnType<typeof getSortedUsersWithChallengesInfo>>["data"][0];
-export type BatchBuilder = Awaited<ReturnType<typeof getSortedBatchBuilders>>["data"][0];
+export type BatchBuilder = Awaited<ReturnType<typeof getSortedBatchBuilders>>["data"][0] & {
+  batch: {
+    id: number;
+    name: string;
+    startDate: Date;
+    status: string;
+    contractAddress: string | null;
+    telegramLink: string;
+    bgSubdomain: string;
+    network: string;
+  } | null;
+};
 export type UserLocation = NonNullable<UserByAddress>["location"];
 
 export async function getUserByAddress(address: string) {
@@ -96,12 +107,15 @@ export async function getSortedUsersWithChallengesInfo(
 
   const [usersData, totalCount] = await Promise.all([query, db.$count(users, filterConditions)]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const preparedUsersData = usersData.map(({ userChallenges, ...restUser }) => ({
-    ...restUser,
-    challengesCompleted: Number(restUser.challengesCompleted),
-    lastActivity: restUser.lastActivity as Date,
-  }));
+  const preparedUsersData = usersData.map((user) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { userChallenges, ...restUser } = user as any;
+    return {
+      ...restUser,
+      challengesCompleted: Number(restUser.challengesCompleted),
+      lastActivity: restUser.lastActivity as Date,
+    };
+  });
 
   return {
     data: preparedUsersData,
@@ -263,9 +277,9 @@ export async function getUserPoints(userAddress: string) {
     },
   });
 
-  const acceptedChallengesCount = user?.userChallenges.length || 0;
+  const acceptedChallengesCount = (user as any)?.userChallenges?.length || 0;
   const hasBatch = user?.batchStatus === BatchUserStatus.GRADUATE;
-  const hasBuilds = user?.buildBuilders && user?.buildBuilders.length > 0;
+  const hasBuilds = (user as any)?.buildBuilders && (user as any)?.buildBuilders?.length > 0;
 
   const challengePoints = (acceptedChallengesCount || 0) * CHALLENGE_XP;
   const batchPoints = hasBatch ? BATCH_XP : 0;

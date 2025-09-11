@@ -55,11 +55,11 @@ export async function updateWeekCompletion(userAddress: string, weekNumber: numb
     const weekColumn = `week${weekNumber}Completed` as keyof SeaCampaignProgressInsert;
     const updateData: Partial<SeaCampaignProgressInsert> = {
       [weekColumn]: true,
-      totalWeeksCompleted: currentProgress.totalWeeksCompleted + 1,
+      totalWeeksCompleted: (currentProgress.totalWeeksCompleted ?? 0) + 1,
     };
     
     // Check if this makes them a graduate (completed all 6 weeks)
-    if (currentProgress.totalWeeksCompleted + 1 === 6) {
+    if ((currentProgress.totalWeeksCompleted ?? 0) + 1 === 6) {
       updateData.isGraduated = true;
       updateData.graduationDate = new Date();
     }
@@ -125,17 +125,17 @@ export async function getProgressDistribution() {
 }
 
 export async function getGraduates(limit?: number) {
-  let query = db
+  const baseQuery = db
     .select()
     .from(seaCampaignProgress)
     .where(eq(seaCampaignProgress.isGraduated, true))
     .orderBy(seaCampaignProgress.graduationDate);
     
   if (limit) {
-    query = query.limit(limit);
+    return await baseQuery.limit(limit);
   }
   
-  return await query;
+  return await baseQuery;
 }
 
 export async function updateBonusEarned(userAddress: string, bonusAmount: number) {

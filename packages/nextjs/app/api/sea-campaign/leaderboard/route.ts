@@ -67,7 +67,7 @@ export async function GET(req: NextRequest) {
     // Calculate engagement and quality scores for each submission
     const leaderboard: LeaderboardEntry[] = submissions.map(submission => {
       const socialEngagement = calculateSocialEngagement(submission.socialPostUrl);
-      const qualityScore = calculateQualityScore(submission.githubUrl, submission.demoUrl, submission.reviewStatus);
+      const qualityScore = calculateQualityScore(submission.githubUrl, submission.demoUrl, submission.reviewStatus || 'PENDING');
 
       // Calculate completion time in hours (mock data for now)
       const completionTime = Math.floor(Math.random() * 72) + 1; // 1-72 hours
@@ -79,7 +79,7 @@ export async function GET(req: NextRequest) {
         githubUrl: submission.githubUrl,
         demoUrl: submission.demoUrl,
         socialPostUrl: submission.socialPostUrl,
-        reviewStatus: submission.reviewStatus,
+        reviewStatus: submission.reviewStatus || 'PENDING',
         completionTime,
         socialEngagement,
         qualityScore,

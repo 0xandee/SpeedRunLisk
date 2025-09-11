@@ -61,7 +61,7 @@ describe('/api/sea-campaign/progress/[userAddress]', () => {
       const request = new NextRequest(url);
       const params = { userAddress };
 
-      const response = await GET(request, { params });
+      const response = await GET(request, { params: Promise.resolve(params) });
       const data = await response.json();
 
       expect(response.status).toBe(200);
@@ -79,7 +79,7 @@ describe('/api/sea-campaign/progress/[userAddress]', () => {
       const request = new NextRequest(url);
       const params = { userAddress: invalidAddress };
 
-      const response = await GET(request, { params });
+      const response = await GET(request, { params: Promise.resolve(params) });
       const data = await response.json();
 
       expect(response.status).toBe(400);
@@ -96,7 +96,7 @@ describe('/api/sea-campaign/progress/[userAddress]', () => {
       const request = new NextRequest(url);
       const params = { userAddress };
 
-      const response = await GET(request, { params });
+      const response = await GET(request, { params: Promise.resolve(params) });
       const data = await response.json();
 
       expect(response.status).toBe(200);
@@ -126,7 +126,7 @@ describe('/api/sea-campaign/progress/[userAddress]', () => {
       const request = new NextRequest(url);
       const params = { userAddress };
 
-      const response = await GET(request, { params });
+      const response = await GET(request, { params: Promise.resolve(params) });
       const data = await response.json();
 
       expect(response.status).toBe(200);
@@ -152,7 +152,7 @@ describe('/api/sea-campaign/progress/[userAddress]', () => {
       const request = new NextRequest(url);
       const params = { userAddress };
 
-      const response = await GET(request, { params });
+      const response = await GET(request, { params: Promise.resolve(params) });
       const data = await response.json();
 
       expect(response.status).toBe(200);
@@ -170,7 +170,7 @@ describe('/api/sea-campaign/progress/[userAddress]', () => {
       const request = new NextRequest(url);
       const params = { userAddress };
 
-      const response = await GET(request, { params });
+      const response = await GET(request, { params: Promise.resolve(params) });
       const data = await response.json();
 
       expect(response.status).toBe(500);
@@ -233,7 +233,7 @@ describe('/api/sea-campaign/progress/[userAddress]', () => {
       const request = new NextRequest(url);
       const params = { userAddress };
 
-      const response = await GET(request, { params });
+      const response = await GET(request, { params: Promise.resolve(params) });
       const data = await response.json();
 
       expect(response.status).toBe(200);
@@ -250,7 +250,7 @@ describe('/api/sea-campaign/progress/[userAddress]', () => {
       const request = new NextRequest(url);
       const params = { userAddress: '' };
 
-      const response = await GET(request, { params });
+      const response = await GET(request, { params: Promise.resolve(params) });
       const data = await response.json();
 
       expect(response.status).toBe(400);

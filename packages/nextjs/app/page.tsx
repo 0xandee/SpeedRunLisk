@@ -100,7 +100,7 @@ export default function HomePage() {
           {challenges.map((challenge, index) => (
             <div
               key={challenge.id}
-              className={`card shadow-lg transition-all hover:shadow-xl border-2 ${userProgress?.progress?.totalWeeksCompleted >= challenge.weekNumber
+              className={`card shadow-lg transition-all hover:shadow-xl border-2 ${(userProgress?.progress?.totalWeeksCompleted ?? 0) >= challenge.weekNumber
                 ? "border-success bg-success/10"
                 : userProgress?.nextWeek?.weekNumber === challenge.weekNumber
                   ? "border-primary bg-primary/10"
@@ -111,7 +111,7 @@ export default function HomePage() {
                 <div className="flex items-center justify-between mb-3">
                   <div className="badge badge-primary">Week {challenge.weekNumber}</div>
                   <div className="text-sm text-base-content/60">Starts: {getChallengeStartDate(challenge.dueDate)}</div>
-                  {userProgress?.progress?.totalWeeksCompleted >= challenge.weekNumber && (
+                  {(userProgress?.progress?.totalWeeksCompleted ?? 0) >= challenge.weekNumber && (
                     <div className="text-success">✅</div>
                   )}
                 </div>

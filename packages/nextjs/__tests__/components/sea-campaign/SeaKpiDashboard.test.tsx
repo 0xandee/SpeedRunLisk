@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { SeaKpiDashboard } from '../../../app/_components/sea-campaign/SeaKpiDashboard';
+import { KpiDashboard as SeaKpiDashboard } from '../../../app/_components/sea-campaign/KpiDashboard';
 import * as reactQuery from '@tanstack/react-query';
 
 // Mock react-query
