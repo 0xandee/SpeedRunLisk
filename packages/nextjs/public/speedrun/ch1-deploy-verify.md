@@ -200,9 +200,6 @@ etherscan: {
 > **Lisk Sepolia Faucets:**
 >
 > - [Lisk Sepolia Faucet](https://docs.lisk.com/lisk-tools/faucets) - Official Lisk faucet
-> - [Alchemy Faucet](https://sepoliafaucet.com/) - Alternative faucet
-> - [Google Cloud Faucet](https://cloud.google.com/application/web3/faucet/ethereum/sepolia) - Another option
-
 
 🚀 Deploy your smart contracts with `yarn deploy`.
 
