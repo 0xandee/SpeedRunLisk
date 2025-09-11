@@ -55,6 +55,10 @@ export const Footer = () => {
           <Link href="https://lisksea.notion.site/" target="_blank" rel="noopener noreferrer" className="link">
             Notion
           </Link>
+          <span>•</span>
+          <Link href="https://t.me/LiskSEA" target="_blank" rel="noopener noreferrer" className="link">
+            Telegram Group
+          </Link>
         </div>
       </div>
     </div>
