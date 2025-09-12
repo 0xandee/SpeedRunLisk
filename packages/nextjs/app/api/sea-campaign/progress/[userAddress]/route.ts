@@ -54,7 +54,6 @@ export async function GET(req: NextRequest, props: { params: Promise<{ userAddre
               mentorFeedback: submission.mentorFeedback,
             }
           : null,
-        isOverdue: new Date() > new Date(challengeMetadata.dueDate),
       };
     });
 

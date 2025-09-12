@@ -113,9 +113,7 @@ export default function WeeklyChallengePage() {
     );
   }
 
-  const isOverdue = new Date() > new Date(challenge.dueDate);
   const challengeHasStarted = challengeVisibility?.isVisible || false;
-  const canSubmit = isConnected && !weeklyProgress?.completed && !isOverdue && challengeHasStarted;
 
   // Block access to challenges that haven't started yet
   if (!challengeHasStarted) {
@@ -283,20 +281,6 @@ export default function WeeklyChallengePage() {
                     </Link>
                   )}
                 </div> */}
-              </div>
-            </div>
-          ) : isOverdue ? (
-            <div className="card bg-error/10 border-2 border-error shadow-lg">
-              <div className="card-body text-center">
-                <h2 className="card-title text-error justify-center">⏰ Challenge Overdue</h2>
-                <p className="text-base-content/70">
-                  This challenge was due on {challenge.dueDate}. Submissions are no longer accepted.
-                </p>
-                <div className="card-actions justify-center mt-4">
-                  <Link href="/" className="btn btn-outline">
-                    Back to Home
-                  </Link>
-                </div>
               </div>
             </div>
           ) : !isConnected ? (
