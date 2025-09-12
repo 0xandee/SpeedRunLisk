@@ -6,7 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 import { SeaSubmissionForm } from "~~/app/_components/sea-campaign/SeaSubmissionForm";
 import { WeeklyLeaderboard } from "~~/app/_components/sea-campaign/WeeklyLeaderboard";
-import { SEA_CAMPAIGN_METADATA, getChallengeByWeek } from "~~/utils/sea-challenges";
+import { SEA_CAMPAIGN_METADATA, getChallengeByWeek, getSeaChallengeVisibilityStatus } from "~~/utils/sea-challenges";
 
 interface WeeklyProgress {
   weekNumber: number;
@@ -50,6 +50,7 @@ export default function WeeklyChallengePage() {
 
   const weekNumber = parseInt(params.weekNumber as string);
   const challenge = getChallengeByWeek(weekNumber);
+  const challengeVisibility = challenge ? getSeaChallengeVisibilityStatus(challenge.id) : null;
 
   const fetchUserProgress = useCallback(async () => {
     if (!address) return;
@@ -113,7 +114,8 @@ export default function WeeklyChallengePage() {
   }
 
   const isOverdue = new Date() > new Date(challenge.dueDate);
-  const canSubmit = isConnected && !weeklyProgress?.completed && !isOverdue;
+  const challengeHasStarted = challengeVisibility?.isVisible || false;
+  const canSubmit = isConnected && !weeklyProgress?.completed && !isOverdue && challengeHasStarted;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -257,6 +259,20 @@ export default function WeeklyChallengePage() {
                 <h2 className="card-title text-error justify-center">⏰ Challenge Overdue</h2>
                 <p className="text-base-content/70">
                   This challenge was due on {challenge.dueDate}. Submissions are no longer accepted.
+                </p>
+                <div className="card-actions justify-center mt-4">
+                  <Link href="/" className="btn btn-outline">
+                    Back to Home
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ) : !challengeHasStarted ? (
+            <div className="card bg-info/10 border-2 border-info shadow-lg">
+              <div className="card-body text-center">
+                <h2 className="card-title text-info justify-center">⏰ Challenge Not Yet Available</h2>
+                <p className="text-base-content/70 mb-4">
+                  This challenge will open on <strong>{challengeVisibility?.startDate?.toLocaleDateString()}</strong>. Please check back then!
                 </p>
                 <div className="card-actions justify-center mt-4">
                   <Link href="/" className="btn btn-outline">

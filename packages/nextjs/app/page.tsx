@@ -128,7 +128,7 @@ export default function HomePage() {
                 </div> */}
 
                 <div className="card-actions justify-end mt-4">
-                  {getSeaChallengeVisibilityStatus(challenge.id).status === "upcoming" && challenge.weekNumber !== 1 ? (
+                  {getSeaChallengeVisibilityStatus(challenge.id).status === "upcoming" ? (
                     <button className="btn btn-sm btn-outline btn-disabled" disabled>
                       Coming Soon
                     </button>
