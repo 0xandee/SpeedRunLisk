@@ -1,6 +1,6 @@
 # 💳🌽 Over-Collateralized Lending
 
-![readme-lending](https://speedrunlisk.com/hero/over-collateralized-lending.png)
+![readme-lending](https://speedrunlisk.xyz/hero/over-collateralized-lending.png)
 
 💳 Build your own lending and borrowing platform. Let's write a contract that takes collateral and lets you borrow other assets against the value of the collateral. What happens when the collateral changes in value? We will be able to borrow more if it is higher, or if it is lower, we will also build a system for liquidating the debt position.
 
@@ -876,6 +876,6 @@ This is great to complete your **SpeedRunLisk**.
 
 ---
 
-> 🏃 Head to your next challenge [here](https://speedrunlisk.com).
+> 🏃 Head to your next challenge [here](https://speedrunlisk.xyz).
 
 > 🙋‍♂️ Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)

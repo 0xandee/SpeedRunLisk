@@ -1,6 +1,6 @@
 # 🚩 Challenge: ⚖️ Build a DEX
 
-![readme-4](https://speedrunlisk.com/hero/dex.png)
+![readme-4](https://speedrunlisk.xyz/hero/dex.png)
 
 This challenge will help you build/understand a simple decentralized exchange, with one token-pair (ERC20 BALLOONS ($BAL) and ETH). This repo is an updated version of the [original tutorial](https://medium.com/@austin_48503/%EF%B8%8F-minimum-viable-exchange-d84f30bd0c90) and challenge repos before it. Please read the intro for a background on what we are building first!
 
@@ -765,6 +765,6 @@ Run the `yarn verify --network your_network` command to verify your contracts on
 
 ---
 
-> 🏃 Head to your next challenge [here](https://speedrunlisk.com).
+> 🏃 Head to your next challenge [here](https://speedrunlisk.xyz).
 
 > 💬 Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)

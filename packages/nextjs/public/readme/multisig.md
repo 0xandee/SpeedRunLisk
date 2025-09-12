@@ -1,6 +1,6 @@
 # 🚩 Challenge: 👛 Multisig Wallet
 
-![readme-6](https://speedrunlisk.com/hero/multisig.png)
+![readme-6](https://speedrunlisk.xyz/hero/multisig.png)
 
 👩‍👩‍👧‍👧 A multisig wallet is a smart contract that acts like a wallet, allowing us to secure assets by requiring multiple accounts to "vote" on transactions. Think of it as a treasure chest that can only be opened when all key parties agree.
 
@@ -245,6 +245,6 @@ Run the `yarn verify --network your_network` command to verify your contracts on
 
 > 👩‍❤️‍👨 Share your public url with friends, add signers and send some tasty ETH to a few lucky ones 😉!!
 
-> 🏃 Head to your next challenge [here](https://speedrunlisk.com).
+> 🏃 Head to your next challenge [here](https://speedrunlisk.xyz).
 
 > 💬 Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)

@@ -12,9 +12,9 @@ export async function trackPlausibleEvent(
   request?: Request,
 ) {
   const payload = {
-    domain: "speedrunlisk.com",
+    domain: "speedrunlisk.xyz",
     name: eventName,
-    url: `https://speedrunlisk.com`,
+    url: `https://speedrunlisk.xyz`,
     props,
   };
 

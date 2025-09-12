@@ -1,6 +1,6 @@
 # 💰 MyUSD Stablecoin
 
-![readme-stablecoin](https://speedrunlisk.com/hero/stablecoins.png)
+![readme-stablecoin](https://speedrunlisk.xyz/hero/stablecoins.png)
 
 🪙 Build your own decentralized stablecoin! In this challenge, you'll build the core engine for **MyUSD**, a crypto-backed stablecoin designed to maintain a peg to $1 USD.
 
@@ -30,7 +30,7 @@ Deploy your contracts to a testnet then build and upload your app to a public we
 
 📚 This challenge is modeled after one of the first crypto-backed stablecoins called Dai - back when the only thing backing it was ETH. Later Dai would allow multiple types of collateral and change its design somewhat. The version we are building is commonly referred to as "single collateral Dai".
 
-⚠️ You are highly encouraged to have completed the [Over-collateralized Lending challenge](https://speedrunlisk.com/challenge/over-collateralized-lending) prior to attempting this one since we will be building on that same basic system but won't be discussing it in detail.
+⚠️ You are highly encouraged to have completed the [Over-collateralized Lending challenge](https://speedrunlisk.xyz/challenge/over-collateralized-lending) prior to attempting this one since we will be building on that same basic system but won't be discussing it in detail.
 
 💬 Meet other builders working on this challenge and get help in the [Stablecoin Challenge Telegram](https://t.me/+y93US5WbP5dkNDFh)
 
@@ -1161,7 +1161,7 @@ Run the `yarn verify --network your_network` command to verify your contracts on
 
 > 🎉 Congratulations on completing the MyUSD Stablecoin Engine Challenge! You've gained valuable insights into the mechanics of decentralized stablecoins.
 
-> 🏃 Head to your next challenge [here](https://speedrunlisk.com).
+> 🏃 Head to your next challenge [here](https://speedrunlisk.xyz).
 
 > 💬 Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)
 

@@ -11,7 +11,7 @@ export const EIP_712_TYPED_DATA__USER_REGISTER = {
   primaryType: "Message",
   message: {
     action: "Register",
-    description: "I would like to register as a builder in speedrunlisk.com signing this offchain message",
+    description: "I would like to register as a builder in speedrunlisk.xyz signing this offchain message",
   },
 } as const;
 

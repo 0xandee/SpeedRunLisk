@@ -1,137 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://speedrunlisk.com</loc>
+    <loc>https://speedrunlisk.xyz</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/start</loc>
+    <loc>https://speedrunlisk.xyz/start</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides</loc>
+    <loc>https://speedrunlisk.xyz/guides</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/challenge/simple-nft-example</loc>
+    <loc>https://speedrunlisk.xyz/challenge/simple-nft-example</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/challenge/decentralized-staking</loc>
+    <loc>https://speedrunlisk.xyz/challenge/decentralized-staking</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/challenge/token-vendor</loc>
+    <loc>https://speedrunlisk.xyz/challenge/token-vendor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/challenge/dice-game</loc>
+    <loc>https://speedrunlisk.xyz/challenge/dice-game</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/challenge/dex</loc>
+    <loc>https://speedrunlisk.xyz/challenge/dex</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/challenge/multisig</loc>
+    <loc>https://speedrunlisk.xyz/challenge/multisig</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/challenge/svg-nft</loc>
+    <loc>https://speedrunlisk.xyz/challenge/svg-nft</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/erc721-vs-erc1155</loc>
+    <loc>https://speedrunlisk.xyz/guides/erc721-vs-erc1155</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/mastering-erc721</loc>
+    <loc>https://speedrunlisk.xyz/guides/mastering-erc721</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/nft-use-cases</loc>
+    <loc>https://speedrunlisk.xyz/guides/nft-use-cases</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/solidity-nft-security</loc>
+    <loc>https://speedrunlisk.xyz/guides/solidity-nft-security</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/liquid-staking-tokens</loc>
+    <loc>https://speedrunlisk.xyz/guides/liquid-staking-tokens</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/time-weighted-staking-rewards</loc>
+    <loc>https://speedrunlisk.xyz/guides/time-weighted-staking-rewards</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/sustainable-tokenomics-staking-protocols</loc>
+    <loc>https://speedrunlisk.xyz/guides/sustainable-tokenomics-staking-protocols</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/scalable-gas-solidity-staking</loc>
+    <loc>https://speedrunlisk.xyz/guides/scalable-gas-solidity-staking</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/how-to-create-erc20</loc>
+    <loc>https://speedrunlisk.xyz/guides/how-to-create-erc20</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/solidity-contract-to-contract-interactions</loc>
+    <loc>https://speedrunlisk.xyz/guides/solidity-contract-to-contract-interactions</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/erc20-approve-pattern</loc>
+    <loc>https://speedrunlisk.xyz/guides/erc20-approve-pattern</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/solidity-bonding-curves-token-pricing</loc>
+    <loc>https://speedrunlisk.xyz/guides/solidity-bonding-curves-token-pricing</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/sustainable-erc20-supply-models</loc>
+    <loc>https://speedrunlisk.xyz/guides/sustainable-erc20-supply-models</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/impermanent-loss-math-explained</loc>
+    <loc>https://speedrunlisk.xyz/guides/impermanent-loss-math-explained</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/flash-loan-exploits</loc>
+    <loc>https://speedrunlisk.xyz/guides/flash-loan-exploits</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/front-running-mev-mitigation</loc>
+    <loc>https://speedrunlisk.xyz/guides/front-running-mev-mitigation</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://speedrunlisk.com/guides/automated-market-makers-math</loc>
+    <loc>https://speedrunlisk.xyz/guides/automated-market-makers-math</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

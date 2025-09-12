@@ -1,6 +1,6 @@
 # 🚩 Challenge: 🏵 Token Vendor 🤖
 
-![readme](https://speedrunlisk.com/hero/token-vendor.png)
+![readme](https://speedrunlisk.xyz/hero/token-vendor.png)
 
 🤖 Smart contracts are kind of like "always on" _vending machines_ that **anyone** can access. Let's make a decentralized, digital currency. Then, let's build an unstoppable vending machine that will buy and sell the currency. We'll learn about the "approve" pattern for ERC20s and how contract to contract interactions work.
 
@@ -257,6 +257,6 @@ Run the `yarn verify --network your_network` command to verify your contracts on
 
 ---
 
-> 🏃 Head to your next challenge [here](https://speedrunlisk.com).
+> 🏃 Head to your next challenge [here](https://speedrunlisk.xyz).
 
 > 💬 Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)

@@ -1,6 +1,6 @@
 # 🚩 Challenge: 🎟 Simple NFT Example
 
-![readme-0](https://speedrunlisk.com/hero/simple-nft-example.png)
+![readme-0](https://speedrunlisk.xyz/hero/simple-nft-example.png)
 
 📚 This tutorial is meant for developers that already understand the [ 🖍️ basics ](https://www.youtube.com/watch?v=MlJPjJQZtC8).
 

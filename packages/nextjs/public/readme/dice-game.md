@@ -1,6 +1,6 @@
 # 🚩 Challenge: 🎲 Dice Game
 
-![readme-3](https://speedrunlisk.com/hero/dice-game.png)
+![readme-3](https://speedrunlisk.xyz/hero/dice-game.png)
 
 > 🎰 Randomness is tricky on a public deterministic blockchain. The block hash is an easy to use, but very weak form of randomness. This challenge will give you an example of a contract using block hash to create random numbers. This randomness is exploitable. Other, stronger forms of randomness include commit/reveal schemes, oracles, or VRF from Chainlink.
 

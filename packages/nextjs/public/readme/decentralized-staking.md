@@ -1,6 +1,6 @@
 # 🚩 Challenge: 🔏 Decentralized Staking App
 
-![readme-1](https://speedrunlisk.com/hero/decentralized-staking.png)
+![readme-1](https://speedrunlisk.xyz/hero/decentralized-staking.png)
 
 🦸 A superpower of Ethereum is allowing you, the builder, to create a simple set of rules that an adversarial group of players can use to work together. In this challenge, you create a decentralized application where users can coordinate a group funding effort. If the users cooperate, the money is collected in a second smart contract. If they defect, the worst that can happen is everyone gets their money back. The users only have to trust the code.
 
@@ -287,6 +287,7 @@ For production-grade applications, it's recommended to obtain your own API keys 
 Run the `yarn verify --network your_network` command to verify your contracts on the block explorer 🛰
 
 👉 Search this address on:
+
 - [Lisk Sepolia Blockscout](https://sepolia-blockscout.lisk.com/) if you deployed to Lisk Sepolia
 - [Sepolia Etherscan](https://sepolia.etherscan.io/) if you deployed to Ethereum Sepolia
 - [Optimism Sepolia Etherscan](https://sepolia-optimism.etherscan.io/) if you deployed to OP Sepolia
@@ -295,7 +296,7 @@ Get the URL you submit to 🏃‍♀️[SpeedRunLisk.xyz](https://speedrunlisk.x
 
 ---
 
-> 🏃 Head to your next challenge [here](https://speedrunlisk.com).
+> 🏃 Head to your next challenge [here](https://speedrunlisk.xyz).
 
 > 💬 Problems, questions, comments on the stack? Post them to the [🏗 scaffold-eth developers chat](https://t.me/joinchat/F7nCRK3kI93PoCOk)
 

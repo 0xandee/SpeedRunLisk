@@ -1,6 +1,6 @@
 export const SPEEDRUN_METADATA = {
   "ch1-deploy-verify": {
-    title: "🚀 Deploy & Verify Your First Contracts",
+    title: "Deploy & Verify Your First Contracts",
     description: "Learn to deploy and verify ERC20 token and ERC721 NFT contracts on Lisk Sepolia testnet",
     previewImage: "/hero/ch1-deploy-verify.png",
     difficulty: "Beginner",
@@ -18,7 +18,7 @@ export const SPEEDRUN_METADATA = {
     ]
   },
   "ch2-frontend-connect": {
-    title: "🔗 Frontend Connect",
+    title: "Frontend Connect",
     description: "Connect your smart contracts to a React/Next.js frontend with wallet integration",
     previewImage: "/hero/ch2-frontend-connect.png",
     difficulty: "Beginner",
@@ -32,7 +32,7 @@ export const SPEEDRUN_METADATA = {
     ]
   },
   "ch3-index-display": {
-    title: "📊 Indexing & Display",
+    title: "Indexing & Display",
     description: "Index blockchain data and display it in your frontend with pagination",
     previewImage: "/hero/ch3-index-display.png",
     difficulty: "Intermediate",
@@ -46,7 +46,7 @@ export const SPEEDRUN_METADATA = {
     ]
   },
   "ch4-oracle-sponsored": {
-    title: "🔮 Oracle + Sponsored UX",
+    title: "Oracle + Sponsored UX",
     description: "Integrate price oracles or implement gasless transactions for better UX",
     previewImage: "/hero/ch4-oracle-sponsored.png",
     difficulty: "Intermediate",
@@ -60,7 +60,7 @@ export const SPEEDRUN_METADATA = {
     ]
   },
   "ch5-nft-badge-game": {
-    title: "🎮 NFT Badge / Mini-Game",
+    title: "NFT Badge / Mini-Game",
     description: "Create an interactive NFT badge system or simple on-chain game",
     previewImage: "/hero/ch5-nft-badge-game.png",
     difficulty: "Advanced",
@@ -74,7 +74,7 @@ export const SPEEDRUN_METADATA = {
     ]
   },
   "ch6-mini-dex-lending": {
-    title: "💰 Mini-DEX / Lending App",
+    title: "Mini-DEX / Lending App",
     description: "Build a simple DEX, lending protocol, or prediction market",
     previewImage: "/hero/ch6-mini-dex-lending.png",
     difficulty: "Advanced",
@@ -133,22 +133,22 @@ export const getSpeedrunsByDifficulty = (difficulty: string) => {
 export const getNextSpeedrun = (currentSpeedrunId: SpeedrunId): SpeedrunMetadata | null => {
   const allSpeedruns = getAllSpeedruns().sort((a, b) => a.week - b.week);
   const currentIndex = allSpeedruns.findIndex(s => s.id === currentSpeedrunId);
-  
+
   if (currentIndex === -1 || currentIndex === allSpeedruns.length - 1) {
     return null;
   }
-  
+
   return allSpeedruns[currentIndex + 1];
 };
 
 export const getPreviousSpeedrun = (currentSpeedrunId: SpeedrunId): SpeedrunMetadata | null => {
   const allSpeedruns = getAllSpeedruns().sort((a, b) => a.week - b.week);
   const currentIndex = allSpeedruns.findIndex(s => s.id === currentSpeedrunId);
-  
+
   if (currentIndex <= 0) {
     return null;
   }
-  
+
   return allSpeedruns[currentIndex - 1];
 };
 
@@ -168,7 +168,7 @@ export const getDifficultyColor = (difficulty: string): string => {
 export const getProgressForWeek = (week: number, completedSpeedruns: SpeedrunId[]): number => {
   const weekSpeedruns = getSpeedrunsByWeek(week);
   if (weekSpeedruns.length === 0) return 0;
-  
+
   const completedCount = weekSpeedruns.filter(s => completedSpeedruns.includes(s.id)).length;
   return Math.round((completedCount / weekSpeedruns.length) * 100);
 };
