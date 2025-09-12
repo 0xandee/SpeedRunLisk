@@ -92,10 +92,10 @@ export const COMPLETION_BONUS_STRUCTURE = {
   totalBudget: 2000
 } as const;
 
-// Calculate start date from due date (7 days earlier)
+// Calculate start date from due date (6 days earlier)
 export const getChallengeStartDate = (dueDate: string): string => {
   const dueDateObj = new Date(dueDate);
-  const startDateObj = new Date(dueDateObj.getTime() - (7 * 24 * 60 * 60 * 1000)); // 7 days before
+  const startDateObj = new Date(dueDateObj.getTime() - (6 * 24 * 60 * 60 * 1000)); // 6 days before
   return startDateObj.toISOString().split('T')[0];
 };
 

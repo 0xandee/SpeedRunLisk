@@ -117,6 +117,38 @@ export default function WeeklyChallengePage() {
   const challengeHasStarted = challengeVisibility?.isVisible || false;
   const canSubmit = isConnected && !weeklyProgress?.completed && !isOverdue && challengeHasStarted;
 
+  // Block access to challenges that haven't started yet
+  if (!challengeHasStarted) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="card bg-info/10 border-2 border-info shadow-lg max-w-2xl mx-auto mt-20">
+          <div className="card-body text-center">
+            <h1 className="text-3xl font-bold text-info mb-4">🔒 Challenge Not Yet Available</h1>
+            <p className="text-lg text-base-content/70 mb-4">
+              Week {weekNumber} challenge will be unlocked on:
+            </p>
+            <p className="text-2xl font-bold text-primary mb-6">
+              {challengeVisibility?.startDate?.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}
+            </p>
+            <p className="text-base-content/60 mb-6">
+              Check back then to view the challenge details and submit your solution!
+            </p>
+            <div className="card-actions justify-center">
+              <Link href="/" className="btn btn-primary">
+                Back to Home
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
@@ -259,20 +291,6 @@ export default function WeeklyChallengePage() {
                 <h2 className="card-title text-error justify-center">⏰ Challenge Overdue</h2>
                 <p className="text-base-content/70">
                   This challenge was due on {challenge.dueDate}. Submissions are no longer accepted.
-                </p>
-                <div className="card-actions justify-center mt-4">
-                  <Link href="/" className="btn btn-outline">
-                    Back to Home
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ) : !challengeHasStarted ? (
-            <div className="card bg-info/10 border-2 border-info shadow-lg">
-              <div className="card-body text-center">
-                <h2 className="card-title text-info justify-center">⏰ Challenge Not Yet Available</h2>
-                <p className="text-base-content/70 mb-4">
-                  This challenge will open on <strong>{challengeVisibility?.startDate?.toLocaleDateString()}</strong>. Please check back then!
                 </p>
                 <div className="card-actions justify-center mt-4">
                   <Link href="/" className="btn btn-outline">
