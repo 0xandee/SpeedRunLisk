@@ -6261,6 +6261,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vercel/analytics@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@vercel/analytics@npm:1.5.0"
+  peerDependencies:
+    "@remix-run/react": ^2
+    "@sveltejs/kit": ^1 || ^2
+    next: ">= 13"
+    react: ^18 || ^19 || ^19.0.0-rc
+    svelte: ">= 4"
+    vue: ^3
+    vue-router: ^4
+  peerDependenciesMeta:
+    "@remix-run/react":
+      optional: true
+    "@sveltejs/kit":
+      optional: true
+    next:
+      optional: true
+    react:
+      optional: true
+    svelte:
+      optional: true
+    vue:
+      optional: true
+    vue-router:
+      optional: true
+  checksum: 60991e558ce459ef0fdd3f3b4ccb657453507083ff879570c43cfe613e5a37f6fdae5146926f3cdeba48db9943a4cfd203be6c5d55de44294cf892526b603877
+  languageName: node
+  linkType: hard
+
 "@vercel/build-utils@npm:8.6.0":
   version: 8.6.0
   resolution: "@vercel/build-utils@npm:8.6.0"
@@ -19094,6 +19124,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "speedrun-lisk@workspace:."
   dependencies:
+    "@vercel/analytics": ^1.5.0
     husky: ~9.1.6
     lint-staged: ~13.2.2
   languageName: unknown

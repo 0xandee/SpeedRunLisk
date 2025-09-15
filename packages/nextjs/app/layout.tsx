@@ -1,6 +1,7 @@
 import { Space_Grotesk } from "next/font/google";
 import "@rainbow-me/rainbowkit/styles.css";
 import PlausibleProvider from "next-plausible";
+import { Analytics } from "@vercel/analytics/next";
 import AcquisitionTracker from "~~/components/AcquisitionTracker";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
 import { ThemeProvider } from "~~/components/ThemeProvider";
@@ -28,6 +29,7 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
           <AcquisitionTracker />
           <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
