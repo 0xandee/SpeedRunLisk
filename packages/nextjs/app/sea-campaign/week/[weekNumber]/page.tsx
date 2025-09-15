@@ -126,11 +126,11 @@ export default function WeeklyChallengePage() {
               Week {weekNumber} challenge will be unlocked on:
             </p>
             <p className="text-2xl font-bold text-primary mb-6">
-              {challengeVisibility?.startDate?.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+              {challengeVisibility?.startDate?.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
               })}
             </p>
             <p className="text-base-content/60 mb-6">
@@ -220,7 +220,20 @@ export default function WeeklyChallengePage() {
                 </ul>
 
                 <h3>📹 Video Guide</h3>
-                <p className="text-base-content/70">{challenge.videoUrl}</p>
+                {typeof challenge.videoUrl === 'object' && challenge.videoUrl.url ? (
+                  <a
+                    href={challenge.videoUrl.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link link-primary "
+                  >
+                    {challenge.videoUrl.text}
+                  </a>
+                ) : (
+                  <p className="text-base-content/70">
+                    {typeof challenge.videoUrl === 'object' ? challenge.videoUrl.text : challenge.videoUrl}
+                  </p>
+                )}
 
                 <h3>📱 Social Media Requirements</h3>
                 <div className="flex flex-wrap items-center gap-2 my-2">
