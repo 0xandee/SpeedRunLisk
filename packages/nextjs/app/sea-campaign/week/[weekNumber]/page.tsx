@@ -1,23 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 import { SeaSubmissionForm } from "~~/app/_components/sea-campaign/SeaSubmissionForm";
 import { WeeklyLeaderboard } from "~~/app/_components/sea-campaign/WeeklyLeaderboard";
+import { WeeklyProgress, useSeaCampaignProgress } from "~~/hooks/useSeaCampaignProgress";
 import { SEA_CAMPAIGN_METADATA, getChallengeByWeek, getSeaChallengeVisibilityStatus } from "~~/utils/sea-challenges";
-
-interface WeeklyProgress {
-  weekNumber: number;
-  completed: boolean;
-  submission?: {
-    id: number;
-    submissionDate: string;
-    reviewStatus: string;
-    mentorFeedback?: string;
-  };
-}
 
 interface LeaderboardEntry {
   rank: number;
@@ -44,7 +34,6 @@ export default function WeeklyChallengePage() {
   const params = useParams();
   const router = useRouter();
   const { address, isConnected } = useAccount();
-  const [weeklyProgress, setWeeklyProgress] = useState<WeeklyProgress | null>(null);
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardData | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -52,29 +41,8 @@ export default function WeeklyChallengePage() {
   const challenge = getChallengeByWeek(weekNumber);
   const challengeVisibility = challenge ? getSeaChallengeVisibilityStatus(challenge.id) : null;
 
-  const fetchUserProgress = useCallback(async () => {
-    if (!address) return;
-
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/sea-campaign/progress/${address}`);
-      if (response.ok) {
-        const data = await response.json();
-        const weekProgress = data.weeklyProgress?.find((w: WeeklyProgress) => w.weekNumber === weekNumber);
-        setWeeklyProgress(weekProgress || null);
-      }
-    } catch (error) {
-      console.error("Failed to fetch user progress:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [address, weekNumber]);
-
-  useEffect(() => {
-    if (address && challenge) {
-      fetchUserProgress();
-    }
-  }, [address, challenge, fetchUserProgress]);
+  const { data: userProgressData, refetch: refetchUserProgress } = useSeaCampaignProgress(address);
+  const weeklyProgress = userProgressData?.weeklyProgress?.find(w => w.weekNumber === weekNumber) || null;
 
   useEffect(() => {
     fetchLeaderboard();
@@ -96,7 +64,7 @@ export default function WeeklyChallengePage() {
   };
 
   const handleSubmissionSuccess = () => {
-    fetchUserProgress(); // Refresh progress after successful submission
+    refetchUserProgress(); // Refresh progress after successful submission
   };
 
   if (!challenge) {
@@ -122,15 +90,13 @@ export default function WeeklyChallengePage() {
         <div className="card bg-info/10 border-2 border-info shadow-lg max-w-2xl mx-auto mt-20">
           <div className="card-body text-center">
             <h1 className="text-3xl font-bold text-info mb-4">🔒 Challenge Not Yet Available</h1>
-            <p className="text-lg text-base-content/70 mb-4">
-              Week {weekNumber} challenge will be unlocked on:
-            </p>
+            <p className="text-lg text-base-content/70 mb-4">Week {weekNumber} challenge will be unlocked on:</p>
             <p className="text-2xl font-bold text-primary mb-6">
-              {challengeVisibility?.startDate?.toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+              {challengeVisibility?.startDate?.toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
               })}
             </p>
             <p className="text-base-content/60 mb-6">
@@ -220,7 +186,7 @@ export default function WeeklyChallengePage() {
                 </ul>
 
                 <h3>📹 Video Guide</h3>
-                {typeof challenge.videoUrl === 'object' && challenge.videoUrl.url ? (
+                {typeof challenge.videoUrl === "object" && challenge.videoUrl.url ? (
                   <a
                     href={challenge.videoUrl.url}
                     target="_blank"
@@ -231,7 +197,7 @@ export default function WeeklyChallengePage() {
                   </a>
                 ) : (
                   <p className="text-base-content/70">
-                    {typeof challenge.videoUrl === 'object' ? challenge.videoUrl.text : challenge.videoUrl}
+                    {typeof challenge.videoUrl === "object" ? challenge.videoUrl.text : challenge.videoUrl}
                   </p>
                 )}
 
@@ -263,12 +229,13 @@ export default function WeeklyChallengePage() {
                     <p className="text-sm">
                       <strong>Status:</strong>
                       <span
-                        className={`ml-2 badge ${weeklyProgress.submission?.reviewStatus === "APPROVED"
-                          ? "badge-success"
-                          : weeklyProgress.submission?.reviewStatus === "REJECTED"
-                            ? "badge-error"
-                            : "badge-warning"
-                          }`}
+                        className={`ml-2 badge ${
+                          weeklyProgress.submission?.reviewStatus === "APPROVED"
+                            ? "badge-success"
+                            : weeklyProgress.submission?.reviewStatus === "REJECTED"
+                              ? "badge-error"
+                              : "badge-warning"
+                        }`}
                       >
                         {weeklyProgress.submission?.reviewStatus}
                       </span>

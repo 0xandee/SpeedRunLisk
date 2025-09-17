@@ -64,7 +64,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ userAddre
     // Get next week to work on
     const nextWeek = weeklyProgress.find(w => !w.completed);
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       userAddress,
       isParticipant: !!progress,
       registrationDate: progress?.registrationDate || null,
@@ -95,6 +95,11 @@ export async function GET(req: NextRequest, props: { params: Promise<{ userAddre
         rejectedSubmissions: submissions.filter(s => s.reviewStatus === "REJECTED").length,
       },
     });
+
+    // Add cache headers to reduce API requests
+    response.headers.set("Cache-Control", "public, max-age=300, stale-while-revalidate=60");
+
+    return response;
   } catch (error) {
     console.error("Error fetching user progress:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
