@@ -34,16 +34,20 @@ export async function fetchLocalChallengeReadme(githubString: string): Promise<s
 }
 
 export async function fetchLocalSpeedrunReadme(speedrunId: string): Promise<string> {
-  const fs = await import("fs/promises");
-  const path = await import("path");
-
-  const filePath = path.join(process.cwd(), "public", "speedrun", `${speedrunId}.md`);
+  // Use fetch instead of fs.readFile to work in production environments like Vercel
+  const url = `/speedrun/${speedrunId}.md`;
 
   try {
-    const content = await fs.readFile(filePath, "utf-8");
+    const response = await fetch(new URL(url, process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"));
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch speedrun file: ${response.status} ${response.statusText}`);
+    }
+
+    const content = await response.text();
     return content;
   } catch (error) {
-    throw new Error(`Failed to read speedrun file: ${filePath}. ${error}`);
+    throw new Error(`Failed to read speedrun file: ${url}. ${error}`);
   }
 }
 

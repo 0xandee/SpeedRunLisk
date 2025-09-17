@@ -7,7 +7,7 @@ export const SEA_CAMPAIGN_METADATA = {
     guides: ["/speedrun/ch1-deploy-verify"],
     videoUrl: {
       text: "V1 (10m): From zero → first deploy & verify",
-      url: "https://www.youtube.com/watch?v=cX_9shLr0_E",
+      url: "https://youtu.be/Xw9S9Y2DYDg",
     },
     socialHashtags: ["#SpeedrunLiskSEA", "#W1", "@LiskSEA"],
     requiredSubmissions: ["contract_address", "tx_hash", "github_url", "social_post_url"],
