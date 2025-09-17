@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
+import { useSeaCampaignProgress } from "~~/hooks/useSeaCampaignProgress";
 import {
   SEA_CAMPAIGN_CONFIG,
   SEA_CAMPAIGN_METADATA,
@@ -12,52 +12,12 @@ import {
   getSeaChallengeVisibilityStatus,
 } from "~~/utils/sea-challenges";
 
-interface UserProgress {
-  isParticipant: boolean;
-  progress: {
-    totalWeeksCompleted: number;
-    completionPercentage: number;
-    isGraduated: boolean;
-  };
-  nextWeek?: {
-    weekNumber: number;
-    title: string;
-    challengeId: string;
-  };
-}
-
 export default function HomePage() {
   const { address, isConnected } = useAccount();
   const router = useRouter();
-  const [userProgress, setUserProgress] = useState<UserProgress | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [lastFetchedAddress, setLastFetchedAddress] = useState<string | undefined>();
 
+  const { data: userProgress, isLoading: loading } = useSeaCampaignProgress(address);
   const challenges = getAllSeaChallenges();
-
-  const fetchUserProgress = useCallback(async () => {
-    if (!address) return;
-
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/sea-campaign/progress/${address}`);
-      if (response.ok) {
-        const data = await response.json();
-        setUserProgress(data);
-      }
-    } catch (error) {
-      console.error("Failed to fetch user progress:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [address]);
-
-  useEffect(() => {
-    if (address && address !== lastFetchedAddress) {
-      fetchUserProgress();
-      setLastFetchedAddress(address);
-    }
-  }, [address, fetchUserProgress]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -100,12 +60,13 @@ export default function HomePage() {
           {challenges.map((challenge, index) => (
             <div
               key={challenge.id}
-              className={`card shadow-lg transition-all hover:shadow-xl border-2 ${(userProgress?.progress?.totalWeeksCompleted ?? 0) >= challenge.weekNumber
-                ? "border-success bg-success/10"
-                : userProgress?.nextWeek?.weekNumber === challenge.weekNumber
-                  ? "border-primary bg-primary/10"
-                  : "border-base-300 bg-base-100"
-                }`}
+              className={`card shadow-lg transition-all hover:shadow-xl border-2 ${
+                (userProgress?.progress?.totalWeeksCompleted ?? 0) >= challenge.weekNumber
+                  ? "border-success bg-success/10"
+                  : userProgress?.nextWeek?.weekNumber === challenge.weekNumber
+                    ? "border-primary bg-primary/10"
+                    : "border-base-300 bg-base-100"
+              }`}
             >
               <div className="card-body">
                 <div className="flex items-center justify-between mb-3">
