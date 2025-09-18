@@ -148,11 +148,13 @@ const { data: tokenBalance } = useScaffoldContractRead({
 This hook handles writing transactions to your smart contracts:
 
 ```typescript
-const { writeContractAsync: writeMyTokenAsync } = useScaffoldContractWrite("MyToken");
+const { writeAsync: writeMyTokenAsync } = useScaffoldContractWrite({
+  contractName: "MyToken",
+  functionName: "transfer",
+});
 
 // Later in your component
 await writeMyTokenAsync({
-  functionName: "transfer",
   args: [recipient, amount],
 });
 ```
@@ -261,9 +263,8 @@ Create `packages/nextjs/components/example-ui/TokenBalance.tsx`:
 ```tsx
 "use client";
 
-import { useState } from "react";
 import { useAccount } from "wagmi";
-import { Address, Balance } from "~~/components/scaffold-eth";
+import { Address } from "~~/components/scaffold-eth";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 export const TokenBalance = () => {
@@ -401,7 +402,6 @@ Create `packages/nextjs/components/example-ui/TokenTransfer.tsx`:
 import { useState } from "react";
 import { parseEther } from "viem";
 import { useAccount } from "wagmi";
-import { Address } from "~~/components/scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
 
@@ -410,7 +410,10 @@ export const TokenTransfer = () => {
   const [recipient, setRecipient] = useState("");
   const [amount, setAmount] = useState("");
 
-  const { writeContractAsync: writeMyTokenAsync } = useScaffoldContractWrite("MyToken");
+  const { writeAsync: writeMyTokenAsync } = useScaffoldContractWrite({
+    contractName: "MyToken",
+    functionName: "transfer",
+  });
 
   const handleTransfer = async () => {
     if (!recipient || !amount) {
@@ -420,7 +423,6 @@ export const TokenTransfer = () => {
 
     try {
       await writeMyTokenAsync({
-        functionName: "transfer",
         args: [recipient, parseEther(amount)],
       });
 
@@ -500,7 +502,10 @@ const [amount, setAmount] = useState(""); // Token amount to send
 #### **Contract Write Hook Setup**
 
 ```typescript
-const { writeContractAsync: writeMyTokenAsync } = useScaffoldContractWrite("MyToken");
+const { writeAsync: writeMyTokenAsync } = useScaffoldContractWrite({
+  contractName: "MyToken",
+  functionName: "transfer",
+});
 ```
 
 This gives us a function to call contract methods that modify state (require transactions).
@@ -518,7 +523,6 @@ const handleTransfer = async () => {
   try {
     // 2. Send transaction
     await writeMyTokenAsync({
-      functionName: "transfer",
       args: [recipient, parseEther(amount)], // Convert to Wei
     });
 
@@ -614,7 +618,10 @@ export const NFTCollection = () => {
     args: [connectedAddress],
   });
 
-  const { writeContractAsync: writeMyNFTAsync } = useScaffoldContractWrite("MyNFT");
+  const { writeAsync: writeMyNFTAsync } = useScaffoldContractWrite({
+    contractName: "MyNFT",
+    functionName: "mint",
+  });
 
   const handleMint = async () => {
     const targetAddress = mintToAddress || connectedAddress;
@@ -626,7 +633,6 @@ export const NFTCollection = () => {
 
     try {
       await writeMyNFTAsync({
-        functionName: "mint",
         args: [targetAddress],
       });
 
@@ -728,7 +734,6 @@ const handleMint = async () => {
   const targetAddress = mintToAddress || connectedAddress;
 
   await writeMyNFTAsync({
-    functionName: "mint",
     args: [targetAddress], // Mint to target address
   });
 };
@@ -785,25 +790,15 @@ const Home: NextPage = () => {
   return (
     <>
       <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Lisk Builder dApp</span>
-          </h1>
-          <div className="flex justify-center items-center space-x-2">
-            <p className="my-2 font-medium">Connected to your Week 1 contracts</p>
-          </div>
-        </div>
-
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
+          <div className="flex justify-center items-center gap-6 flex-col sm:flex-row">
+            <div className="flex flex-col px-10 py-10 text-center items-center rounded-3xl">
               <TokenBalance />
             </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
+            <div className="flex flex-col px-10 py-10 text-center items-center rounded-3xl">
               <TokenTransfer />
             </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
+            <div className="flex flex-col px-10 py-10 text-center items-center rounded-3xl">
               <NFTCollection />
             </div>
           </div>
