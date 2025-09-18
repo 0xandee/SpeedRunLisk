@@ -859,12 +859,14 @@ git push origin main
    - Connect your GitHub repository
    - Configure environment variables in Vercel dashboard
    - Deploy!
+   - For more details: https://vercel.com/docs/git
 
 3. **Alternative: Deploy to Netlify**:
    - Build the app: `yarn build`
    - Go to [netlify.com](https://netlify.com)
    - Drag and drop your `dist` folder
    - Configure environment variables
+   - For more details: https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/
 
 ### Test Your Deployed dApp
 
