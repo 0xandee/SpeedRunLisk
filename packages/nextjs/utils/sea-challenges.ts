@@ -117,10 +117,18 @@ export const getChallengeStartDate = (dueDate: string): string => {
   return startDateObj.toISOString().split('T')[0];
 };
 
+// Special account that gets full access to all challenges
+const SPECIAL_ACCESS_ACCOUNT = "0xeffB943a01dDeC6bA3C94B7A3e65600AB3255d0A";
+
 // SEA Campaign timing utilities
-export const getSeaChallengeVisibilityStatus = (challengeId: string) => {
+export const getSeaChallengeVisibilityStatus = (challengeId: string, userAddress?: string) => {
   const metadata = SEA_CAMPAIGN_METADATA[challengeId as keyof typeof SEA_CAMPAIGN_METADATA];
   if (!metadata) return { isVisible: false, status: 'not_found' };
+
+  // Grant full access to special account
+  if (userAddress && userAddress.toLowerCase() === SPECIAL_ACCESS_ACCOUNT.toLowerCase()) {
+    return { isVisible: true, status: 'active', startDate: new Date(getChallengeStartDate(metadata.dueDate)) };
+  }
 
   const now = new Date();
   const startDate = new Date(getChallengeStartDate(metadata.dueDate));

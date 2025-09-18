@@ -39,7 +39,7 @@ export default function WeeklyChallengePage() {
 
   const weekNumber = parseInt(params.weekNumber as string);
   const challenge = getChallengeByWeek(weekNumber);
-  const challengeVisibility = challenge ? getSeaChallengeVisibilityStatus(challenge.id) : null;
+  const challengeVisibility = challenge ? getSeaChallengeVisibilityStatus(challenge.id, address) : null;
 
   const { data: userProgressData, refetch: refetchUserProgress } = useSeaCampaignProgress(address);
   const weeklyProgress = userProgressData?.weeklyProgress?.find(w => w.weekNumber === weekNumber) || null;
