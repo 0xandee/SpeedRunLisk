@@ -34,31 +34,41 @@ export async function fetchLocalChallengeReadme(githubString: string): Promise<s
 }
 
 export async function fetchLocalSpeedrunReadme(speedrunId: string): Promise<string> {
-  // Try filesystem first (works in dev and build time)
-  try {
-    const fs = await import("fs/promises");
-    const path = await import("path");
-    const filePath = path.join(process.cwd(), "public", "speedrun", `${speedrunId}.md`);
-    const content = await fs.readFile(filePath, "utf-8");
-    return content;
-  } catch (fsError) {
-    // Fallback to fetching from public URL (works in serverless environments)
+  // In development or build time, try filesystem first
+  if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
     try {
-      // Use the current host or fallback to production URL
-      const baseUrl = process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : process.env.NEXT_PUBLIC_APP_URL || "https://www.speedrunlisk.xyz";
-
-      const response = await fetch(`${baseUrl}/speedrun/${speedrunId}.md`);
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      return await response.text();
-    } catch (fetchError) {
-      throw new Error(`Failed to read speedrun file: ${speedrunId}.md. FS error: ${fsError}. Fetch error: ${fetchError}`);
+      const fs = await import("fs/promises");
+      const path = await import("path");
+      const filePath = path.join(process.cwd(), "public", "speedrun", `${speedrunId}.md`);
+      const content = await fs.readFile(filePath, "utf-8");
+      return content;
+    } catch (fsError) {
+      console.warn(`Filesystem read failed in development: ${fsError}`);
     }
+  }
+
+  // For production runtime or fallback, fetch from public URL
+  try {
+    // Use the configured app URL for reliable fetching
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.speedrunlisk.xyz";
+    const response = await fetch(`${baseUrl}/speedrun/${speedrunId}.md`, {
+      // Add cache control for better reliability
+      cache: "force-cache",
+      next: { revalidate: 21600 }, // 6 hours
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const content = await response.text();
+    if (!content || content.trim().length === 0) {
+      throw new Error("Empty content received");
+    }
+
+    return content;
+  } catch (fetchError) {
+    throw new Error(`Failed to fetch speedrun file: ${speedrunId}.md. Error: ${fetchError}`);
   }
 }
 

@@ -10,6 +10,9 @@ import { SPEEDRUN_METADATA } from "~~/utils/speedruns";
 // 6 hours
 export const revalidate = 21600;
 
+// Force static generation for all speedrun pages
+export const dynamic = 'force-static';
+
 export async function generateStaticParams() {
   // Get all speedrun files from public/speedrun directory
   const speedrunIds = [
