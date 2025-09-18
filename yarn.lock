@@ -19127,6 +19127,7 @@ __metadata:
     "@vercel/analytics": ^1.5.0
     husky: ~9.1.6
     lint-staged: ~13.2.2
+    tsx: ^4.20.5
   languageName: unknown
   linkType: soft
 
@@ -20211,7 +20212,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:^4.19.2":
+"tsx@npm:^4.19.2, tsx@npm:^4.20.5":
   version: 4.20.5
   resolution: "tsx@npm:4.20.5"
   dependencies:
