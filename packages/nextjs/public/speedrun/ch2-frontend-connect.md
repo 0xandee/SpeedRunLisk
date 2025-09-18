@@ -413,6 +413,7 @@ export const TokenTransfer = () => {
   const { writeAsync: writeMyTokenAsync } = useScaffoldContractWrite({
     contractName: "MyToken",
     functionName: "transfer",
+    args: [recipient, parseEther(amount)],
   });
 
   const handleTransfer = async () => {
@@ -621,6 +622,7 @@ export const NFTCollection = () => {
   const { writeAsync: writeMyNFTAsync } = useScaffoldContractWrite({
     contractName: "MyNFT",
     functionName: "mint",
+    args: [mintToAddress || connectedAddress],
   });
 
   const handleMint = async () => {
