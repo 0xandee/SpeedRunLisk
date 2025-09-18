@@ -12,17 +12,26 @@ export const Mermaid = ({ chart, id }: MermaidProps) => {
   const mermaidRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: "dark",
-      securityLevel: "loose",
-    });
+    const renderChart = async () => {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: "dark",
+        securityLevel: "loose",
+      });
 
-    if (mermaidRef.current) {
-      const uniqueId = id || `mermaid-${Date.now()}`;
-      mermaidRef.current.innerHTML = `<div class="mermaid" id="${uniqueId}">${chart}</div>`;
-      mermaid.contentLoaded();
-    }
+      if (mermaidRef.current) {
+        const uniqueId = id || `mermaid-${Date.now()}`;
+        try {
+          const { svg } = await mermaid.render(uniqueId, chart);
+          mermaidRef.current.innerHTML = svg;
+        } catch (error) {
+          console.error("Mermaid rendering error:", error);
+          mermaidRef.current.innerHTML = `<div class="text-red-500 p-4">Error rendering diagram: ${error}</div>`;
+        }
+      }
+    };
+
+    renderChart();
   }, [chart, id]);
 
   return (
