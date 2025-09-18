@@ -43,7 +43,10 @@ export const buildCategoryEnum = pgEnum("build_category_enum", BuildCategory);
 export const batchNetworkEnum = pgEnum("batch_network", BatchNetwork);
 
 // SEA Campaign Enums
-export const seaCampaignSubmissionStatusEnum = pgEnum("sea_campaign_submission_status_enum", SeaCampaignSubmissionStatus);
+export const seaCampaignSubmissionStatusEnum = pgEnum(
+  "sea_campaign_submission_status_enum",
+  SeaCampaignSubmissionStatus,
+);
 export const seaCampaignRewardTypeEnum = pgEnum("sea_campaign_reward_type_enum", SeaCampaignRewardType);
 export const seaCampaignPaymentStatusEnum = pgEnum("sea_campaign_payment_status_enum", SeaCampaignPaymentStatus);
 
@@ -269,7 +272,7 @@ export const seaCampaignSubmissions = pgTable(
     index("sea_submissions_user_idx").on(table.userAddress),
     index("sea_submissions_status_idx").on(table.reviewStatus),
     uniqueIndex("sea_submissions_user_week_unique").on(table.userAddress, table.weekNumber),
-  ]
+  ],
 );
 
 export const seaCampaignProgress = pgTable(
@@ -294,7 +297,7 @@ export const seaCampaignProgress = pgTable(
   table => [
     index("sea_progress_user_idx").on(table.userAddress),
     uniqueIndex("sea_progress_user_unique").on(table.userAddress),
-  ]
+  ],
 );
 
 export const seaCampaignRewards = pgTable(
@@ -312,10 +315,7 @@ export const seaCampaignRewards = pgTable(
     paymentStatus: seaCampaignPaymentStatusEnum().default(SeaCampaignPaymentStatus.PENDING),
     paymentTxHash: varchar({ length: 66 }),
   },
-  table => [
-    index("sea_rewards_user_idx").on(table.userAddress),
-    index("sea_rewards_week_idx").on(table.weekNumber),
-  ]
+  table => [index("sea_rewards_user_idx").on(table.userAddress), index("sea_rewards_week_idx").on(table.weekNumber)],
 );
 
 // SEA Campaign Relations

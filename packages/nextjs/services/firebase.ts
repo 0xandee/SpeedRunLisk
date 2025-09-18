@@ -7,8 +7,13 @@ if (!firebaseAdmin.apps.length) {
   try {
     // Check if Firebase service account key is properly configured
     const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
-    
-    if (!serviceAccountKey || serviceAccountKey === 'placeholder' || serviceAccountKey.includes('<') || serviceAccountKey.includes('your-')) {
+
+    if (
+      !serviceAccountKey ||
+      serviceAccountKey === "placeholder" ||
+      serviceAccountKey.includes("<") ||
+      serviceAccountKey.includes("your-")
+    ) {
       console.warn("Firebase not configured - image upload features will not work");
       isFirebaseConfigured = false;
     } else {

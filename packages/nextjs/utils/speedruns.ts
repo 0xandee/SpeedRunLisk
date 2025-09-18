@@ -9,13 +9,13 @@ export const SPEEDRUN_METADATA = {
     guides: [
       {
         title: "Environment Setup",
-        url: "/speedrun/setup"
+        url: "/speedrun/setup",
       },
       {
         title: "Getting Started",
-        url: "/speedrun/start-here"
-      }
-    ]
+        url: "/speedrun/start-here",
+      },
+    ],
   },
   "ch2-frontend-connect": {
     title: "Frontend Connect",
@@ -27,9 +27,9 @@ export const SPEEDRUN_METADATA = {
     guides: [
       {
         title: "Deploy & Verify",
-        url: "/speedrun/ch1-deploy-verify"
-      }
-    ]
+        url: "/speedrun/ch1-deploy-verify",
+      },
+    ],
   },
   "ch3-index-display": {
     title: "Indexing & Display",
@@ -41,9 +41,9 @@ export const SPEEDRUN_METADATA = {
     guides: [
       {
         title: "Frontend Connect",
-        url: "/speedrun/ch2-frontend-connect"
-      }
-    ]
+        url: "/speedrun/ch2-frontend-connect",
+      },
+    ],
   },
   "ch4-oracle-sponsored": {
     title: "Oracle + Sponsored UX",
@@ -55,9 +55,9 @@ export const SPEEDRUN_METADATA = {
     guides: [
       {
         title: "Indexing & Display",
-        url: "/speedrun/ch3-index-display"
-      }
-    ]
+        url: "/speedrun/ch3-index-display",
+      },
+    ],
   },
   "ch5-nft-badge-game": {
     title: "NFT Badge / Mini-Game",
@@ -69,9 +69,9 @@ export const SPEEDRUN_METADATA = {
     guides: [
       {
         title: "Oracle + Sponsored UX",
-        url: "/speedrun/ch4-oracle-sponsored"
-      }
-    ]
+        url: "/speedrun/ch4-oracle-sponsored",
+      },
+    ],
   },
   "ch6-mini-dex-lending": {
     title: "Mini-DEX / Lending App",
@@ -83,18 +83,18 @@ export const SPEEDRUN_METADATA = {
     guides: [
       {
         title: "NFT Badge / Mini-Game",
-        url: "/speedrun/ch5-nft-badge-game"
-      }
-    ]
+        url: "/speedrun/ch5-nft-badge-game",
+      },
+    ],
   },
-  "setup": {
+  setup: {
     title: "⚙️ Environment Setup",
     description: "Set up your development environment for Lisk blockchain development",
     previewImage: "/hero/setup.png",
     difficulty: "Beginner",
     estimatedTime: "15-20 minutes",
     week: 0,
-    guides: []
+    guides: [],
   },
   "start-here": {
     title: "🎯 Start Here",
@@ -106,19 +106,19 @@ export const SPEEDRUN_METADATA = {
     guides: [
       {
         title: "Environment Setup",
-        url: "/speedrun/setup"
-      }
-    ]
+        url: "/speedrun/setup",
+      },
+    ],
   },
 } as const;
 
 export type SpeedrunId = keyof typeof SPEEDRUN_METADATA;
-export type SpeedrunMetadata = typeof SPEEDRUN_METADATA[SpeedrunId];
+export type SpeedrunMetadata = (typeof SPEEDRUN_METADATA)[SpeedrunId];
 
 export const getAllSpeedruns = () => {
   return Object.entries(SPEEDRUN_METADATA).map(([id, metadata]) => ({
     id: id as SpeedrunId,
-    ...metadata
+    ...metadata,
   }));
 };
 
@@ -154,14 +154,14 @@ export const getPreviousSpeedrun = (currentSpeedrunId: SpeedrunId): SpeedrunMeta
 
 export const getDifficultyColor = (difficulty: string): string => {
   switch (difficulty.toLowerCase()) {
-    case 'beginner':
-      return 'text-green-500';
-    case 'intermediate':
-      return 'text-yellow-500';
-    case 'advanced':
-      return 'text-red-500';
+    case "beginner":
+      return "text-green-500";
+    case "intermediate":
+      return "text-yellow-500";
+    case "advanced":
+      return "text-red-500";
     default:
-      return 'text-gray-500';
+      return "text-gray-500";
   }
 };
 

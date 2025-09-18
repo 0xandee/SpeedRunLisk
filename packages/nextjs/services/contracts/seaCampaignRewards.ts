@@ -1,6 +1,16 @@
-import { ethers, JsonRpcProvider, Wallet, parseEther, formatEther, keccak256, toUtf8Bytes, isAddress, AbiCoder } from "ethers";
-import { createSeaCampaignReward, updatePaymentStatus } from "~~/services/database/repositories/seaCampaignRewards";
+import {
+  AbiCoder,
+  JsonRpcProvider,
+  Wallet,
+  ethers,
+  formatEther,
+  isAddress,
+  keccak256,
+  parseEther,
+  toUtf8Bytes,
+} from "ethers";
 import { SeaCampaignPaymentStatus } from "~~/services/database/config/types";
+import { createSeaCampaignReward, updatePaymentStatus } from "~~/services/database/repositories/seaCampaignRewards";
 
 // ABI for the SeaCampaignRewards contract
 const SEA_CAMPAIGN_REWARDS_ABI = [
@@ -13,7 +23,7 @@ const SEA_CAMPAIGN_REWARDS_ABI = [
   "function pause() external",
   "function unpause() external",
   "event RewardAllocated(bytes32 indexed rewardId, address indexed recipient, uint256 amount, uint8 rewardType, uint8 weekNumber, bytes32 proofHash)",
-  "event RewardClaimed(bytes32 indexed rewardId, address indexed recipient, uint256 amount)"
+  "event RewardClaimed(bytes32 indexed rewardId, address indexed recipient, uint256 amount)",
 ];
 
 // Contract configuration - should be environment variables in production
@@ -28,7 +38,7 @@ const CONTRACT_CONFIG = {
 export enum RewardType {
   TOP_QUALITY = 0,
   TOP_ENGAGEMENT = 1,
-  FAST_COMPLETION = 2
+  FAST_COMPLETION = 2,
 }
 
 export interface RewardAllocation {
@@ -73,7 +83,7 @@ export async function allocateRewardsOnChain(allocations: RewardAllocation[]) {
 
     // Convert USD amounts to ETH (simplified conversion - should use real price feed)
     const ETH_USD_RATE = 2000; // Approximate rate - use actual price feed in production
-    
+
     const recipients = allocations.map(a => a.recipient);
     const amounts = allocations.map(a => parseEther((a.amount / ETH_USD_RATE).toString()));
     const rewardTypes = allocations.map(a => a.rewardType);
@@ -101,7 +111,7 @@ export async function allocateRewardsOnChain(allocations: RewardAllocation[]) {
       success: true,
       transactionHash: tx.hash,
       gasUsed: receipt.gasUsed.toString(),
-      allocatedCount: allocations.length
+      allocatedCount: allocations.length,
     };
   } catch (error) {
     console.error("Error allocating rewards on-chain:", error);
@@ -116,7 +126,7 @@ export async function getContractStats() {
   try {
     const contract = getRewardsContract();
     const stats = await contract.getContractStats();
-    
+
     return {
       balance: formatEther(stats.balance),
       totalAllocated: formatEther(stats.totalAllocated),
@@ -136,10 +146,10 @@ export async function getUserAvailableRewards(userAddress: string) {
   try {
     const contract = getRewardsContract();
     const availableRewards = await contract.getAvailableRewards(userAddress);
-    
+
     return {
       availableETH: formatEther(availableRewards),
-      availableUSD: parseFloat(formatEther(availableRewards)) * 2000 // Approximate conversion
+      availableUSD: parseFloat(formatEther(availableRewards)) * 2000, // Approximate conversion
     };
   } catch (error) {
     console.error("Error getting user rewards:", error);
@@ -154,15 +164,15 @@ export async function fundContract(amountETH: string) {
   try {
     const contract = getRewardsContractWithSigner();
     const amount = parseEther(amountETH);
-    
+
     const tx = await contract.fundContract({ value: amount });
     const receipt = await tx.wait();
-    
+
     return {
       success: true,
       transactionHash: tx.hash,
       gasUsed: receipt.gasUsed.toString(),
-      amountFunded: amountETH
+      amountFunded: amountETH,
     };
   } catch (error) {
     console.error("Error funding contract:", error);
@@ -184,9 +194,9 @@ export function setupEventListeners() {
       amount: formatEther(amount),
       rewardType,
       weekNumber,
-      proofHash
+      proofHash,
     });
-    
+
     // Update database with on-chain confirmation
     // This could be used to sync on-chain state with off-chain database
   });
@@ -196,9 +206,9 @@ export function setupEventListeners() {
     console.log("RewardClaimed event:", {
       rewardId,
       recipient,
-      amount: formatEther(amount)
+      amount: formatEther(amount),
     });
-    
+
     // Update database records to mark as paid
     // This would require mapping rewardId to database records
   });
@@ -211,8 +221,8 @@ export function generateProofHash(userAddress: string, weekNumber: number, submi
   return keccak256(
     AbiCoder.defaultAbiCoder().encode(
       ["address", "uint8", "uint256", "uint256"],
-      [userAddress, weekNumber, submissionId, Date.now()]
-    )
+      [userAddress, weekNumber, submissionId, Date.now()],
+    ),
   );
 }
 
@@ -225,6 +235,6 @@ export function validateRewardAllocation(allocation: RewardAllocation): boolean 
   if (allocation.weekNumber < 1 || allocation.weekNumber > 6) return false;
   if (!Object.values(RewardType).includes(allocation.rewardType)) return false;
   if (!allocation.proofHash) return false;
-  
+
   return true;
 }

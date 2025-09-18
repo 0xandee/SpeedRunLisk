@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eq, and, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { db } from "~~/services/database/config/postgresClient";
-import { users, userChallenges, seaCampaignProgress } from "~~/services/database/config/schema";
+import { seaCampaignProgress, userChallenges, users } from "~~/services/database/config/schema";
 import { ReviewAction } from "~~/services/database/config/types";
 import { markAsParticipant, updateWeekCompletion } from "~~/services/database/repositories/seaCampaignProgress";
 
@@ -39,37 +39,38 @@ export async function POST(req: NextRequest) {
       .orderBy(userChallenges.userAddress, userChallenges.challengeId);
 
     console.log(`Found ${allSeaSubmissions.length} total SEA challenge submissions`);
-    
+
     // Show breakdown by status
-    const statusCounts = allSeaSubmissions.reduce((acc, sub) => {
-      acc[sub.reviewAction || 'NULL'] = (acc[sub.reviewAction || 'NULL'] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-    console.log('Status breakdown:', statusCounts);
+    const statusCounts = allSeaSubmissions.reduce(
+      (acc, sub) => {
+        acc[sub.reviewAction || "NULL"] = (acc[sub.reviewAction || "NULL"] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+    console.log("Status breakdown:", statusCounts);
 
     // Get only accepted submissions for processing
-    const seaChallengeSubmissions = allSeaSubmissions.filter(
-      sub => sub.reviewAction === ReviewAction.ACCEPTED
-    );
+    const seaChallengeSubmissions = allSeaSubmissions.filter(sub => sub.reviewAction === ReviewAction.ACCEPTED);
 
     console.log(`Found ${seaChallengeSubmissions.length} accepted SEA challenge submissions`);
 
     // If no accepted submissions in userChallenges, check seaCampaignProgress table
     if (seaChallengeSubmissions.length === 0) {
       console.log("No accepted submissions found, checking seaCampaignProgress table...");
-      
+
       // Get all progress records that have completed weeks
       const progressRecords = await db
         .select()
         .from(seaCampaignProgress)
         .where(sql`total_weeks_completed > 0`);
-      
+
       console.log(`Found ${progressRecords.length} progress records with completed weeks`);
-      
+
       // For each progress record, create corresponding userChallenge entries
       for (const progress of progressRecords) {
         console.log(`Processing progress for ${progress.userAddress}...`);
-        
+
         // Check which weeks are completed and create userChallenge entries
         const completedWeeks: number[] = [];
         if (progress.week1Completed) completedWeeks.push(1);
@@ -78,14 +79,12 @@ export async function POST(req: NextRequest) {
         if (progress.week4Completed) completedWeeks.push(4);
         if (progress.week5Completed) completedWeeks.push(5);
         if (progress.week6Completed) completedWeeks.push(6);
-        
-        console.log(`  Completed weeks: [${completedWeeks.join(', ')}]`);
-        
+
+        console.log(`  Completed weeks: [${completedWeeks.join(", ")}]`);
+
         for (const weekNum of completedWeeks) {
-          const challengeId = Object.keys(SEA_CHALLENGE_WEEKS).find(
-            id => SEA_CHALLENGE_WEEKS[id] === weekNum
-          );
-          
+          const challengeId = Object.keys(SEA_CHALLENGE_WEEKS).find(id => SEA_CHALLENGE_WEEKS[id] === weekNum);
+
           if (challengeId) {
             // Check if userChallenge already exists
             const existing = await db
@@ -94,35 +93,35 @@ export async function POST(req: NextRequest) {
               .where(
                 and(
                   eq(sql`lower(${userChallenges.userAddress})`, progress.userAddress.toLowerCase()),
-                  eq(userChallenges.challengeId, challengeId)
-                )
+                  eq(userChallenges.challengeId, challengeId),
+                ),
               )
               .limit(1);
-            
+
             if (existing.length === 0) {
               console.log(`  Creating userChallenge for ${challengeId}`);
-              
+
               // Create userChallenge entry for this completed week
               await db.insert(userChallenges).values({
                 userAddress: progress.userAddress,
                 challengeId,
-                frontendUrl: '',
-                contractUrl: '',
+                frontendUrl: "",
+                contractUrl: "",
                 reviewAction: ReviewAction.ACCEPTED,
-                reviewComment: 'Synced from SEA campaign progress',
+                reviewComment: "Synced from SEA campaign progress",
                 submittedAt: progress.registrationDate || new Date(),
               });
-              
+
               results.usersCreated++;
             } else {
               console.log(`  UserChallenge already exists for ${challengeId}`);
             }
           }
         }
-        
+
         results.usersProcessed++;
       }
-      
+
       return NextResponse.json({
         success: true,
         message: "SEA campaign progress synchronization completed (from progress table)",
@@ -238,7 +237,7 @@ export async function POST(req: NextRequest) {
         error: "Internal server error during synchronization",
         details: error instanceof Error ? error.message : String(error),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

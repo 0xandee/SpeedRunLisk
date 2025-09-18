@@ -3,6 +3,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { mdxComponents } from "~~/app/_components/mdx";
 import { fetchLocalSpeedrunReadme } from "~~/services/github";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 import { SPEEDRUN_METADATA } from "~~/utils/speedruns";
@@ -11,7 +12,7 @@ import { SPEEDRUN_METADATA } from "~~/utils/speedruns";
 export const revalidate = 21600;
 
 // Force static generation for all speedrun pages
-export const dynamic = 'force-static';
+export const dynamic = "force-static";
 
 export async function generateStaticParams() {
   // Get all speedrun files from public/speedrun directory
@@ -82,6 +83,7 @@ export default async function SpeedrunPage(props: { params: Promise<{ speedrunId
                   format: "md",
                 },
               }}
+              components={mdxComponents}
             />
           </div>
           {/* GitHub Link */}

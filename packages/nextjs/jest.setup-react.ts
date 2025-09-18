@@ -1,8 +1,8 @@
 // React testing setup
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 // Mock Next.js router
-jest.mock('next/router', () => ({
+jest.mock("next/router", () => ({
   useRouter: () => ({
     push: jest.fn(),
     replace: jest.fn(),
@@ -10,10 +10,10 @@ jest.mock('next/router', () => ({
     back: jest.fn(),
     forward: jest.fn(),
     reload: jest.fn(),
-    route: '/test',
-    pathname: '/test',
+    route: "/test",
+    pathname: "/test",
     query: {},
-    asPath: '/test',
+    asPath: "/test",
     events: {
       on: jest.fn(),
       off: jest.fn(),
@@ -23,9 +23,9 @@ jest.mock('next/router', () => ({
 }));
 
 // Mock wagmi hooks
-jest.mock('wagmi', () => ({
+jest.mock("wagmi", () => ({
   useAccount: () => ({
-    address: '0x1234567890123456789012345678901234567890',
+    address: "0x1234567890123456789012345678901234567890",
     isConnected: true,
     isDisconnected: false,
   }),
@@ -59,7 +59,7 @@ jest.mock('wagmi', () => ({
 }));
 
 // Mock react-hot-toast
-jest.mock('react-hot-toast', () => ({
+jest.mock("react-hot-toast", () => ({
   toast: {
     success: jest.fn(),
     error: jest.fn(),
@@ -68,16 +68,16 @@ jest.mock('react-hot-toast', () => ({
 }));
 
 // Mock next-auth
-jest.mock('next-auth/react', () => ({
+jest.mock("next-auth/react", () => ({
   useSession: () => ({
     data: {
       user: {
-        id: '1',
-        userAddress: '0x1234567890123456789012345678901234567890',
-        role: 'USER',
+        id: "1",
+        userAddress: "0x1234567890123456789012345678901234567890",
+        role: "USER",
       },
     },
-    status: 'authenticated',
+    status: "authenticated",
   }),
   signIn: jest.fn(),
   signOut: jest.fn(),
@@ -85,7 +85,7 @@ jest.mock('next-auth/react', () => ({
 }));
 
 // Mock @tanstack/react-query
-jest.mock('@tanstack/react-query', () => ({
+jest.mock("@tanstack/react-query", () => ({
   useQuery: () => ({
     data: null,
     error: null,
@@ -104,12 +104,12 @@ jest.mock('@tanstack/react-query', () => ({
 }));
 
 // Mock Zustand stores
-jest.mock('~~/services/store/store', () => ({
+jest.mock("~~/services/store/store", () => ({
   useGlobalState: () => ({
     nativeCurrencyPrice: 2000,
     targetNetwork: {
       id: 4202,
-      name: 'Lisk Sepolia',
+      name: "Lisk Sepolia",
     },
   }),
 }));
@@ -133,7 +133,7 @@ global.matchMedia = jest.fn().mockImplementation(query => ({
 }));
 
 // Mock window.ethereum for Web3 testing
-Object.defineProperty(window, 'ethereum', {
+Object.defineProperty(window, "ethereum", {
   writable: true,
   value: {
     request: jest.fn(),

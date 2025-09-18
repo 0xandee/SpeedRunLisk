@@ -145,7 +145,7 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Required Fields */}
-          <div className="border-2 border-primary/20 rounded-lg p-6">
+          <div className="border-2 border-primary/10 rounded-lg p-6">
             <h3 className="font-bold text-lg mb-4 text-primary">Required Fields</h3>
 
             <div className="grid grid-cols-1 gap-4">
@@ -196,8 +196,8 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
           </div>
 
           {/* Smart Contract Fields */}
-          <div className="border-2 border-secondary/20 rounded-lg p-6">
-            <h3 className="font-bold text-lg mb-4 text-secondary">Smart Contract Details</h3>
+          <div className="border-2 border-primary/10 rounded-lg p-6">
+            <h3 className="font-bold text-lg mb-4 text-primary">Smart Contract Details</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="form-control">
@@ -241,8 +241,8 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
           </div>
 
           {/* Demo and Profile */}
-          <div className="border-2 border-accent/20 rounded-lg p-6">
-            <h3 className="font-bold text-lg mb-4 text-accent">Demo & Profile</h3>
+          <div className="border-2 border-primary/10 rounded-lg p-6">
+            <h3 className="font-bold text-lg mb-4 text-primary">Demo & Profile</h3>
 
             <div className="grid grid-cols-1 gap-4">
               <div className="form-control">

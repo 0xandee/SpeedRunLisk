@@ -106,11 +106,11 @@ export enum SeaCampaignPaymentStatus {
 
 export const seaCampaignChallenges = [
   "sea-week-1-hello-token-nft",
-  "sea-week-2-frontend-connect", 
+  "sea-week-2-frontend-connect",
   "sea-week-3-indexing-display",
   "sea-week-4-oracle-sponsored",
   "sea-week-5-nft-badge-game",
-  "sea-week-6-mini-dex-lending"
+  "sea-week-6-mini-dex-lending",
 ] as const;
 
-export type SeaCampaignChallenge = typeof seaCampaignChallenges[number];
+export type SeaCampaignChallenge = (typeof seaCampaignChallenges)[number];

@@ -1,4 +1,4 @@
-import { InferInsertModel, eq, and, desc, sql } from "drizzle-orm";
+import { InferInsertModel, and, desc, eq, sql } from "drizzle-orm";
 import { db } from "~~/services/database/config/postgresClient";
 import { seaCampaignRewards } from "~~/services/database/config/schema";
 import { SeaCampaignPaymentStatus } from "~~/services/database/config/types";
@@ -35,16 +35,12 @@ export async function getRewardsByType(rewardType: string) {
     .orderBy(desc(seaCampaignRewards.awardedDate));
 }
 
-export async function updatePaymentStatus(
-  rewardId: number, 
-  paymentStatus: string, 
-  paymentTxHash?: string
-) {
+export async function updatePaymentStatus(rewardId: number, paymentStatus: string, paymentTxHash?: string) {
   const updateData: Partial<SeaCampaignRewardInsert> = {
     paymentStatus: paymentStatus as any,
     paidDate: paymentStatus === "PAID" ? new Date() : null,
   };
-  
+
   if (paymentTxHash) {
     updateData.paymentTxHash = paymentTxHash;
   }
@@ -54,7 +50,7 @@ export async function updatePaymentStatus(
     .set(updateData)
     .where(eq(seaCampaignRewards.id, rewardId))
     .returning();
-    
+
   return result[0];
 }
 
@@ -77,25 +73,24 @@ export async function getRewardStatistics() {
       pendingAmount: sql<number>`sum(case when payment_status = 'PENDING' then reward_amount else 0 end)::float`,
     })
     .from(seaCampaignRewards);
-    
-  return result[0] || {
-    totalRewards: 0,
-    totalAmount: 0,
-    paidRewards: 0,
-    paidAmount: 0,
-    pendingRewards: 0,
-    pendingAmount: 0,
-  };
+
+  return (
+    result[0] || {
+      totalRewards: 0,
+      totalAmount: 0,
+      paidRewards: 0,
+      paidAmount: 0,
+      pendingRewards: 0,
+      pendingAmount: 0,
+    }
+  );
 }
 
 export async function getRewardsByWeekAndType(weekNumber: number, rewardType: string) {
   return await db
     .select()
     .from(seaCampaignRewards)
-    .where(and(
-      eq(seaCampaignRewards.weekNumber, weekNumber),
-      eq(seaCampaignRewards.rewardType, rewardType as any)
-    ))
+    .where(and(eq(seaCampaignRewards.weekNumber, weekNumber), eq(seaCampaignRewards.rewardType, rewardType as any)))
     .orderBy(desc(seaCampaignRewards.awardedDate));
 }
 
@@ -109,13 +104,15 @@ export async function getUserTotalRewards(userAddress: string) {
     })
     .from(seaCampaignRewards)
     .where(eq(seaCampaignRewards.userAddress, userAddress.toLowerCase()));
-    
-  return result[0] || {
-    totalAmount: 0,
-    totalRewards: 0,
-    paidAmount: 0,
-    pendingAmount: 0,
-  };
+
+  return (
+    result[0] || {
+      totalAmount: 0,
+      totalRewards: 0,
+      paidAmount: 0,
+      pendingAmount: 0,
+    }
+  );
 }
 
 export async function getTopRewardEarners(limit: number = 10) {

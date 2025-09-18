@@ -107,7 +107,7 @@ export async function getSortedUsersWithChallengesInfo(
 
   const [usersData, totalCount] = await Promise.all([query, db.$count(users, filterConditions)]);
 
-  const preparedUsersData = usersData.map((user) => {
+  const preparedUsersData = usersData.map(user => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { userChallenges, ...restUser } = user as any;
     return {

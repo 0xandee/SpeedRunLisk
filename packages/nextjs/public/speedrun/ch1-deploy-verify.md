@@ -169,24 +169,25 @@ liskSepolia: {
 },
 ```
 
-> And add the verification configuration in the main config object:
+> And add the verification configuration in the main config object in `packages/hardhat/hardhat.config.ts`:
 
 ```typescript
-etherscan: {
-  apiKey: {
-    liskSepolia: process.env.ETHERSCAN_API_KEY || "YOUR_BLOCKSCOUT_API_KEY"
-  },
-  customChains: [
-    {
-      network: "liskSepolia",
-      chainId: 4202,
-      urls: {
-        apiURL: "https://sepolia-blockscout.lisk.com/api",
-        browserURL: "https://sepolia-blockscout.lisk.com"
+// configuration for harhdat-verify plugin
+  etherscan: {
+    apiKey: {
+      liskSepolia: process.env.ETHERSCAN_API_KEY || "YOUR_BLOCKSCOUT_API_KEY"
+    },
+    customChains: [
+      {
+        network: "liskSepolia",
+        chainId: 4202,
+        urls: {
+          apiURL: "https://sepolia-blockscout.lisk.com/api",
+          browserURL: "https://sepolia-blockscout.lisk.com"
+        }
       }
-    }
-  ]
-},
+    ]
+  },
 ```
 
 🔐 Generate a deployer address with `yarn generate`. This creates a unique deployer address and saves the mnemonic locally.

@@ -49,9 +49,55 @@ p {
   @apply max-w-full h-auto my-4 mx-auto rounded-lg;
 }
 
-.prose pre,
+/* Enhanced Code Block Styling */
+.prose pre {
+  @apply overflow-x-auto bg-base-100 text-base-content text-[10px] sm:text-xs md:text-sm !p-4 !border !border-base-300 !rounded-lg;
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+  line-height: 1.5;
+}
+
 .prose code {
-  @apply overflow-x-auto whitespace-pre-wrap bg-[#edf2f7] text-primary dark:bg-[#171923] text-[10px] sm:text-xs md:text-sm;
+  @apply bg-base-200 text-primary px-1 py-0.5 rounded text-[10px] sm:text-xs md:text-sm;
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+}
+
+.prose pre code {
+  @apply bg-transparent text-base-content p-0;
+}
+
+/* Syntax Highlighting Enhancements */
+.prose pre[data-theme] {
+  @apply border-0;
+}
+
+.prose pre[data-language] {
+  position: relative;
+}
+
+/* Code block title styling */
+.prose pre + .code-title {
+  @apply text-xs font-medium text-base-content/70 bg-base-200 px-3 py-1 rounded-t-lg border border-b-0 border-base-300;
+}
+
+/* Syntax highlighting styles for rehype-pretty-code */
+.prose pre > code {
+  display: grid;
+}
+
+.prose pre > code .line {
+  padding: 0 1rem;
+  border-left: 2px solid transparent;
+}
+
+.prose pre > code .line--highlighted {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-left-color: #3b82f6;
+}
+
+.prose .word--highlighted {
+  background-color: rgba(59, 130, 246, 0.2);
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.25rem;
 }
 
 .prose hr {

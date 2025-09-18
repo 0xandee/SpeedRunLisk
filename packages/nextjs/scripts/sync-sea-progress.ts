@@ -2,17 +2,16 @@
 
 /**
  * Script to synchronize SEA Campaign progress between userChallenges and seaCampaignProgress tables
- * 
+ *
  * This script:
  * 1. Finds all users who have submitted SEA challenges (userChallenges table)
  * 2. Ensures they have corresponding progress records (seaCampaignProgress table)
  * 3. Updates week completion status based on approved challenge submissions
  */
-
-import { eq, and, sql } from "drizzle-orm";
 import { db } from "../services/database/config/postgresClient";
-import { users, userChallenges, seaCampaignProgress } from "../services/database/config/schema";
+import { seaCampaignProgress, userChallenges, users } from "../services/database/config/schema";
 import { ReviewAction } from "../services/database/config/types";
+import { and, eq, sql } from "drizzle-orm";
 
 // SEA challenge IDs mapped to week numbers
 const SEA_CHALLENGE_WEEKS: Record<string, number> = {
@@ -54,9 +53,7 @@ async function analyzeDatabaseState() {
   console.log(`Submissions from ${userSubmissions.size} unique users\n`);
 
   // Check existing progress records
-  const existingProgress = await db
-    .select()
-    .from(seaCampaignProgress);
+  const existingProgress = await db.select().from(seaCampaignProgress);
 
   console.log(`Found ${existingProgress.length} existing progress records\n`);
 
@@ -64,9 +61,7 @@ async function analyzeDatabaseState() {
   const usersWithSubmissions = Array.from(userSubmissions.keys());
   const usersWithProgress = existingProgress.map(p => p.userAddress.toLowerCase());
 
-  const usersNeedingProgress = usersWithSubmissions.filter(
-    addr => !usersWithProgress.includes(addr)
-  );
+  const usersNeedingProgress = usersWithSubmissions.filter(addr => !usersWithProgress.includes(addr));
 
   console.log("=== Analysis Results ===");
   console.log(`Users with submissions but no progress record: ${usersNeedingProgress.length}`);
@@ -79,13 +74,13 @@ async function analyzeDatabaseState() {
   console.log("\n=== Per-User Analysis ===");
   for (const [userAddr, submissions] of userSubmissions) {
     const progressRecord = existingProgress.find(p => p.userAddress.toLowerCase() === userAddr);
-    
+
     console.log(`\nUser: ${userAddr}`);
     console.log(`Submissions: ${submissions.length}`);
-    
+
     const approvedSubmissions = submissions.filter(s => s.reviewAction === ReviewAction.ACCEPTED);
     console.log(`Approved submissions: ${approvedSubmissions.length}`);
-    
+
     if (approvedSubmissions.length > 0) {
       console.log("Approved challenges:");
       approvedSubmissions.forEach(s => {
@@ -98,7 +93,7 @@ async function analyzeDatabaseState() {
       console.log(`Progress record exists - Total weeks: ${progressRecord.totalWeeksCompleted}`);
       const weeklyStatus = [
         progressRecord.week1Completed ? "✓" : "✗",
-        progressRecord.week2Completed ? "✓" : "✗", 
+        progressRecord.week2Completed ? "✓" : "✗",
         progressRecord.week3Completed ? "✓" : "✗",
         progressRecord.week4Completed ? "✓" : "✗",
         progressRecord.week5Completed ? "✓" : "✗",
@@ -118,13 +113,13 @@ async function analyzeDatabaseState() {
 }
 
 async function synchronizeProgress(dryRun: boolean = true) {
-  console.log(`\n=== ${dryRun ? 'DRY RUN' : 'EXECUTING'} Synchronization ===\n`);
+  console.log(`\n=== ${dryRun ? "DRY RUN" : "EXECUTING"} Synchronization ===\n`);
 
   const { userSubmissions } = await analyzeDatabaseState();
 
   for (const [userAddr, submissions] of userSubmissions) {
     const approvedSubmissions = submissions.filter(s => s.reviewAction === ReviewAction.ACCEPTED);
-    
+
     if (approvedSubmissions.length === 0) {
       console.log(`Skipping ${userAddr} - no approved submissions`);
       continue;
@@ -176,7 +171,7 @@ async function synchronizeProgress(dryRun: boolean = true) {
     if (existingProgress.length === 0) {
       // Create new progress record
       console.log(`  Creating new progress record - ${totalCompleted} weeks completed`);
-      
+
       if (!dryRun) {
         await db.insert(seaCampaignProgress).values({
           userAddress: userRecord.userAddress,
@@ -191,7 +186,7 @@ async function synchronizeProgress(dryRun: boolean = true) {
       const current = existingProgress[0];
       console.log(`  Updating existing progress record`);
       console.log(`    Current weeks: ${current.totalWeeksCompleted} -> Target: ${totalCompleted}`);
-      
+
       if (!dryRun) {
         await db
           .update(seaCampaignProgress)

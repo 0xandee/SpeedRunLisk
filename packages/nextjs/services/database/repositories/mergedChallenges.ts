@@ -1,6 +1,6 @@
-import { getLatestSubmissionPerChallengeByUser } from "./userChallenges";
-import { getSubmissionsByUser } from "./seaCampaignSubmissions";
 import { ReviewAction, SeaCampaignSubmissionStatus } from "../config/types";
+import { getSubmissionsByUser } from "./seaCampaignSubmissions";
+import { getLatestSubmissionPerChallengeByUser } from "./userChallenges";
 import { SEA_CAMPAIGN_METADATA } from "~~/utils/sea-challenges";
 
 export type MergedUserChallenge = {
@@ -55,10 +55,10 @@ function getChallengeIdFromWeekNumber(weekNumber: number): string {
 export async function getMergedUserChallenges(userAddress: string): Promise<MergedUserChallenge[]> {
   // Get traditional user challenges
   const traditionalChallenges = await getLatestSubmissionPerChallengeByUser(userAddress);
-  
+
   // Get SEA campaign submissions
   const seaCampaignSubmissions = await getSubmissionsByUser(userAddress);
-  
+
   // Convert traditional challenges to merged format
   const mergedTraditional: MergedUserChallenge[] = traditionalChallenges.map(tc => ({
     ...tc,
@@ -79,12 +79,12 @@ export async function getMergedUserChallenges(userAddress: string): Promise<Merg
       disabled: tc.challenge.disabled ?? false,
     },
   }));
-  
+
   // Convert SEA campaign submissions to merged format
   const mergedSeaCampaign: MergedUserChallenge[] = seaCampaignSubmissions.map(submission => {
     const challengeId = getChallengeIdFromWeekNumber(submission.weekNumber);
     const challengeMetadata = SEA_CAMPAIGN_METADATA[challengeId as keyof typeof SEA_CAMPAIGN_METADATA];
-    
+
     return {
       id: submission.id,
       userAddress: submission.userAddress,
@@ -114,19 +114,19 @@ export async function getMergedUserChallenges(userAddress: string): Promise<Merg
       },
     };
   });
-  
+
   // Combine both arrays, preferring SEA campaign submissions over traditional ones for the same challenge ID
   const challengeMap = new Map<string, MergedUserChallenge>();
-  
+
   // Add traditional challenges first
   mergedTraditional.forEach(challenge => {
     challengeMap.set(challenge.challengeId, challenge);
   });
-  
+
   // Add/override with SEA campaign submissions
   mergedSeaCampaign.forEach(challenge => {
     challengeMap.set(challenge.challengeId, challenge);
   });
-  
+
   return Array.from(challengeMap.values()).sort((a, b) => a.challenge.sortOrder - b.challenge.sortOrder);
 }

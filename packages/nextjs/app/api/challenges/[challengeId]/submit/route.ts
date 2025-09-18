@@ -3,11 +3,11 @@ import { waitUntil } from "@vercel/functions";
 import { submitToAutograder } from "~~/services/autograder";
 import { ChallengeId, ReviewAction } from "~~/services/database/config/types";
 import { getChallengeById } from "~~/services/database/repositories/challenges";
+import { markAsParticipant, updateWeekCompletion } from "~~/services/database/repositories/seaCampaignProgress";
 import { createUserChallenge, updateUserChallengeById } from "~~/services/database/repositories/userChallenges";
 import { getUserByAddress } from "~~/services/database/repositories/users";
 import { isValidEIP712ChallengeSubmitSignature } from "~~/services/eip712/challenge";
 import { PlausibleEvent, trackPlausibleEvent } from "~~/services/plausible";
-import { markAsParticipant, updateWeekCompletion } from "~~/services/database/repositories/seaCampaignProgress";
 import { getWeekFromChallengeId, isSeaCampaignChallenge } from "~~/utils/sea-challenges";
 
 // This function can run for a maximum of 60 seconds in Vercel
