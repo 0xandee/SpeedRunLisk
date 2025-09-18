@@ -1,7 +1,7 @@
 import { db } from "./services/database/config/postgresClient";
-import { users, seaCampaignProgress, challenges, userChallenges } from "./services/database/config/schema";
-import { eq, sql } from "drizzle-orm";
+import { challenges, seaCampaignProgress, userChallenges, users } from "./services/database/config/schema";
 import { ReviewAction } from "./services/database/config/types";
+import { eq, sql } from "drizzle-orm";
 
 const TARGET_ADDRESS = "0xeffB943a01dDeC6bA3C94B7A3e65600AB3255d0A";
 
@@ -104,9 +104,7 @@ async function grantAllAccess() {
   let alreadyCompleted = 0;
 
   for (const challenge of allChallenges) {
-    const existingSubmission = existingUserChallenges.find(
-      uc => uc.challengeId === challenge.id
-    );
+    const existingSubmission = existingUserChallenges.find(uc => uc.challengeId === challenge.id);
 
     if (!existingSubmission) {
       // Create new accepted submission
@@ -152,7 +150,7 @@ grantAllAccess()
     console.log("\n🚀 Access granted successfully!");
     process.exit(0);
   })
-  .catch((error) => {
+  .catch(error => {
     console.error("\n❌ Error granting access:", error);
     process.exit(1);
   });

@@ -97,24 +97,24 @@ export const SEA_CAMPAIGN_METADATA = {
     socialHashtags: ["#SpeedrunLiskSEA", "#W6", "@LiskSEA"],
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],
     completionBonus: 20, // Next 50 fastest get $20 each
-    topPerformersBonus: 50, // Top 10 get $50 each  
+    topPerformersBonus: 50, // Top 10 get $50 each
     kpi: "Build a mini-DEX, lending protocol, OR prediction market application",
     weekNumber: 6,
-  }
+  },
 } as const;
 
 export const COMPLETION_BONUS_STRUCTURE = {
   topQualitySubmissions: { amount: 50, count: 10 }, // Top 10 best quality submissions per week: $50 each
-  topEngagementSubmissions: { amount: 50, count: 10 }, // Top 10 best social media engagement: $50 each  
+  topEngagementSubmissions: { amount: 50, count: 10 }, // Top 10 best social media engagement: $50 each
   fastestCompletions: { amount: 20, count: 50 }, // Next 50 fastest finishers: $20 each
-  totalBudget: 2000
+  totalBudget: 2000,
 } as const;
 
 // Calculate start date from due date (6 days earlier)
 export const getChallengeStartDate = (dueDate: string): string => {
   const dueDateObj = new Date(dueDate);
-  const startDateObj = new Date(dueDateObj.getTime() - (6 * 24 * 60 * 60 * 1000)); // 6 days before
-  return startDateObj.toISOString().split('T')[0];
+  const startDateObj = new Date(dueDateObj.getTime() - 6 * 24 * 60 * 60 * 1000); // 6 days before
+  return startDateObj.toISOString().split("T")[0];
 };
 
 // Special account that gets full access to all challenges
@@ -123,11 +123,11 @@ const SPECIAL_ACCESS_ACCOUNT = "0xeffB943a01dDeC6bA3C94B7A3e65600AB3255d0A";
 // SEA Campaign timing utilities
 export const getSeaChallengeVisibilityStatus = (challengeId: string, userAddress?: string) => {
   const metadata = SEA_CAMPAIGN_METADATA[challengeId as keyof typeof SEA_CAMPAIGN_METADATA];
-  if (!metadata) return { isVisible: false, status: 'not_found' };
+  if (!metadata) return { isVisible: false, status: "not_found" };
 
   // Grant full access to special account
   if (userAddress && userAddress.toLowerCase() === SPECIAL_ACCESS_ACCOUNT.toLowerCase()) {
-    return { isVisible: true, status: 'active', startDate: new Date(getChallengeStartDate(metadata.dueDate)) };
+    return { isVisible: true, status: "active", startDate: new Date(getChallengeStartDate(metadata.dueDate)) };
   }
 
   const now = new Date();
@@ -138,18 +138,19 @@ export const getSeaChallengeVisibilityStatus = (challengeId: string, userAddress
   const isVisible = now >= startDate;
 
   if (!isVisible) {
-    return { isVisible: false, status: 'upcoming', startDate };
+    return { isVisible: false, status: "upcoming", startDate };
   }
 
-  return { isVisible: true, status: 'active', startDate };
+  return { isVisible: true, status: "active", startDate };
 };
 
 export const getNextSeaChallenge = () => {
   const now = new Date();
 
   // Sort challenges by due date
-  const sortedChallenges = Object.entries(SEA_CAMPAIGN_METADATA)
-    .sort(([, a], [, b]) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
+  const sortedChallenges = Object.entries(SEA_CAMPAIGN_METADATA).sort(
+    ([, a], [, b]) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime(),
+  );
 
   // Find the next challenge that hasn't expired yet
   for (const [challengeId, metadata] of sortedChallenges) {
@@ -189,8 +190,8 @@ export const SEA_CAMPAIGN_CONFIG = {
     chainId: 4202,
     rpcUrl: "https://rpc.sepolia-api.lisk.com",
     blockExplorer: "https://sepolia-blockscout.lisk.com",
-    faucetUrl: "https://sepolia-faucet.lisk.com"
-  }
+    faucetUrl: "https://sepolia-faucet.lisk.com",
+  },
 } as const;
 
 export const SEA_COUNTRIES = [
@@ -205,24 +206,26 @@ export const SEA_COUNTRIES = [
   "Myanmar",
   "Brunei",
   "East Timor",
-  "Other"
+  "Other",
 ] as const;
 
 // Utility functions
 export function getChallengeByWeek(weekNumber: number) {
   const challengeKey = Object.keys(SEA_CAMPAIGN_METADATA).find(
-    key => SEA_CAMPAIGN_METADATA[key as keyof typeof SEA_CAMPAIGN_METADATA].weekNumber === weekNumber
+    key => SEA_CAMPAIGN_METADATA[key as keyof typeof SEA_CAMPAIGN_METADATA].weekNumber === weekNumber,
   );
-  return challengeKey ? {
-    id: challengeKey,
-    ...SEA_CAMPAIGN_METADATA[challengeKey as keyof typeof SEA_CAMPAIGN_METADATA]
-  } : null;
+  return challengeKey
+    ? {
+        id: challengeKey,
+        ...SEA_CAMPAIGN_METADATA[challengeKey as keyof typeof SEA_CAMPAIGN_METADATA],
+      }
+    : null;
 }
 
 export function getAllSeaChallenges() {
   return Object.entries(SEA_CAMPAIGN_METADATA).map(([id, metadata]) => ({
     id,
-    ...metadata
+    ...metadata,
   }));
 }
 
@@ -259,9 +262,9 @@ export const seaCampaignChallenges = [
   "sea-week-3-indexing-display",
   "sea-week-4-oracle-sponsored",
   "sea-week-5-nft-badge-game",
-  "sea-week-6-mini-dex-lending"
+  "sea-week-6-mini-dex-lending",
 ] as const;
 
-export type SeaCampaignChallenge = typeof seaCampaignChallenges[number];
-export type SeaChallengeMetadata = typeof SEA_CAMPAIGN_METADATA[keyof typeof SEA_CAMPAIGN_METADATA];
+export type SeaCampaignChallenge = (typeof seaCampaignChallenges)[number];
+export type SeaChallengeMetadata = (typeof SEA_CAMPAIGN_METADATA)[keyof typeof SEA_CAMPAIGN_METADATA];
 export type SeaChallengeId = keyof typeof SEA_CAMPAIGN_METADATA;

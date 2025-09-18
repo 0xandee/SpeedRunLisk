@@ -11,8 +11,7 @@ export const EIP_712_TYPED_DATA__UPDATE_ENS = {
   primaryType: "Message",
   message: {
     action: "Update ENS and ENS Avatar",
-    description:
-      "I would like to update my ENS name and ENS avatar in speedrunlisk.xyz signing this offchain message",
+    description: "I would like to update my ENS name and ENS avatar in speedrunlisk.xyz signing this offchain message",
   },
 } as const;
 

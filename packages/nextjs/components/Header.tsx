@@ -87,8 +87,9 @@ export const HeaderMenuLinks = ({ hideItemsByLabel, user }: { hideItemsByLabel?:
             <Link
               href={href}
               passHref
-              className={`${isActive ? "underline" : ""
-                } hover:underline py-1.5 lg:py-2 px-3 lg:px-4 text-base font-medium rounded-full gap-2 grid grid-flow-col`}
+              className={`${
+                isActive ? "underline" : ""
+              } hover:underline py-1.5 lg:py-2 px-3 lg:px-4 text-base font-medium rounded-full gap-2 grid grid-flow-col`}
             >
               {icon}
               <span>{label}</span>

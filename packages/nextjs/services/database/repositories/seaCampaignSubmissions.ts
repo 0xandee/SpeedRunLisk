@@ -1,4 +1,4 @@
-import { InferInsertModel, eq, and, desc, sql } from "drizzle-orm";
+import { InferInsertModel, and, desc, eq, sql } from "drizzle-orm";
 import { db } from "~~/services/database/config/postgresClient";
 import { seaCampaignSubmissions, users } from "~~/services/database/config/schema";
 
@@ -14,12 +14,14 @@ export async function getSubmissionByUserAndWeek(userAddress: string, weekNumber
   const result = await db
     .select()
     .from(seaCampaignSubmissions)
-    .where(and(
-      eq(seaCampaignSubmissions.userAddress, userAddress.toLowerCase()),
-      eq(seaCampaignSubmissions.weekNumber, weekNumber)
-    ))
+    .where(
+      and(
+        eq(seaCampaignSubmissions.userAddress, userAddress.toLowerCase()),
+        eq(seaCampaignSubmissions.weekNumber, weekNumber),
+      ),
+    )
     .limit(1);
-  
+
   return result[0] || null;
 }
 
@@ -53,19 +55,19 @@ export async function getSubmissionsByUser(userAddress: string) {
 }
 
 export async function updateSubmissionStatus(
-  id: number, 
-  reviewStatus: string, 
+  id: number,
+  reviewStatus: string,
   mentorFeedback?: string,
-  completionBonusAmount?: number
+  completionBonusAmount?: number,
 ) {
   const updateData: Partial<SeaCampaignSubmissionInsert> = {
     reviewStatus: reviewStatus as any,
   };
-  
+
   if (mentorFeedback) {
     updateData.mentorFeedback = mentorFeedback;
   }
-  
+
   if (completionBonusAmount !== undefined) {
     updateData.completionBonusAmount = completionBonusAmount.toString();
   }
@@ -75,7 +77,7 @@ export async function updateSubmissionStatus(
     .set(updateData)
     .where(eq(seaCampaignSubmissions.id, id))
     .returning();
-    
+
   return result[0];
 }
 
@@ -125,6 +127,6 @@ export async function getTotalSubmissions() {
       total: sql<number>`count(*)::int`,
     })
     .from(seaCampaignSubmissions);
-    
+
   return result[0]?.total || 0;
 }

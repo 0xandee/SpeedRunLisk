@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { SeaCampaignSubmissionStatus } from "~~/services/database/config/types";
 import {
   getProgressByUser,
   markAsParticipant,
@@ -8,7 +9,6 @@ import {
   createSeaCampaignSubmission,
   getSubmissionByUserAndWeek,
 } from "~~/services/database/repositories/seaCampaignSubmissions";
-import { SeaCampaignSubmissionStatus } from "~~/services/database/config/types";
 import { getUserByAddress } from "~~/services/database/repositories/users";
 import { getWeekFromChallengeId, isSeaCampaignChallenge } from "~~/utils/sea-challenges";
 

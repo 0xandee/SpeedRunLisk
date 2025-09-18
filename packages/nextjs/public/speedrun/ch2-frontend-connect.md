@@ -42,10 +42,9 @@ Before you begin, ensure you have:
 - ✅ **Verified contracts**: Both contracts verified on [Lisk Sepolia Blockscout](https://sepolia-blockscout.lisk.com)
 - ✅ **Scaffold-Lisk setup**: Your existing Scaffold-Lisk environment from Challenge 1
 
-> Navigate to your Challenge 1 project directory and start the development server:
+> Navigate to your Scaffold-Lisk project directory and start the development server:
 
 ```sh
-cd ch1-deploy-verify
 yarn start
 ```
 
@@ -81,6 +80,7 @@ Your contracts from Challenge 1 are already deployed to Lisk Sepolia. The fronte
 > 💡 **Key Concept: Contract Discovery**
 >
 > Scaffold-Lisk automatically finds your contracts by:
+>
 > 1. Reading deployment artifacts from `deployments/[network]/`
 > 2. Generating TypeScript types from contract ABIs
 > 3. Making contracts available via `useScaffoldContract*` hooks
@@ -109,6 +109,7 @@ Your wallet should already be configured for Lisk Sepolia from Challenge 1.
 > 🔒 **Key Concept: Wallet Security**
 >
 > When you connect your wallet:
+>
 > - **Read permissions**: dApp can see your address and balance
 > - **Transaction approval**: You must approve each transaction individually
 > - **Private keys**: Never shared with the dApp (stay in your wallet)
@@ -120,30 +121,29 @@ Your wallet should already be configured for Lisk Sepolia from Challenge 1.
 
 ## Understanding Scaffold-Lisk Hooks 🧠
 
-> 🔧 Let's understand the powerful hooks that make Web3 development easier!
-
 Before building our components, it's important to understand the key hooks that Scaffold-Lisk provides to simplify blockchain interactions:
 
-### `useScaffoldContractRead` Hook
+### useScaffoldContractRead Hook
 
 This hook automatically handles reading data from your smart contracts:
 
 ```typescript
 const { data: tokenBalance } = useScaffoldContractRead({
-  contractName: "MyToken",      // Contract name from your deployment
-  functionName: "balanceOf",    // Contract function to call
-  args: [userAddress],          // Function arguments
+  contractName: "MyToken", // Contract name from your deployment
+  functionName: "balanceOf", // Contract function to call
+  args: [userAddress], // Function arguments
 });
 ```
 
 **What it does:**
+
 - ✅ **Auto-loads contract**: Finds your contract ABI and address automatically
 - ✅ **Real-time updates**: Watches for changes and updates data automatically
 - ✅ **Type safety**: Provides TypeScript types for function arguments and return values
 - ✅ **Error handling**: Built-in error states and loading indicators
 - ✅ **Network aware**: Automatically connects to the correct network
 
-### `useScaffoldContractWrite` Hook
+### useScaffoldContractWrite Hook
 
 This hook handles writing transactions to your smart contracts:
 
@@ -158,13 +158,14 @@ await writeMyTokenAsync({
 ```
 
 **What it does:**
+
 - ✅ **Transaction management**: Handles the entire transaction lifecycle
 - ✅ **User notifications**: Shows success/error messages automatically
 - ✅ **Network validation**: Ensures user is on correct network before sending
 - ✅ **Gas estimation**: Estimates gas costs before transaction
 - ✅ **Loading states**: Provides `isMining` state for UI feedback
 
-### `useAccount` Hook (from Wagmi)
+### useAccount Hook (from Wagmi)
 
 This hook manages wallet connection state:
 
@@ -173,6 +174,7 @@ const { address: connectedAddress } = useAccount();
 ```
 
 **What it provides:**
+
 - ✅ **Connection status**: Whether wallet is connected
 - ✅ **User address**: The connected wallet address
 - ✅ **Account info**: Balance, ENS name, and other account details
@@ -180,71 +182,66 @@ const { address: connectedAddress } = useAccount();
 ### Key Benefits of These Hooks
 
 🎯 **Simplified Development**: No need to manually manage contract ABIs, addresses, or connection logic
+
 📱 **Better UX**: Built-in loading states, error handling, and user notifications
+
 🔒 **Type Safety**: Full TypeScript support prevents common errors
+
 ⚡ **Performance**: Automatic caching and optimized re-renders
+
 🌐 **Multi-network**: Easy switching between different blockchain networks
 
 ---
 
 ## Architecture Overview 🏗️
 
-> 🌊 Understanding the data flow from blockchain to your UI!
-
 Before we build components, let's understand how everything connects:
 
 ### Web3 dApp Architecture Flow
 
-```
-🔗 Blockchain (Lisk Sepolia)
-     ↕️
-📡 RPC Provider (Alchemy/Infura)
-     ↕️
-🧠 Wagmi Hooks (useContractRead/Write)
-     ↕️
-🔧 Scaffold-Lisk Hooks (useScaffoldContract*)
-     ↕️
-⚛️  React Components (TokenBalance, etc.)
-     ↕️
-👤 User Interface (Your dApp)
+```mermaid
+graph TD
+  A["Blockchain (Lisk Sepolia)"] <--> B["RPC Provider (Alchemy/Infura)"]
+  B <--> C["Wagmi Hooks (useContractRead/Write)"]
+  C <--> D["Scaffold-Lisk Hooks (useScaffoldContract*)"]
+  D <--> E["React Components (TokenBalance, etc.)"]
+  E <--> F["User Interface (Your dApp)"]
 ```
 
 ### Key Interactions Explained
 
 **1. Wallet Connection Flow:**
-```typescript
-// User clicks "Connect Wallet" → RainbowKit modal opens
-// → User selects wallet → Wallet prompts for connection
-// → useAccount() hook provides connected address
-// → Components can now interact with blockchain
-```
+
+User clicks "Connect Wallet" → RainbowKit modal opens
+→ User selects wallet → Wallet prompts for connection
+→ useAccount() hook provides connected address
+→ Components can now interact with blockchain
 
 **2. Reading Contract Data:**
-```typescript
-// Component mounts → useScaffoldContractRead() calls contract
-// → Blockchain returns data → Hook updates component state
-// → UI shows real-time balance/NFT count
-// → Hook continues watching for changes
-```
+
+Component mounts → useScaffoldContractRead() calls contract
+→ Blockchain returns data → Hook updates component state
+→ UI shows real-time balance/NFT count
+→ Hook continues watching for changes
 
 **3. Writing to Contracts (Transactions):**
-```typescript
-// User fills form → clicks button → useScaffoldContractWrite()
-// → Wallet prompts for signature → Transaction sent to mempool
-// → Block confirmations → Success notification → UI updates
-```
+
+User fills form → clicks button → useScaffoldContractWrite()
+→ Wallet prompts for signature → Transaction sent to mempool
+→ Block confirmations → Success notification → UI updates
 
 ### Component Responsibilities
 
-| Component | Purpose | Key Features |
-|-----------|---------|--------------|
-| **TokenBalance** | Display token info | Real-time balance, token name/symbol |
-| **TokenTransfer** | Send tokens | Input validation, transaction handling |
-| **NFTCollection** | Mint & display NFTs | Total supply, user balance, minting |
+| Component         | Purpose             | Key Features                           |
+| ----------------- | ------------------- | -------------------------------------- |
+| **TokenBalance**  | Display token info  | Real-time balance, token name/symbol   |
+| **TokenTransfer** | Send tokens         | Input validation, transaction handling |
+| **NFTCollection** | Mint & display NFTs | Total supply, user balance, minting    |
 
 ### State Management Pattern
 
 Each component follows this pattern:
+
 1. **Check wallet connection** (`useAccount`)
 2. **Read contract data** (`useScaffoldContractRead`)
 3. **Handle user input** (React state)
@@ -328,13 +325,19 @@ export const TokenBalance = () => {
 Let's break down this component to understand how it works:
 
 #### **Key Imports Explained**
+
 ```typescript
-import { useAccount } from "wagmi";                    // Wallet connection state
-import { Address, Balance } from "~~/components/scaffold-eth";  // Pre-built UI components
-import { useScaffoldContractRead } from "~~/hooks/scaffold-eth"; // Contract reading hook
+import { useAccount } from "wagmi";
+// Wallet connection state
+import { Address, Balance } from "~~/components/scaffold-eth";
+// Pre-built UI components
+import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
+
+// Contract reading hook
 ```
 
 #### **Data Fetching Pattern**
+
 ```typescript
 // 1. Get connected wallet address
 const { address: connectedAddress } = useAccount();
@@ -343,7 +346,7 @@ const { address: connectedAddress } = useAccount();
 const { data: tokenBalance } = useScaffoldContractRead({
   contractName: "MyToken",
   functionName: "balanceOf",
-  args: [connectedAddress],  // Pass user's address as argument
+  args: [connectedAddress], // Pass user's address as argument
 });
 
 // 3. Read token metadata (name & symbol)
@@ -354,28 +357,36 @@ const { data: tokenSymbol } = useScaffoldContractRead({
 ```
 
 **🔄 Real-time Updates**: These hooks automatically watch the blockchain and update when:
+
 - User receives tokens
 - User sends tokens
 - New blocks are mined
 
 #### **Conditional Rendering Pattern**
+
 ```typescript
 if (!connectedAddress) {
   return <div>Please connect your wallet</div>;
 }
 ```
+
 This ensures the component only tries to fetch data when a wallet is connected.
 
 #### **Data Display & Formatting**
+
 ```typescript
 // Convert from Wei (18 decimals) to human-readable format
-{tokenBalance ? (Number(tokenBalance) / 1e18).toFixed(4) : "0.0000"}
+{
+  tokenBalance ? (Number(tokenBalance) / 1e18).toFixed(4) : "0.0000";
+}
 ```
 
 **💡 Why divide by 1e18?** ERC20 tokens store values in "Wei" (smallest unit). Most tokens use 18 decimal places, so we divide by 10^18 to show the actual token amount.
 
 #### **UI Framework (DaisyUI)**
+
 The component uses DaisyUI classes for styling:
+
 - `card w-96 bg-base-100 shadow-xl`: Creates a styled card container
 - `stat`, `stat-title`, `stat-value`: Statistics display components
 - `text-primary`: Theme-aware color styling
@@ -480,18 +491,22 @@ export const TokenTransfer = () => {
 This component demonstrates transaction handling and user input management:
 
 #### **State Management for User Input**
+
 ```typescript
-const [recipient, setRecipient] = useState("");  // Recipient wallet address
-const [amount, setAmount] = useState("");        // Token amount to send
+const [recipient, setRecipient] = useState(""); // Recipient wallet address
+const [amount, setAmount] = useState(""); // Token amount to send
 ```
 
 #### **Contract Write Hook Setup**
+
 ```typescript
 const { writeContractAsync: writeMyTokenAsync } = useScaffoldContractWrite("MyToken");
 ```
+
 This gives us a function to call contract methods that modify state (require transactions).
 
 #### **Transaction Flow Breakdown**
+
 ```typescript
 const handleTransfer = async () => {
   // 1. Input validation
@@ -504,12 +519,12 @@ const handleTransfer = async () => {
     // 2. Send transaction
     await writeMyTokenAsync({
       functionName: "transfer",
-      args: [recipient, parseEther(amount)],  // Convert to Wei
+      args: [recipient, parseEther(amount)], // Convert to Wei
     });
 
     // 3. Success feedback
     notification.success("Token transfer successful!");
-    setRecipient("");  // Clear form
+    setRecipient(""); // Clear form
     setAmount("");
   } catch (error) {
     // 4. Error handling
@@ -521,29 +536,35 @@ const handleTransfer = async () => {
 #### **Key Concepts Explained**
 
 **🔄 parseEther() Function:**
+
 ```typescript
-parseEther(amount)  // Converts "1.5" → "1500000000000000000"
+parseEther(amount); // Converts "1.5" → "1500000000000000000"
 ```
+
 This converts human-readable amounts to Wei (blockchain's smallest unit).
 
 **⛽ Transaction Lifecycle:**
+
 1. User clicks "Transfer" → Wallet prompts for signature
 2. User signs → Transaction sent to mempool
 3. Miners include transaction in block → Confirmation
 4. `useScaffoldContractWrite` automatically shows notifications
 
 **✅ Input Validation:**
+
 - Button disabled until both fields filled
 - Client-side validation before sending transaction
 - Server-side validation happens in smart contract
 
 #### **User Experience Features**
+
 - **Real-time button state**: Disabled when form incomplete
 - **Automatic notifications**: Success/error messages handled automatically
 - **Form reset**: Clears inputs after successful transfer
 - **Error resilience**: Catches and displays transaction failures
 
 #### **Security Considerations**
+
 - Input validation prevents empty transactions
 - `parseEther` prevents decimal precision errors
 - Smart contract enforces balance checks
@@ -679,6 +700,7 @@ export const NFTCollection = () => {
 This component demonstrates NFT interactions and collection management:
 
 #### **Multiple Contract Reads**
+
 ```typescript
 // Reading various NFT contract properties
 const { data: nftName } = useScaffoldContractRead({
@@ -688,17 +710,18 @@ const { data: nftName } = useScaffoldContractRead({
 
 const { data: totalSupply } = useScaffoldContractRead({
   contractName: "MyNFT",
-  functionName: "totalSupply",  // Total NFTs minted
+  functionName: "totalSupply", // Total NFTs minted
 });
 
 const { data: userBalance } = useScaffoldContractRead({
   contractName: "MyNFT",
   functionName: "balanceOf",
-  args: [connectedAddress],     // How many NFTs user owns
+  args: [connectedAddress], // How many NFTs user owns
 });
 ```
 
 #### **Smart Minting Logic**
+
 ```typescript
 const handleMint = async () => {
   // Allow minting to self or specified address
@@ -706,7 +729,7 @@ const handleMint = async () => {
 
   await writeMyNFTAsync({
     functionName: "mint",
-    args: [targetAddress],  // Mint to target address
+    args: [targetAddress], // Mint to target address
   });
 };
 ```
@@ -714,11 +737,13 @@ const handleMint = async () => {
 #### **Key Features Explained**
 
 **📊 Statistics Display:**
+
 - **Total Minted**: Shows how many NFTs exist in the collection
 - **You Own**: Shows user's personal NFT count
 - Real-time updates when new NFTs are minted
 
 **🎯 Flexible Minting:**
+
 ```typescript
 // If input empty, mint to self
 // If input provided, mint to that address
@@ -726,37 +751,23 @@ const targetAddress = mintToAddress || connectedAddress;
 ```
 
 **🔢 Data Type Handling:**
+
 ```typescript
-{totalSupply?.toString() || "0"}
+{
+  totalSupply?.toString() || "0";
+}
 ```
+
 Smart contracts return BigNumber types, so we convert to string for display.
 
 #### **NFT Standards (ERC721)**
 
 This component works with ERC721 NFTs which have these key properties:
+
 - **Unique tokens**: Each NFT has a unique token ID
 - **Ownership tracking**: `balanceOf()` shows how many NFTs an address owns
 - **Transferable**: NFTs can be sent between wallets
 - **Metadata**: Each NFT can have associated metadata (images, properties)
-
-#### **User Experience Features**
-
-**💡 Smart Defaults:**
-- Empty input field defaults to minting for yourself
-- Clear placeholder text guides user behavior
-- Immediate feedback after minting
-
-**📈 Real-time Statistics:**
-- Total supply updates immediately after minting
-- User balance updates when receiving NFTs
-- Collection grows visibly as users interact
-
-#### **Gas Optimization Tip**
-NFT minting is typically more expensive than token transfers because:
-- Creates new token with unique ID
-- Updates multiple contract mappings
-- May store metadata on-chain
-- Always test gas costs on testnet first!
 
 ### Update Main Page
 
@@ -824,11 +835,13 @@ NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your_wallet_connect_project_id
 
 > 🌍 **Key Concept: Environment Variables**
 >
-> **NEXT_PUBLIC_** prefix makes variables available to browser:
+> **NEXT*PUBLIC*** prefix makes variables available to browser:
+>
 > - ✅ `NEXT_PUBLIC_ALCHEMY_API_KEY` - Safe for client-side
-> - ❌ `PRIVATE_KEY` - Server-only, never use NEXT_PUBLIC_ for secrets
+> - ❌ `PRIVATE_KEY` - Server-only, never use NEXT*PUBLIC* for secrets
 >
 > **Why separate environments?**
+>
 > - **Development**: Uses `.env.local` (not committed to git)
 > - **Production**: Set via Vercel dashboard (secure)
 > - **Different networks**: Easy to switch API endpoints
@@ -883,6 +896,7 @@ Go to [Week 2 Submission](https://speedrunlisk.xyz/sea-campaign/week/2) and subm
 ### 🔧 Development Best Practices
 
 **Local Testing Strategy:**
+
 ```bash
 # Terminal 1: Always run local chain first
 yarn chain
@@ -895,9 +909,14 @@ yarn start
 ```
 
 **Debugging Contract Interactions:**
+
 ```typescript
 // Add console.logs to understand hook behavior
-const { data: balance, error, isLoading } = useScaffoldContractRead({
+const {
+  data: balance,
+  error,
+  isLoading,
+} = useScaffoldContractRead({
   contractName: "MyToken",
   functionName: "balanceOf",
   args: [address],
@@ -911,6 +930,7 @@ console.log("Error:", error);
 ### ⚡ Performance Optimization
 
 **Minimize Re-renders:**
+
 ```typescript
 // ✅ Good: Specific hooks for each data point
 const { data: tokenName } = useScaffoldContractRead({
@@ -923,95 +943,13 @@ const { data: tokenName } = useScaffoldContractRead({
 ```
 
 **Handle Loading States:**
+
 ```typescript
 const { data: balance, isLoading } = useScaffoldContractRead({...});
 
 if (isLoading) return <div className="loading loading-spinner"></div>;
 if (!balance) return <div>No balance found</div>;
 ```
-
-### 🔒 Security Considerations
-
-**Input Validation:**
-```typescript
-// Always validate before sending transactions
-if (!recipient || !amount || parseFloat(amount) <= 0) {
-  notification.error("Invalid input data");
-  return;
-}
-
-// Check for valid Ethereum address format
-if (!/^0x[a-fA-F0-9]{40}$/.test(recipient)) {
-  notification.error("Invalid recipient address");
-  return;
-}
-```
-
-**Gas Management:**
-```typescript
-// Consider gas limits for complex operations
-await writeMyTokenAsync({
-  functionName: "transfer",
-  args: [recipient, parseEther(amount)],
-  gasLimit: 100000n, // Optional: set gas limit
-});
-```
-
-### 📱 User Experience Tips
-
-**Real-time Updates:**
-- All `useScaffoldContractRead` hooks automatically watch for changes
-- Consider using `refetch()` for manual updates
-- Show transaction confirmations clearly
-
-**Error Boundaries:**
-```typescript
-// Wrap components in error boundaries
-try {
-  await writeMyTokenAsync({...});
-} catch (error) {
-  if (error.code === 'ACTION_REJECTED') {
-    notification.error("Transaction rejected by user");
-  } else {
-    notification.error("Transaction failed: " + error.message);
-  }
-}
-```
-
-**Mobile Optimization:**
-- Test on mobile devices (smaller screens)
-- Consider touch targets for buttons
-- Test wallet connections on mobile browsers
-
-## 🆘 Troubleshooting
-
-### Common Issues:
-
-**Wallet not connecting**:
-
-- Ensure you're on Lisk Sepolia network
-- Clear browser cache and reconnect
-- Check console for connection errors
-
-**Contract interactions failing**:
-
-- Verify contract addresses are correct
-- Ensure you have enough ETH for gas
-- Check if contracts are verified on Blockscout
-
-**Components not displaying data**:
-
-- Verify scaffold.config.ts points to liskSepolia
-- Check contract function names match exactly
-- Ensure wallet is connected before calling contract functions
-
-**Build/deployment issues**:
-
-- Run `yarn build` locally to check for errors
-- Ensure all environment variables are set correctly
-- Check that all imports are correct
-
-**Need help?** Join our [@LiskSEA Telegram](https://t.me/LiskSEA)! 💬
 
 ---
 

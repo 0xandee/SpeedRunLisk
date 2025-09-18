@@ -1,24 +1,27 @@
-import { createMocks } from 'node-mocks-http';
-import { GET } from '../../../app/api/sea-campaign/kpis/route';
-import { NextRequest } from 'next/server';
+import { NextRequest } from "next/server";
+import { GET } from "../../../app/api/sea-campaign/kpis/route";
+import { createMocks } from "node-mocks-http";
 
 // Mock dependencies
-jest.mock('../../../services/database/repositories/seaCampaignSubmissions');
-jest.mock('../../../services/database/repositories/seaCampaignProgress');
-jest.mock('../../../services/database/repositories/users');
+jest.mock("../../../services/database/repositories/seaCampaignSubmissions");
+jest.mock("../../../services/database/repositories/seaCampaignProgress");
+jest.mock("../../../services/database/repositories/users");
 
-const mockGetSubmissionStats = require('../../../services/database/repositories/seaCampaignSubmissions').getSeaCampaignSubmissionStats;
-const mockGetWeeklySubmissions = require('../../../services/database/repositories/seaCampaignSubmissions').getWeeklySubmissionCounts;
-const mockGetProgressStats = require('../../../services/database/repositories/seaCampaignProgress').getSeaCampaignProgressStats;
-const mockGetUserStats = require('../../../services/database/repositories/users').getSeaCampaignUserStats;
+const mockGetSubmissionStats =
+  require("../../../services/database/repositories/seaCampaignSubmissions").getSeaCampaignSubmissionStats;
+const mockGetWeeklySubmissions =
+  require("../../../services/database/repositories/seaCampaignSubmissions").getWeeklySubmissionCounts;
+const mockGetProgressStats =
+  require("../../../services/database/repositories/seaCampaignProgress").getSeaCampaignProgressStats;
+const mockGetUserStats = require("../../../services/database/repositories/users").getSeaCampaignUserStats;
 
-describe('/api/sea-campaign/kpis', () => {
+describe("/api/sea-campaign/kpis", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('GET', () => {
-    it('should return comprehensive KPI data', async () => {
+  describe("GET", () => {
+    it("should return comprehensive KPI data", async () => {
       const mockSubmissionStats = {
         totalSubmissions: 150,
         approvedSubmissions: 120,
@@ -51,11 +54,11 @@ describe('/api/sea-campaign/kpis', () => {
         seaCountryUsers: 115,
         seaCountryPercentage: 63.9,
         countryDistribution: [
-          { country: 'Philippines', userCount: 35, percentage: 19.4 },
-          { country: 'Vietnam', userCount: 28, percentage: 15.6 },
-          { country: 'Thailand', userCount: 22, percentage: 12.2 },
-          { country: 'Indonesia', userCount: 18, percentage: 10.0 },
-          { country: 'Malaysia', userCount: 12, percentage: 6.7 },
+          { country: "Philippines", userCount: 35, percentage: 19.4 },
+          { country: "Vietnam", userCount: 28, percentage: 15.6 },
+          { country: "Thailand", userCount: 22, percentage: 12.2 },
+          { country: "Indonesia", userCount: 18, percentage: 10.0 },
+          { country: "Malaysia", userCount: 12, percentage: 6.7 },
         ],
       };
 
@@ -64,7 +67,7 @@ describe('/api/sea-campaign/kpis', () => {
       mockGetProgressStats.mockResolvedValue(mockProgressStats);
       mockGetUserStats.mockResolvedValue(mockUserStats);
 
-      const url = new URL('http://localhost:3000/api/sea-campaign/kpis');
+      const url = new URL("http://localhost:3000/api/sea-campaign/kpis");
       const request = new NextRequest(url);
 
       const response = await GET(request);
@@ -79,7 +82,7 @@ describe('/api/sea-campaign/kpis', () => {
       expect(data.campaignHealth.overallScore).toBeGreaterThan(0);
     });
 
-    it('should calculate campaign health score correctly', async () => {
+    it("should calculate campaign health score correctly", async () => {
       const mockSubmissionStats = {
         totalSubmissions: 100,
         approvedSubmissions: 90,
@@ -115,7 +118,7 @@ describe('/api/sea-campaign/kpis', () => {
       mockGetProgressStats.mockResolvedValue(mockProgressStats);
       mockGetUserStats.mockResolvedValue(mockUserStats);
 
-      const url = new URL('http://localhost:3000/api/sea-campaign/kpis');
+      const url = new URL("http://localhost:3000/api/sea-campaign/kpis");
       const request = new NextRequest(url);
 
       const response = await GET(request);
@@ -128,7 +131,7 @@ describe('/api/sea-campaign/kpis', () => {
       expect(data.campaignHealth.retentionHealth).toBeGreaterThan(80);
     });
 
-    it('should handle empty data gracefully', async () => {
+    it("should handle empty data gracefully", async () => {
       mockGetSubmissionStats.mockResolvedValue({
         totalSubmissions: 0,
         approvedSubmissions: 0,
@@ -155,7 +158,7 @@ describe('/api/sea-campaign/kpis', () => {
         countryDistribution: [],
       });
 
-      const url = new URL('http://localhost:3000/api/sea-campaign/kpis');
+      const url = new URL("http://localhost:3000/api/sea-campaign/kpis");
       const request = new NextRequest(url);
 
       const response = await GET(request);
@@ -168,7 +171,7 @@ describe('/api/sea-campaign/kpis', () => {
       expect(data.campaignHealth.overallScore).toBe(0);
     });
 
-    it('should include weekly targets and achievement rates', async () => {
+    it("should include weekly targets and achievement rates", async () => {
       const mockWeeklyData = [
         { weekNumber: 1, submissionCount: 180, targetCount: 200, achievementRate: 90.0 },
         { weekNumber: 2, submissionCount: 75, targetCount: 100, achievementRate: 75.0 },
@@ -204,7 +207,7 @@ describe('/api/sea-campaign/kpis', () => {
         countryDistribution: [],
       });
 
-      const url = new URL('http://localhost:3000/api/sea-campaign/kpis');
+      const url = new URL("http://localhost:3000/api/sea-campaign/kpis");
       const request = new NextRequest(url);
 
       const response = await GET(request);
@@ -217,20 +220,20 @@ describe('/api/sea-campaign/kpis', () => {
       expect(data.weeklyProgress[5].achievementRate).toBe(50.0);
     });
 
-    it('should handle database errors gracefully', async () => {
-      mockGetSubmissionStats.mockRejectedValue(new Error('Database connection failed'));
+    it("should handle database errors gracefully", async () => {
+      mockGetSubmissionStats.mockRejectedValue(new Error("Database connection failed"));
 
-      const url = new URL('http://localhost:3000/api/sea-campaign/kpis');
+      const url = new URL("http://localhost:3000/api/sea-campaign/kpis");
       const request = new NextRequest(url);
 
       const response = await GET(request);
       const data = await response.json();
 
       expect(response.status).toBe(500);
-      expect(data.error).toBe('Failed to fetch campaign KPIs');
+      expect(data.error).toBe("Failed to fetch campaign KPIs");
     });
 
-    it('should include social engagement metrics', async () => {
+    it("should include social engagement metrics", async () => {
       const mockSubmissionStats = {
         totalSubmissions: 100,
         approvedSubmissions: 85,
@@ -260,7 +263,7 @@ describe('/api/sea-campaign/kpis', () => {
         countryDistribution: [],
       });
 
-      const url = new URL('http://localhost:3000/api/sea-campaign/kpis');
+      const url = new URL("http://localhost:3000/api/sea-campaign/kpis");
       const request = new NextRequest(url);
 
       const response = await GET(request);
@@ -271,7 +274,7 @@ describe('/api/sea-campaign/kpis', () => {
       expect(data.submissionStats.socialPostsCount).toBe(95);
     });
 
-    it('should calculate retention and dropout rates correctly', async () => {
+    it("should calculate retention and dropout rates correctly", async () => {
       const mockProgressStats = {
         totalParticipants: 200,
         graduatedUsers: 25,
@@ -299,7 +302,7 @@ describe('/api/sea-campaign/kpis', () => {
         countryDistribution: [],
       });
 
-      const url = new URL('http://localhost:3000/api/sea-campaign/kpis');
+      const url = new URL("http://localhost:3000/api/sea-campaign/kpis");
       const request = new NextRequest(url);
 
       const response = await GET(request);

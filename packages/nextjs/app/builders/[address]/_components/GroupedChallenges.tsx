@@ -45,11 +45,11 @@ export function GroupedChallenges({
 }) {
   // Convert user challenges to mapped format, combining with challenge metadata
   const userMappedChallenges: MappedChallenges[] = [];
-  
+
   // Add all static challenges from the challenges list
   challenges.forEach((challenge: Challenges[number]) => {
     const userChallenge = userChallenges.find(uc => uc.challengeId === challenge.id);
-    
+
     userMappedChallenges.push({
       ...challenge,
       reviewAction: userChallenge?.reviewAction ?? null,
@@ -59,7 +59,7 @@ export function GroupedChallenges({
       frontendUrl: userChallenge?.frontendUrl ?? null,
     });
   });
-  
+
   // Add any additional user challenges that aren't in the static list (like completed SEA challenges)
   userChallenges.forEach(uc => {
     const existsInStatic = challenges.find(c => c.id === uc.challengeId);
@@ -83,7 +83,7 @@ export function GroupedChallenges({
       });
     }
   });
-  
+
   userMappedChallenges.sort((a, b) => a.sortOrder - b.sortOrder);
 
   // Filter challenges into basic and advanced

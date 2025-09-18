@@ -111,12 +111,8 @@
           "name": "build_builders_build_id_builds_id_fk",
           "tableFrom": "build_builders",
           "tableTo": "builds",
-          "columnsFrom": [
-            "build_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["build_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -124,12 +120,8 @@
           "name": "build_builders_user_address_users_user_address_fk",
           "tableFrom": "build_builders",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_address"
-          ],
-          "columnsTo": [
-            "user_address"
-          ],
+          "columnsFrom": ["user_address"],
+          "columnsTo": ["user_address"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -137,10 +129,7 @@
       "compositePrimaryKeys": {
         "build_builders_build_id_user_address_pk": {
           "name": "build_builders_build_id_user_address_pk",
-          "columns": [
-            "build_id",
-            "user_address"
-          ]
+          "columns": ["build_id", "user_address"]
         }
       },
       "uniqueConstraints": {},
@@ -206,12 +195,8 @@
           "name": "build_likes_build_id_builds_id_fk",
           "tableFrom": "build_likes",
           "tableTo": "builds",
-          "columnsFrom": [
-            "build_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["build_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -219,12 +204,8 @@
           "name": "build_likes_user_address_users_user_address_fk",
           "tableFrom": "build_likes",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_address"
-          ],
-          "columnsTo": [
-            "user_address"
-          ],
+          "columnsFrom": ["user_address"],
+          "columnsTo": ["user_address"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -546,12 +527,8 @@
           "name": "sea_campaign_progress_user_address_users_user_address_fk",
           "tableFrom": "sea_campaign_progress",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_address"
-          ],
-          "columnsTo": [
-            "user_address"
-          ],
+          "columnsFrom": ["user_address"],
+          "columnsTo": ["user_address"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -660,12 +637,8 @@
           "name": "sea_campaign_rewards_user_address_users_user_address_fk",
           "tableFrom": "sea_campaign_rewards",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_address"
-          ],
-          "columnsTo": [
-            "user_address"
-          ],
+          "columnsFrom": ["user_address"],
+          "columnsTo": ["user_address"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -847,12 +820,8 @@
           "name": "sea_campaign_submissions_user_address_users_user_address_fk",
           "tableFrom": "sea_campaign_submissions",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_address"
-          ],
-          "columnsTo": [
-            "user_address"
-          ],
+          "columnsFrom": ["user_address"],
+          "columnsTo": ["user_address"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -996,12 +965,8 @@
           "name": "user_challenges_user_address_users_user_address_fk",
           "tableFrom": "user_challenges",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_address"
-          ],
-          "columnsTo": [
-            "user_address"
-          ],
+          "columnsFrom": ["user_address"],
+          "columnsTo": ["user_address"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1009,12 +974,8 @@
           "name": "user_challenges_challenge_id_challenges_id_fk",
           "tableFrom": "user_challenges",
           "tableTo": "challenges",
-          "columnsFrom": [
-            "challenge_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["challenge_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1182,12 +1143,8 @@
           "name": "users_batch_id_batches_id_fk",
           "tableFrom": "users",
           "tableTo": "batches",
-          "columnsFrom": [
-            "batch_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["batch_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1203,27 +1160,17 @@
     "public.batch_network": {
       "name": "batch_network",
       "schema": "public",
-      "values": [
-        "arbitrum",
-        "optimism",
-        "lisk-sepolia"
-      ]
+      "values": ["arbitrum", "optimism", "lisk-sepolia"]
     },
     "public.batch_status_enum": {
       "name": "batch_status_enum",
       "schema": "public",
-      "values": [
-        "closed",
-        "open"
-      ]
+      "values": ["closed", "open"]
     },
     "public.batch_user_status_enum": {
       "name": "batch_user_status_enum",
       "schema": "public",
-      "values": [
-        "graduate",
-        "candidate"
-      ]
+      "values": ["graduate", "candidate"]
     },
     "public.build_category_enum": {
       "name": "build_category_enum",
@@ -1244,60 +1191,32 @@
     "public.build_type_enum": {
       "name": "build_type_enum",
       "schema": "public",
-      "values": [
-        "Dapp",
-        "Infrastructure",
-        "Challenge submission",
-        "Content",
-        "Design",
-        "Other"
-      ]
+      "values": ["Dapp", "Infrastructure", "Challenge submission", "Content", "Design", "Other"]
     },
     "public.review_action_enum": {
       "name": "review_action_enum",
       "schema": "public",
-      "values": [
-        "REJECTED",
-        "ACCEPTED",
-        "SUBMITTED"
-      ]
+      "values": ["REJECTED", "ACCEPTED", "SUBMITTED"]
     },
     "public.sea_campaign_payment_status_enum": {
       "name": "sea_campaign_payment_status_enum",
       "schema": "public",
-      "values": [
-        "PENDING",
-        "PAID",
-        "FAILED"
-      ]
+      "values": ["PENDING", "PAID", "FAILED"]
     },
     "public.sea_campaign_reward_type_enum": {
       "name": "sea_campaign_reward_type_enum",
       "schema": "public",
-      "values": [
-        "TOP_QUALITY",
-        "TOP_ENGAGEMENT",
-        "FAST_COMPLETION"
-      ]
+      "values": ["TOP_QUALITY", "TOP_ENGAGEMENT", "FAST_COMPLETION"]
     },
     "public.sea_campaign_submission_status_enum": {
       "name": "sea_campaign_submission_status_enum",
       "schema": "public",
-      "values": [
-        "SUBMITTED",
-        "REVIEWED",
-        "APPROVED",
-        "REJECTED"
-      ]
+      "values": ["SUBMITTED", "REVIEWED", "APPROVED", "REJECTED"]
     },
     "public.user_role_enum": {
       "name": "user_role_enum",
       "schema": "public",
-      "values": [
-        "USER",
-        "BUILDER",
-        "ADMIN"
-      ]
+      "values": ["USER", "BUILDER", "ADMIN"]
     }
   },
   "schemas": {},

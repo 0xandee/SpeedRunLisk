@@ -1,11 +1,11 @@
 // Jest setup file
-import { config } from 'dotenv';
+import { config } from "dotenv";
 
 // Load environment variables from .env.local for testing
-config({ path: '.env.local' });
+config({ path: ".env.local" });
 
 // Mock Next.js modules that are not available in Node.js environment
-jest.mock('next/navigation', () => ({
+jest.mock("next/navigation", () => ({
   useRouter: () => ({
     push: jest.fn(),
     replace: jest.fn(),
@@ -17,22 +17,22 @@ jest.mock('next/navigation', () => ({
   useSearchParams: () => ({
     get: jest.fn(),
   }),
-  usePathname: () => '/test-path',
+  usePathname: () => "/test-path",
 }));
 
-jest.mock('next-auth', () => ({
+jest.mock("next-auth", () => ({
   getServerSession: jest.fn(),
 }));
 
 // Set up test database environment variables
 if (!process.env.NODE_ENV) {
-  Object.defineProperty(process.env, 'NODE_ENV', {
-    value: 'test',
+  Object.defineProperty(process.env, "NODE_ENV", {
+    value: "test",
     writable: true,
-    configurable: true
+    configurable: true,
   });
 }
-process.env.POSTGRES_URL = process.env.POSTGRES_URL || 'postgresql://test:test@localhost:5432/speedrun_lisk_test';
+process.env.POSTGRES_URL = process.env.POSTGRES_URL || "postgresql://test:test@localhost:5432/speedrun_lisk_test";
 
 // Mock console methods to reduce noise during testing
 global.console = {

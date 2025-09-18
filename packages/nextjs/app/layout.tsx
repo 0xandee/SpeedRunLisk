@@ -1,7 +1,7 @@
 import { Space_Grotesk } from "next/font/google";
 import "@rainbow-me/rainbowkit/styles.css";
-import PlausibleProvider from "next-plausible";
 import { Analytics } from "@vercel/analytics/next";
+import PlausibleProvider from "next-plausible";
 import AcquisitionTracker from "~~/components/AcquisitionTracker";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
 import { ThemeProvider } from "~~/components/ThemeProvider";

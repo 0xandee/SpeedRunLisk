@@ -113,7 +113,7 @@ export default async function BuilderPage(props: { params: Promise<{ address: st
           /> */}
           <h1 className="text-2xl font-bold text-primary">Builder Profile</h1>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <div>
             <UserProfileCard user={user} batch={userBatch} />
