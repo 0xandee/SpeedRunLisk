@@ -24,7 +24,7 @@ export const SEA_CAMPAIGN_METADATA = {
     guides: ["/speedrun/ch2-frontend-connect"],
     videoUrl: {
       text: "V2 (10m): Connect React/Next (hooks, read/write demo)",
-      url: null,
+      url: "https://youtu.be/nFOc1Or3hkg",
     },
     socialHashtags: ["#SpeedrunLiskSEA", "#W2", "@LiskSEA"],
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],
@@ -216,9 +216,9 @@ export function getChallengeByWeek(weekNumber: number) {
   );
   return challengeKey
     ? {
-        id: challengeKey,
-        ...SEA_CAMPAIGN_METADATA[challengeKey as keyof typeof SEA_CAMPAIGN_METADATA],
-      }
+      id: challengeKey,
+      ...SEA_CAMPAIGN_METADATA[challengeKey as keyof typeof SEA_CAMPAIGN_METADATA],
+    }
     : null;
 }
 
