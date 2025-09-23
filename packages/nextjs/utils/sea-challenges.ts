@@ -38,7 +38,7 @@ export const SEA_CAMPAIGN_METADATA = {
     description: "Index blockchain data and display it in your frontend with pagination",
     dueDate: "2025-10-05",
     reward: "Data Indexing Badge",
-    guides: ["/speedrun/ch3-index-display", "/speedrun/indexer-caching-tips"],
+    guides: ["/speedrun/ch3-index-display"],
     videoUrl: {
       text: "V3 (10m): Index & display (init, entities, queries, paginate)",
       url: null,
