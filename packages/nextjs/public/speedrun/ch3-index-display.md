@@ -60,6 +60,7 @@ event Transfer(address from, address to, uint256 value);
 ```
 
 **Why are events useful?**
+
 - 📜 **See transaction history**: What happened in your contracts
 - 🔍 **Filter data**: Only show events you care about
 - ⚡ **Better performance**: More efficient than checking contract state repeatedly
@@ -77,12 +78,12 @@ First, create `packages/nextjs/app/events/page.tsx` with the complete structure 
 ```tsx
 "use client";
 
-import type { NextPage } from "next";
 import { useState } from "react";
-import { useAccount } from "wagmi";
-import { useScaffoldEventHistory } from "~~/hooks/scaffold-eth";
-import { Address } from "~~/components/scaffold-eth";
+import type { NextPage } from "next";
 import { formatEther } from "viem";
+import { useAccount } from "wagmi";
+import { Address } from "~~/components/scaffold-eth";
+import { useScaffoldEventHistory } from "~~/hooks/scaffold-eth";
 
 const Events: NextPage = () => {
   // TODO: Step 2 - Add state variables for managing the page
@@ -112,9 +113,9 @@ Now let's fill in each section step by step:
 Replace the `TODO: Step 2` comment with our state variables:
 
 ```tsx
-  // State for managing the page
-  const { isConnected } = useAccount();
-  const [eventType, setEventType] = useState<"token" | "nft">("token");
+// State for managing the page
+const { isConnected } = useAccount();
+const [eventType, setEventType] = useState<"token" | "nft">("token");
 ```
 
 ### Step 3: Add Event Fetching Logic
@@ -122,25 +123,25 @@ Replace the `TODO: Step 2` comment with our state variables:
 Replace the `TODO: Step 3` comment with event fetching:
 
 ```tsx
-  // Get token transfer events
-  const { data: tokenEvents, isLoading: tokenLoading } = useScaffoldEventHistory({
-    contractName: "MyToken",
-    eventName: "Transfer",
-    fromBlock: 0n,
-    watch: true,
-  });
+// Get token transfer events
+const { data: tokenEvents, isLoading: tokenLoading } = useScaffoldEventHistory({
+  contractName: "MyToken",
+  eventName: "Transfer",
+  fromBlock: 0n,
+  watch: true,
+});
 
-  // Get NFT transfer events
-  const { data: nftEvents, isLoading: nftLoading } = useScaffoldEventHistory({
-    contractName: "MyNFT",
-    eventName: "Transfer",
-    fromBlock: 0n,
-    watch: true,
-  });
+// Get NFT transfer events
+const { data: nftEvents, isLoading: nftLoading } = useScaffoldEventHistory({
+  contractName: "MyNFT",
+  eventName: "Transfer",
+  fromBlock: 0n,
+  watch: true,
+});
 
-  // Determine which events to show based on selected tab
-  const currentEvents = eventType === "token" ? tokenEvents || [] : nftEvents || [];
-  const isLoading = eventType === "token" ? tokenLoading : nftLoading;
+// Determine which events to show based on selected tab
+const currentEvents = eventType === "token" ? tokenEvents || [] : nftEvents || [];
+const isLoading = eventType === "token" ? tokenLoading : nftLoading;
 ```
 
 ### Step 4: Add Wallet Connection Check
@@ -168,12 +169,10 @@ Replace the `TODO: Step 4` comment with the wallet check (place this before the 
 Replace the `TODO: Step 5` comment with the page header:
 
 ```tsx
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-center mb-4">📜 Contract Events</h1>
-        <p className="text-center text-gray-600">
-          View transaction history for your contracts
-        </p>
-      </div>
+<div className="mb-8">
+  <h1 className="text-3xl font-bold text-center mb-4">📜 Contract Events</h1>
+  <p className="text-center text-gray-600">View transaction history for your contracts</p>
+</div>
 ```
 
 ### Step 6: Add Event Type Tabs
@@ -181,22 +180,16 @@ Replace the `TODO: Step 5` comment with the page header:
 Replace the `TODO: Step 6` comment with the tab selector:
 
 ```tsx
-      <div className="flex justify-center mb-6">
-        <div className="tabs tabs-boxed">
-          <button
-            className={`tab ${eventType === "token" ? "tab-active" : ""}`}
-            onClick={() => setEventType("token")}
-          >
-            Token Transfers ({tokenEvents?.length || 0})
-          </button>
-          <button
-            className={`tab ${eventType === "nft" ? "tab-active" : ""}`}
-            onClick={() => setEventType("nft")}
-          >
-            NFT Activity ({nftEvents?.length || 0})
-          </button>
-        </div>
-      </div>
+<div className="flex justify-center mb-6">
+  <div className="tabs tabs-boxed">
+    <button className={`tab ${eventType === "token" ? "tab-active" : ""}`} onClick={() => setEventType("token")}>
+      Token Transfers ({tokenEvents?.length || 0})
+    </button>
+    <button className={`tab ${eventType === "nft" ? "tab-active" : ""}`} onClick={() => setEventType("nft")}>
+      NFT Activity ({nftEvents?.length || 0})
+    </button>
+  </div>
+</div>
 ```
 
 ### Step 7: Add Events Table
@@ -204,82 +197,74 @@ Replace the `TODO: Step 6` comment with the tab selector:
 Replace the `TODO: Step 7` comment with the complete events table:
 
 ```tsx
-      <div className="card bg-base-100 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title">
-            {eventType === "token" ? "🪙 Token Events" : "🎨 NFT Events"}
-          </h2>
+<div className="card bg-base-100 shadow-xl">
+  <div className="card-body">
+    <h2 className="card-title">{eventType === "token" ? "🪙 Token Events" : "🎨 NFT Events"}</h2>
 
-          {isLoading ? (
-            <div className="flex justify-center py-8">
-              <span className="loading loading-spinner loading-lg"></span>
-            </div>
-          ) : currentEvents.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
-              <p>No events found</p>
-              <p className="text-sm">
-                {eventType === "token"
-                  ? "Transfer some tokens to see events here"
-                  : "Mint some NFTs to see events here"
-                }
-              </p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="table table-zebra">
-                <thead>
-                  <tr>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>{eventType === "token" ? "Amount" : "Token ID"}</th>
-                    <th>Block</th>
-                    <th>Transaction</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentEvents.slice(0, 20).map((event, index) => (
-                    <tr key={`${event.log.transactionHash}-${index}`}>
-                      <td>
-                        <Address address={event.args.from} size="sm" />
-                      </td>
-                      <td>
-                        <Address address={event.args.to} size="sm" />
-                      </td>
-                      <td>
-                        {eventType === "token" ? (
-                          <span className="font-mono">
-                            {Number(formatEther(event.args[2] || 0n)).toFixed(4)} LSEA
-                          </span>
-                        ) : (
-                          <span className="badge badge-primary">
-                            #{event.args[2]?.toString()}
-                          </span>
-                        )}
-                      </td>
-                      <td>
-                        <span className="text-sm">{event.log.blockNumber.toString()}</span>
-                      </td>
-                      <td>
-                        <a
-                          href={`https://sepolia-blockscout.lisk.com/tx/${event.log.transactionHash}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn btn-xs btn-outline"
-                        >
-                          View →
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+    {isLoading ? (
+      <div className="flex justify-center py-8">
+        <span className="loading loading-spinner loading-lg"></span>
       </div>
+    ) : currentEvents.length === 0 ? (
+      <div className="text-center py-8 text-gray-500">
+        <p>No events found</p>
+        <p className="text-sm">
+          {eventType === "token" ? "Transfer some tokens to see events here" : "Mint some NFTs to see events here"}
+        </p>
+      </div>
+    ) : (
+      <div className="overflow-x-auto">
+        <table className="table table-zebra">
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>To</th>
+              <th>{eventType === "token" ? "Amount" : "Token ID"}</th>
+              <th>Block</th>
+              <th>Transaction</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentEvents.slice(0, 20).map((event, index) => (
+              <tr key={`${event.log.transactionHash}-${index}`}>
+                <td>
+                  <Address address={event.args.from} size="sm" />
+                </td>
+                <td>
+                  <Address address={event.args.to} size="sm" />
+                </td>
+                <td>
+                  {eventType === "token" ? (
+                    <span className="font-mono">{Number(formatEther(event.args[2] || 0n)).toFixed(4)} LSEA</span>
+                  ) : (
+                    <span className="badge badge-primary">#{event.args[2]?.toString()}</span>
+                  )}
+                </td>
+                <td>
+                  <span className="text-sm">{event.log.blockNumber.toString()}</span>
+                </td>
+                <td>
+                  <a
+                    href={`https://sepolia-blockscout.lisk.com/tx/${event.log.transactionHash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-xs btn-outline"
+                  >
+                    View →
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+</div>
 ```
 
 > **⚠️ Technical Note**: The `useScaffoldEventHistory` hook returns events with a nested structure where:
+>
 > - Transaction details are in `event.log` (not directly on `event`)
 > - Event arguments can be accessed by name (`event.args.from`) or by index (`event.args[2]`)
 > - For the Transfer event, the third argument (index 2) contains either the token amount or NFT ID
@@ -295,10 +280,18 @@ Add the events page to your navigation. Edit `packages/nextjs/components/Header.
 // Find the navigation section and add the Events link:
 <div className="navbar-center hidden lg:flex">
   <ul className="menu menu-horizontal px-1">
-    <li><Link href="/">Home</Link></li>
-    <li><Link href="/events">Events</Link></li>
-    <li><Link href="/debug">Debug Contracts</Link></li>
-    <li><Link href="/blockexplorer">Block Explorer</Link></li>
+    <li>
+      <Link href="/">Home</Link>
+    </li>
+    <li>
+      <Link href="/events">Events</Link>
+    </li>
+    <li>
+      <Link href="/debug">Debug Contracts</Link>
+    </li>
+    <li>
+      <Link href="/blockexplorer">Block Explorer</Link>
+    </li>
   </ul>
 </div>
 ```
@@ -312,11 +305,13 @@ Now let's test your events page and deploy it!
 ### Test Your Events Page
 
 1. **Start your development server**:
+
    ```sh
    yarn start
    ```
 
 2. **Navigate to your events page**:
+
    - Visit http://localhost:3000/events
    - Connect your wallet
    - Try switching between Token and NFT tabs
@@ -329,6 +324,7 @@ Now let's test your events page and deploy it!
 ### Deploy Your dApp
 
 1. **Build your app**:
+
    ```sh
    yarn build
    ```
@@ -359,9 +355,13 @@ Go to [Week 3 Submission](https://speedrunlisk.xyz/sea-campaign/week/3) and subm
 ## 💡 What You Learned
 
 ✅ **Blockchain Events**: How to read and display contract events
+
 ✅ **Event Listening**: Using `useScaffoldEventHistory` to fetch contract data
+
 ✅ **Real-time Updates**: Events automatically update when new transactions occur
+
 ✅ **Component Structure**: Building React components step-by-step with placeholder comments
+
 ✅ **Web3 Integration**: Connecting smart contract events to your frontend interface
 
 ## 🚀 Next Steps
