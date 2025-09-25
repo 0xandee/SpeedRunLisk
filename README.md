@@ -10,6 +10,10 @@ SpeedRunLisk - Learn Solidity development on the Lisk blockchain through interac
 
 You can find the repository containing the challenges [here](https://github.com/scaffold-eth/se-2-challenges).
 
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details on how to get started, development workflow, and guidelines for submitting pull requests.
+
 ## Requirements
 
 Before you begin, you need to install the following tools:
