@@ -294,7 +294,7 @@ export function SeaSubmissionForm({ weekNumber, challengeId, onSuccess }: SeaSub
 
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Payout Wallet Address</span>
+                  <span className="label-text">Payout Wallet Address on Lisk Mainnet</span>
                   <span className="label-text-alt">For completion bonuses</span>
                 </label>
                 <input
