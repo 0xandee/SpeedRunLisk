@@ -2,7 +2,7 @@
 
 ![SRE Thumbnail](./packages/nextjs/public/thumbnail.png)
 
-SpeedRunLisk - Learn Solidity development on the Lisk blockchain through interactive challenges. Based on [SpeedRunEthereum](https://github.com/BuidlGuidl/SpeedRunEthereum) and built with [Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2), adapted for the Lisk ecosystem. An expanded experience for builders where you'll be able to unlock your builder profile after completing a few challenges. This will open the gates to:
+SpeedRunLisk - Learn Solidity development on the Lisk blockchain through interactive challenges. Based on [SpeedRunEthereum](https://github.com/BuidlGuidl/SpeedRunEthereum) and built with [Scaffold-ETH 2](https://github.com/LiskHQ/scaffold-lisk), adapted for the Lisk ecosystem. An expanded experience for builders where you'll be able to unlock your builder profile after completing a few challenges. This will open the gates to:
 
 - Interact with other BuidlGuidl curriculums like [ETH Tech Tree](https://www.ethtechtree.com/) and [BuidlGuidl CTF](https://ctf.buidlguidl.com/)
 - Share your builds and discover what other builders are up to
