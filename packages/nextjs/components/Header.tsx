@@ -28,6 +28,10 @@ export const HeaderMenuLinks = ({ hideItemsByLabel, user }: { hideItemsByLabel?:
         href: "/",
         icon: <span className="text-lg">🏃‍♂️</span>,
       },
+      // {
+      //   label: "Leaderboard",
+      //   href: "/builders",
+      // },
     ];
 
     const userMenuLinks: HeaderMenuLink[] = [
@@ -35,11 +39,6 @@ export const HeaderMenuLinks = ({ hideItemsByLabel, user }: { hideItemsByLabel?:
         label: "My Progress",
         href: user ? `/builders/${user.userAddress}` : "/",
         availableForRoles: [UserRole.USER, UserRole.BUILDER, UserRole.ADMIN],
-      },
-      {
-        label: "Builders",
-        href: "/builders",
-        availableForRoles: [UserRole.BUILDER, UserRole.ADMIN],
       },
     ];
 
@@ -87,9 +86,8 @@ export const HeaderMenuLinks = ({ hideItemsByLabel, user }: { hideItemsByLabel?:
             <Link
               href={href}
               passHref
-              className={`${
-                isActive ? "underline" : ""
-              } hover:underline py-1.5 lg:py-2 px-3 lg:px-4 text-base font-medium rounded-full gap-2 grid grid-flow-col`}
+              className={`${isActive ? "underline" : ""
+                } hover:underline py-1.5 lg:py-2 px-3 lg:px-4 text-base font-medium rounded-full gap-2 grid grid-flow-col`}
             >
               {icon}
               <span>{label}</span>
@@ -130,6 +128,9 @@ export const Header = () => {
         </div>
       </div>
       <div className="navbar-end flex-grow mr-2">
+        <Link href={`/builders`} className="btn btn-sm btn-ghost mr-2">
+          Leaderboard
+        </Link>
         {user && (
           <Link href={`/builders/${user.userAddress}`} className="btn btn-sm btn-ghost mr-2">
             My Progress

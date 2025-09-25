@@ -5,7 +5,7 @@
 ### 1. Clone the Template
 
 ```bash
-git clone https://github.com/scaffold-eth/scaffold-eth-2.git my-lisk-project
+git clone https://github.com/LiskHQ/scaffold-lisk.git my-lisk-project
 cd my-lisk-project
 ```
 

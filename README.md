@@ -2,11 +2,11 @@
 
 ![SRE Thumbnail](./packages/nextjs/public/thumbnail.png)
 
-SpeedRunLisk - Learn Solidity development on the Lisk blockchain through interactive challenges. Based on [SpeedRunEthereum](https://github.com/BuidlGuidl/SpeedRunEthereum) and built with [Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2), adapted for the Lisk ecosystem. An expanded experience for builders where you'll be able to unlock your builder profile after completing a few challenges. This will open the gates to:
+SpeedRunLisk - Learn Solidity development on the Lisk blockchain through interactive challenges. Based on [SpeedRunEthereum](https://github.com/BuidlGuidl/SpeedRunEthereum) and built with [Scaffold-Lisk](https://github.com/LiskHQ/scaffold-lisk), adapted for the Lisk ecosystem. An expanded experience for builders where you'll be able to unlock your builder profile after completing a few challenges. This will open the gates to:
 
-- Interact with other BuidlGuidl curriculums like [ETH Tech Tree](https://www.ethtechtree.com/) and [BuidlGuidl CTF](https://ctf.buidlguidl.com/)
-- Share your builds and discover what other builders are up to
-- Earn badges
+-   Interact with other BuidlGuidl curriculums like [ETH Tech Tree](https://www.ethtechtree.com/) and [BuidlGuidl CTF](https://ctf.buidlguidl.com/)
+-   Share your builds and discover what other builders are up to
+-   Earn badges
 
 You can find the repository containing the challenges [here](https://github.com/scaffold-eth/se-2-challenges).
 
@@ -14,10 +14,10 @@ You can find the repository containing the challenges [here](https://github.com/
 
 Before you begin, you need to install the following tools:
 
-- [Node (>= v22.18.0)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
-- [Git](https://git-scm.com/downloads)
-- [Docker Engine](https://docs.docker.com/engine/install/)
+-   [Node (>= v22.18.0)](https://nodejs.org/en/download/)
+-   Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
+-   [Git](https://git-scm.com/downloads)
+-   [Docker Engine](https://docs.docker.com/engine/install/)
 
 ## Development Quickstart
 
@@ -73,9 +73,9 @@ We also need to make sure we commit the migration to the repo.
 
 To iterate fast on the database locally:
 
-- Tweak the schema in `schema.ts`
-- Run `yarn drizzle-kit push` to apply the changes.
-- Copy `seed.data.example.ts` to `seed.data.ts`, tweak as needed and run `yarn db:seed` (will delete existing data)
+-   Tweak the schema in `schema.ts`
+-   Run `yarn drizzle-kit push` to apply the changes.
+-   Copy `seed.data.example.ts` to `seed.data.ts`, tweak as needed and run `yarn db:seed` (will delete existing data)
 
 ### Firebase image upload
 

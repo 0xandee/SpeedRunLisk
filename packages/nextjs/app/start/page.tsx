@@ -146,8 +146,8 @@ const StartLandingPage = async () => {
           </p>
           <p className="mt-8 mb-4">
             You'll use{" "}
-            <a href="https://github.com/scaffold-eth/scaffold-eth-2" className="link">
-              Scaffold-ETH 2
+            <a href="https://github.com/LiskHQ/scaffold-lisk" className="link">
+              Scaffold-Lisk
             </a>
             , a powerful developer toolkit that gives you:
           </p>

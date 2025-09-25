@@ -134,11 +134,11 @@ To compile, deploy, and test your `YourToken.sol` contract, you'll need a develo
    - **What it is:** A powerful, browser-based IDE for Ethereum smart contract development. It's excellent for quickly writing, compiling, deploying, and debugging contracts without any local setup.
    - **How to use:** Visit [remix.ethereum.org](https://www.google.com/search?q=https://remix.ethereum.org). You can paste the `YourToken.sol` code (including the OpenZeppelin imports, which Remix can resolve) directly into a new file, compile it, and deploy it to various test networks or a simulated environment from the "Deploy & Run Transactions" tab.
    - **Great for:** Beginners, quick experiments, and direct testnet interaction.
-2. **Local Development with Hardhat (e.g., via Scaffold-ETH 2):**
+2. **Local Development with Hardhat (e.g., via Scaffold-Lisk):**
    - **What it is:** For more complex projects or a professional workflow, a local setup using Hardhat is common. Hardhat is an Ethereum development environment that facilitates compiling, deploying, testing, and debugging.
-   - **Scaffold-ETH 2:** A great starting point, it bundles Hardhat with a pre-configured frontend (Next.JS) and many useful scripts, allowing you to get up and running quickly. [Scaffold-ETH 2 repository](https://github.com/scaffold-eth/scaffold-eth-2).
+   - **Scaffold-Lisk:** A great starting point, it bundles Hardhat with a pre-configured frontend (Next.JS) and many useful scripts, allowing you to get up and running quickly. [Scaffold-Lisk repository](https://github.com/LiskHQ/scaffold-lisk).
    - **How it works (general approach):** You'd typically place your .sol files in a contracts directory, write deployment scripts, and use command-line tasks to compile, deploy, and test.
-   - **Quick setup with Scaffold-ETH 2:** The SpeedRunEthereum challenges, like the [Token Vendor challenge](https://speedrunethereum.com/challenge/token-vendor), provide excellent, step-by-step instructions on cloning and setting up a Scaffold-ETH 2 environment. It will speed up your development and learning process.
+   - **Quick setup with Scaffold-Lisk:** The SpeedRunEthereum challenges, like the [Token Vendor challenge](https://speedrunethereum.com/challenge/token-vendor), provide excellent, step-by-step instructions on cloning and setting up a Scaffold-Lisk environment. It will speed up your development and learning process.
 
 Choose the environment that best suits your current needs. For this tutorial, the Solidity code remains the same regardless of your choice.
 
@@ -149,17 +149,17 @@ Once you have your `YourToken.sol` code and an environment set up:
 1. **Compilation:**
    - Your Solidity code needs to be compiled into Ethereum Virtual Machine (EVM) bytecode.
    - In Remix, this is done via the "Solidity compiler" tab.
-   - In Scaffold-ETH 2, run `yarn compile` in your terminal.
+   - In Scaffold-Lisk, run `yarn compile` in your terminal.
 2. **Deployment:**
    - This step pushes your compiled contract onto the blockchain (either a local testnet, a public testnet like Sepolia, or the Ethereum mainnet).
    - In Remix, you'd use the "Deploy & Run Transactions" tab, select your contract, provide constructor arguments (name, symbol, initial supply), and deploy. You'll need test Ether in your wallet if deploying to a public testnet.
-   - In Scaffold-ETH 2, run `yarn deploy` in your terminal (after running your local blockchain with `yarn chain` in another terminal).
+   - In Scaffold-Lisk, run `yarn deploy` in your terminal (after running your local blockchain with `yarn chain` in another terminal).
 3. **Interaction:**
    - After deployment, you'll get a contract address.
    - **Remix:** You can interact with your deployed contract directly in Remix's "Deployed Contracts" section.
    - **Wallets:** Add the token to MetaMask (or another wallet) using its contract address to see your balance. You'll need to be on the correct network.
    - **Etherscan (or other block explorers):** On public testnets/mainnet, you can view your contract and its transactions on a block explorer like Etherscan by searching for its address.
-   - **Scaffold-ETH 2 Frontend:** In a Scaffold-ETH 2 setup, the provided frontend allows interaction directly from the "Debug Contracts" tab.
+   - **Scaffold-Lisk Frontend:** In a Scaffold-Lisk setup, the provided frontend allows interaction directly from the "Debug Contracts" tab.
    - You can also use [Abi Ninja](https://abi.ninja/) tool to interact with the contract.
 
 ## ERC20 Token Flow: How Transfers and Approvals Work
@@ -187,7 +187,7 @@ Once you have your `YourToken.sol` code and an environment set up:
 - **Fixed Supply vs. Mintable:** Decide if your token needs a fixed supply created only at deployment, or if an owner should be able to mint more tokens later. Our example includes an optional mint function protected by Ownable. For a strictly fixed supply, remove the mint function and Ownable related code.
 - **Ownership and Access Control:** If you have administrative functions (like mint), secure the owner account. For production systems, consider transferring ownership to a multisig wallet or a DAO to decentralize control and reduce single points of failure. You can also use [OpenZeppelin's Ownable](https://docs.openzeppelin.com/contracts/4.x/api/access#Ownable) contract to manage ownership.
 - **Thorough Testing:** Write comprehensive tests for your contract, especially if you add custom logic beyond the standard ERC20. Test all functions, edge cases, and interactions on a local blockchain and a public testnet.
-- **Verify on Block Explorers:** When deploying to a public network (testnet or mainnet), verify your contract's source code on a block explorer like Etherscan. This builds trust and transparency, allowing users to inspect your code. With Scaffold-ETH 2, you can verify your contract on Etherscan by running `yarn verify` in your terminal.
+- **Verify on Block Explorers:** When deploying to a public network (testnet or mainnet), verify your contract's source code on a block explorer like Etherscan. This builds trust and transparency, allowing users to inspect your code. With Scaffold-Lisk, you can verify your contract on Etherscan by running `yarn verify` in your terminal.
 
 🚀 **Ready to apply this knowledge?**
 
