@@ -12,7 +12,7 @@ You can find the repository containing the challenges [here](https://github.com/
 
 ## Contributing
 
-We welcom contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details on how to get started, development workflow, and guidelines for submitting pull requests.
+We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details on how to get started, development workflow, and guidelines for submitting pull requests.
 
 ## Requirements
 
