@@ -1,8 +1,8 @@
-import { ReviewAction, UserRole } from "../config/types";
+import { ReviewAction, SeaCampaignSubmissionStatus, UserRole } from "../config/types";
 import { ColumnSort, SortingState } from "@tanstack/react-table";
 import { InferInsertModel, and, eq, ilike, inArray, isNotNull, or, sql } from "drizzle-orm";
 import { db } from "~~/services/database/config/postgresClient";
-import { lower, userChallenges, users } from "~~/services/database/config/schema";
+import { lower, seaCampaignProgress, seaCampaignSubmissions, userChallenges, users } from "~~/services/database/config/schema";
 import { BatchUserStatus } from "~~/services/database/config/types";
 import { BATCH_XP, BUILD_XP, CHALLENGE_XP } from "~~/utils/xp";
 
@@ -49,9 +49,14 @@ export async function getSortedUsersWithChallengesInfo(
 ) {
   const sortingQuery = sorting[0] as ColumnSort;
 
-  const challengesCompletedExpr = sql`(SELECT COUNT(DISTINCT uc.challenge_id) FROM ${userChallenges} uc WHERE uc.user_address = ${users.userAddress} AND uc.review_action = ${ReviewAction.ACCEPTED})`;
+  const challengesCompletedExpr = sql`COALESCE(
+    (SELECT total_weeks_completed FROM ${seaCampaignProgress} scp WHERE scp.user_address = ${users.userAddress}),
+    (SELECT COUNT(*) FROM ${seaCampaignSubmissions} scs WHERE scs.user_address = ${users.userAddress} AND scs.review_status = ${SeaCampaignSubmissionStatus.APPROVED}),
+    0
+  )`;
   const lastActivityIsoExpr = sql`to_char(
     COALESCE(
+      (SELECT MAX(scs.submission_date) FROM ${seaCampaignSubmissions} scs WHERE scs.user_address = ${users.userAddress}),
       (SELECT MAX(uc.submitted_at) FROM ${userChallenges} uc WHERE uc.user_address = ${users.userAddress}),
       ${users.createdAt}
     ),
