@@ -32,13 +32,34 @@ export default function HomePage() {
           <div className="badge badge-lg badge-outline p-4">
             From {SEA_CAMPAIGN_CONFIG.startDate} to {SEA_CAMPAIGN_CONFIG.endDate}
           </div>
-          <div className="badge badge-lg badge-primary p-4">💰 $2,000 Total Completion Bonuses</div>
         </div>
 
-        <p className="text-lg text-base-content/70 max-w-3xl mx-auto mb-8">
+        <p className="text-lg text-base-content/70 max-w-2xl mx-auto mb-8">
           Join Southeast Asia&apos;s premier Web3 onboarding challenge! Master blockchain development on Lisk in 6
           progressive weeks, from your first smart contract to advanced DeFi applications.
         </p>
+
+        <div className="bg-base-200 rounded-lg p-6 max-w-2xl mx-auto mb-8">
+          <h3 className="font-bold text-lg mb-4 text-center">💰 $2000 Rewards</h3>
+          <div className="text-lg space-y-2">
+            <div className="flex justify-between items-center">
+              <span>🏆 Top 10 Best Quality Week 6 Projects:</span>
+              <span className="font-semibold">$50 each participant</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>📱 Top 10 Social Media Engagement:</span>
+              <span className="font-semibold">$50 each participant</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>⚡ Top 50 Fastest Finishers:</span>
+              <span className="font-semibold">$20 each participant</span>
+            </div>
+            <div className="divider my-2"></div>
+            <p className="text-center text-xs text-base-content/60">
+              Rewards completion and quality after the campaign ends
+            </p>
+          </div>
+        </div>
 
         {/* User Status */}
         {isConnected ? (
@@ -60,13 +81,12 @@ export default function HomePage() {
           {challenges.map((challenge, index) => (
             <div
               key={challenge.id}
-              className={`card shadow-lg transition-all hover:shadow-xl border-2 ${
-                (userProgress?.progress?.totalWeeksCompleted ?? 0) >= challenge.weekNumber
-                  ? "border-success bg-success/10"
-                  : userProgress?.nextWeek?.weekNumber === challenge.weekNumber
-                    ? "border-primary bg-primary/10"
-                    : "border-base-300 bg-base-100"
-              }`}
+              className={`card shadow-lg transition-all hover:shadow-xl border-2 ${(userProgress?.progress?.totalWeeksCompleted ?? 0) >= challenge.weekNumber
+                ? "border-success bg-success/10"
+                : userProgress?.nextWeek?.weekNumber === challenge.weekNumber
+                  ? "border-primary bg-primary/10"
+                  : "border-base-300 bg-base-100"
+                }`}
             >
               <div className="card-body">
                 <div className="flex items-center justify-between mb-3">
@@ -106,7 +126,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="my-12">
+      <section className="my-24">
         <h2 className="text-3xl font-bold text-center mb-8">Why Join SEA Challenge?</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
