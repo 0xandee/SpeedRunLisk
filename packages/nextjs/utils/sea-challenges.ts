@@ -41,7 +41,7 @@ export const SEA_CAMPAIGN_METADATA = {
     guides: ["/speedrun/ch3-index-display"],
     videoUrl: {
       text: "V3 (10m): Index & display (init, entities, queries, paginate)",
-      url: null,
+      url: "https://www.youtube.com/watch?v=YR8Wm363aek",
     },
     socialHashtags: ["#SpeedrunLiskSEA", "#W3", "@LiskSEA"],
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],
