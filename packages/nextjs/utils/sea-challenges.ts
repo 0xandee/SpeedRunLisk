@@ -55,7 +55,7 @@ export const SEA_CAMPAIGN_METADATA = {
     description: "Integrate price oracles or implement gasless transactions for better UX",
     dueDate: "2025-10-12",
     reward: "Oracle Integration Badge",
-    guides: ["/speedrun/ch4-oracle-sponsored", "/speedrun/relayer-readme"],
+    guides: ["/speedrun/ch4-oracle-sponsored"],
     videoUrl: {
       text: "V4 (10m): Oracles & sponsored UX (toggle sponsorship via env)",
       url: null,
