@@ -77,6 +77,14 @@ Real World Data → Oracle Network → Smart Contract → dApp Uses Data
 - ✅ Wide variety of price feeds
 - ✅ Chainlink-compatible interface
 
+```
+Traditional Oracle (Push):
+  Data stored on-chain → More expensive → Always available
+
+RedStone Pull:
+  Data in transaction calldata → Cheaper → Fetched on-demand
+```
+
 ---
 
 ## Checkpoint 1: 🔮 Create Oracle Price Feed Contract
@@ -192,26 +200,32 @@ RedStone Pull: Data in transaction calldata → cheaper
 #### **Key Components Explained**
 
 **1. MainDemoConsumerBase Import:**
+
 ```solidity
 import "@redstone-finance/evm-connector/contracts/data-services/MainDemoConsumerBase.sol";
 ```
+
 - Pre-configured for testnet use
 - No need to manage oracle addresses
 - Includes data validation logic
 
 **2. Data Feed IDs:**
+
 ```solidity
 bytes32[] memory dataFeedIds = new bytes32[](1);
 dataFeedIds[0] = bytes32("ETH");
 ```
+
 - Uses string identifiers converted to bytes32
 - Common feeds: "ETH", "BTC", "USDT", "USDC"
 - Case-sensitive identifiers
 
 **3. Price Extraction:**
+
 ```solidity
 uint256[] memory prices = getOracleNumericValuesFromTxMsg(dataFeedIds);
 ```
+
 - Extracts oracle data from transaction calldata
 - Returns array of prices (8 decimals)
 - Validates signatures automatically
@@ -219,7 +233,8 @@ uint256[] memory prices = getOracleNumericValuesFromTxMsg(dataFeedIds);
 #### **Price Format**
 
 RedStone returns prices with 8 decimals:
-- ETH price $2,500.50 → `250050000000` (2500.50 * 10^8)
+
+- ETH price $2,500.50 → `250050000000` (2500.50 \* 10^8)
 - To display: `price / 10^8` → human-readable format
 
 #### **Timestamp Validation Override**
@@ -235,6 +250,7 @@ function validateTimestamp(uint256 receivedTimestampMilliseconds) public view vi
 ```
 
 **Why we need this:**
+
 - RedStone data has real-time timestamps (from actual clock time)
 - Local blockchain/testnet time may lag behind real-time
 - Default validation allows only ~3 minutes tolerance
@@ -355,9 +371,9 @@ Create `packages/nextjs/components/example-ui/PriceDisplay.tsx`:
 "use client";
 
 import { useEffect, useState } from "react";
-import { ethers } from "ethers";
 import { WrapperBuilder } from "@redstone-finance/evm-connector";
 import { getSignersForDataServiceId } from "@redstone-finance/sdk";
+import { ethers } from "ethers";
 import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 
 interface PriceDisplayProps {
@@ -393,11 +409,7 @@ export const PriceDisplay = ({ symbol }: PriceDisplayProps) => {
       const provider = new ethers.providers.Web3Provider(window.ethereum as any);
 
       // Create ethers contract instance
-      const contract = new ethers.Contract(
-        deployedContractData.address,
-        deployedContractData.abi,
-        provider
-      );
+      const contract = new ethers.Contract(deployedContractData.address, deployedContractData.abi, provider);
 
       // Wrap contract with RedStone data using correct API
       const wrappedContract = WrapperBuilder.wrap(contract).usingDataService({
@@ -406,9 +418,7 @@ export const PriceDisplay = ({ symbol }: PriceDisplayProps) => {
       });
 
       // Call the appropriate price function
-      const priceData = symbol === "ETH"
-        ? await wrappedContract.getEthPrice()
-        : await wrappedContract.getBtcPrice();
+      const priceData = symbol === "ETH" ? await wrappedContract.getEthPrice() : await wrappedContract.getBtcPrice();
 
       if (!priceData) {
         throw new Error("No price data returned from oracle");
@@ -436,14 +446,22 @@ export const PriceDisplay = ({ symbol }: PriceDisplayProps) => {
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <div className="card-body">
-        <h2 className="card-title justify-center">
-          {symbol}/USD
-        </h2>
+        <h2 className="card-title justify-center">{symbol}/USD</h2>
 
         {error ? (
           <div className="alert alert-error">
-            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
             <span className="text-sm">{error}</span>
           </div>
@@ -456,19 +474,13 @@ export const PriceDisplay = ({ symbol }: PriceDisplayProps) => {
             <div className="stat">
               <div className="stat-title">Current Price</div>
               <div className="stat-value text-white">${price}</div>
-              <div className="stat-desc">
-                Updated: {lastUpdate.toLocaleTimeString()}
-              </div>
+              <div className="stat-desc">Updated: {lastUpdate.toLocaleTimeString()}</div>
             </div>
           </div>
         )}
 
         <div className="card-actions justify-end">
-          <button
-            className="btn btn-sm btn-outline"
-            onClick={fetchPrice}
-            disabled={isLoading}
-          >
+          <button className="btn btn-sm btn-outline" onClick={fetchPrice} disabled={isLoading}>
             {isLoading ? "Refreshing..." : "Refresh"}
           </button>
         </div>
@@ -483,6 +495,7 @@ export const PriceDisplay = ({ symbol }: PriceDisplayProps) => {
 #### **Why Ethers.js + Viem Hybrid Approach?**
 
 RedStone's `WrapperBuilder` was built for **ethers.js contracts**, not viem. So we use:
+
 - **Viem**: For the rest of your app (faster, better TypeScript)
 - **Ethers.js**: Specifically for RedStone oracle calls (library requirement)
 
@@ -497,8 +510,8 @@ const contract = new ethers.Contract(address, abi, provider);
 
 // Wrap with RedStone data using CURRENT API
 const wrappedContract = WrapperBuilder.wrap(contract).usingDataService({
-  dataPackagesIds: [symbol],  // ✅ NEW: dataPackagesIds
-  authorizedSigners: getSignersForDataServiceId("redstone-main-demo"),  // ✅ NEW: authorizedSigners
+  dataPackagesIds: [symbol], // ✅ NEW: dataPackagesIds
+  authorizedSigners: getSignersForDataServiceId("redstone-main-demo"), // ✅ NEW: authorizedSigners
 });
 
 // Call contract method directly (ethers style)
@@ -506,10 +519,12 @@ const priceData = await wrappedContract.getEthPrice();
 ```
 
 **What changed from old API:**
+
 - ❌ OLD: `dataServiceId`, `uniqueSignersCount`, `dataFeeds`
 - ✅ NEW: `dataPackagesIds`, `authorizedSigners`
 
 **What's happening:**
+
 1. **Create ethers contract**: RedStone wrapper requires ethers, not viem
 2. **Wrap contract**: Adds RedStone functionality to your contract
 3. **Configure signers**: `getSignersForDataServiceId()` returns authorized oracle nodes for the demo service
@@ -574,6 +589,7 @@ Here's the magic: Your **MyToken** and **MyNFT** contracts from Week 1 are **alr
 **Key Insight:** With ERC-4337, you write **normal smart contracts**!
 
 **Traditional Approach (ERC2771):**
+
 - ❌ Import `ERC2771Context`
 - ❌ Use `_msgSender()` instead of `msg.sender`
 - ❌ Deploy separate forwarder contract
@@ -581,6 +597,7 @@ Here's the magic: Your **MyToken** and **MyNFT** contracts from Week 1 are **alr
 - ❌ Complex signature verification
 
 **ERC-4337 Approach:**
+
 - ✅ Works with regular contracts (just use `msg.sender`)
 - ✅ No special imports or inheritance needed
 - ✅ Smart Wallets handle all the complexity
@@ -589,6 +606,7 @@ Here's the magic: Your **MyToken** and **MyNFT** contracts from Week 1 are **alr
 **How It Works:**
 
 When a user with a Smart Wallet calls `MyNFT.mint()` or `MyToken.transfer()`:
+
 1. User signs a UserOperation (not a transaction)
 2. thirdweb's bundler receives the UserOp
 3. thirdweb's paymaster sponsors the gas
@@ -599,6 +617,7 @@ When a user with a Smart Wallet calls `MyNFT.mint()` or `MyToken.transfer()`:
 ### No New Contracts Needed!
 
 We'll use your existing contracts from Week 1:
+
 - **MyToken** (ERC20) - For gasless token transfers
 - **MyNFT** (ERC721) - For gasless NFT minting
 
@@ -665,6 +684,7 @@ Edit `packages/nextjs/app/layout.tsx` to add thirdweb support:
 
 ```tsx
 import { ThirdwebProvider } from "thirdweb/react";
+
 // ... other imports
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -689,8 +709,8 @@ Create `packages/nextjs/app/gasless/page.tsx`:
 "use client";
 
 import type { NextPage } from "next";
-import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { createThirdwebClient } from "thirdweb";
+import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { liskSepolia } from "~~/chains";
 import { SmartWalletDemo } from "~~/components/example-ui/SmartWalletDemo";
 
@@ -705,9 +725,7 @@ const Gasless: NextPage = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-center mb-4">⛽ Gasless Transactions</h1>
-        <p className="text-center text-gray-600 mb-4">
-          Powered by ERC-4337 Smart Wallets - Pay $0 in gas fees!
-        </p>
+        <p className="text-center text-gray-600 mb-4">Powered by ERC-4337 Smart Wallets - Pay $0 in gas fees!</p>
 
         {/* Smart Wallet Connect Button */}
         <div className="flex justify-center mb-8">
@@ -732,8 +750,7 @@ const Gasless: NextPage = () => {
               <p>Connect above to create your gasless Smart Wallet!</p>
               <div className="alert alert-info mt-4">
                 <span className="text-xs">
-                  ✨ Smart Wallets are deployed on-chain automatically and all transactions are
-                  sponsored!
+                  ✨ Smart Wallets are deployed on-chain automatically and all transactions are sponsored!
                 </span>
               </div>
             </div>
@@ -880,9 +897,7 @@ export const SmartWalletDemo = () => {
                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <span className="text-xs">
-              ✨ Minting sponsored by thirdweb paymaster - $0 gas cost!
-            </span>
+            <span className="text-xs">✨ Minting sponsored by thirdweb paymaster - $0 gas cost!</span>
           </div>
         </div>
       </div>
@@ -925,6 +940,7 @@ await sendTransaction({ transaction, account });
 ```
 
 **No Manual Steps Required:**
+
 - ❌ No EIP712 signature creation
 - ❌ No nonce management
 - ❌ No forwarder contract calls
@@ -952,21 +968,25 @@ Your MyNFT contract from Week 1 uses the standard OpenZeppelin ERC721 implementa
 ### Test Locally
 
 1. **Start local chain**:
+
    ```sh
    yarn chain
    ```
 
 2. **Deploy contracts**:
+
    ```sh
    yarn deploy
    ```
 
 3. **Start frontend**:
+
    ```sh
    yarn start
    ```
 
 4. **Test Oracle Page** (http://localhost:3000/oracle):
+
    - ✅ Connect your wallet
    - ✅ View live ETH/BTC prices
    - ✅ Click refresh to update prices
@@ -1011,11 +1031,13 @@ export const menuLinks: HeaderMenuLink[] = [
 ### Deploy to Lisk Sepolia
 
 1. **Deploy PriceFeed contract** (MyToken and MyNFT already deployed in Week 1):
+
    ```sh
    yarn deploy --network liskSepolia
    ```
 
 2. **Verify PriceFeed contract on Blockscout**:
+
    ```sh
    yarn hardhat-verify --network liskSepolia --contract contracts/PriceFeed.sol:PriceFeed PRICEFEED_ADDRESS
    ```
@@ -1039,6 +1061,7 @@ git push origin main
 ```
 
 Deploy via Vercel:
+
 - Make sure to add `NEXT_PUBLIC_THIRDWEB_CLIENT_ID` to Vercel environment variables
 - Deploy and test your live dApp!
 
@@ -1061,6 +1084,7 @@ Go to [Week 4 Submission](https://speedrunlisk.xyz/sea-campaign/week/4) and subm
 - ✅ **Gasless NFT Mint Transaction**: Link to a gasless NFT mint transaction on Blockscout
 
 **Bonus Points:**
+
 - Share a screenshot of minting an NFT with $0 gas cost!
 - Tweet about gasless NFT minting on Lisk with #LiskSEA
 - Show your NFT collection growing without spending gas!
@@ -1086,6 +1110,7 @@ Go to [Week 4 Submission](https://speedrunlisk.xyz/sea-campaign/week/4) and subm
 ### Advanced Features to Explore
 
 **1. Session Keys** (For gaming/social apps):
+
 ```typescript
 // Let users approve actions without signing each time
 const sessionKey = await createSessionKey({
@@ -1096,6 +1121,7 @@ const sessionKey = await createSessionKey({
 ```
 
 **2. Batch Transactions**:
+
 ```typescript
 // Execute multiple actions in one transaction
 const batch = [
@@ -1106,6 +1132,7 @@ await sendBatchTransaction({ transactions: batch, account });
 ```
 
 **3. Pay Gas in ERC-20 Tokens**:
+
 ```typescript
 // Let users pay gas in USDC, LSK, or other tokens
 accountAbstraction={{
@@ -1117,6 +1144,7 @@ accountAbstraction={{
 ```
 
 **4. Social Recovery**:
+
 - Add trusted guardians to recover your Smart Wallet
 - No more losing funds from lost seed phrases!
 
@@ -1136,6 +1164,7 @@ All support the OP Superchain (including Lisk) with ERC-4337!
 ### Oracle Issues
 
 **"TimestampFromTooLongFuture" or "Timestamp too far in future" error:**
+
 - This happens when oracle data timestamp is ahead of blockchain time
 - **Solution**: Add the `validateTimestamp()` override to your PriceFeed contract (see contract code above)
 - The override extends tolerance from 3 minutes to 15 minutes
@@ -1143,42 +1172,50 @@ All support the OP Superchain (including Lisk) with ERC-4337!
 - For production, reduce tolerance to 3-5 minutes for data freshness
 
 **"Oracle data not found" or "Cannot read properties of undefined":**
+
 - Make sure you installed **ethers.js v5**: `yarn add ethers@^5.7.2`
 - Ensure you're creating an ethers contract, not using viem contract with WrapperBuilder
 - Check you're using the NEW API: `dataPackagesIds` and `authorizedSigners`, not the old `dataServiceId`
 - Verify contract inherits MainDemoConsumerBase
 
 **Price shows as 0:**
+
 - Check you're dividing by 1e8 (8 decimals)
 - Ensure data feed ID is correct (case-sensitive)
 
 **"Please connect your wallet to view prices":**
+
 - The oracle component needs `window.ethereum` to create ethers provider
 - Make sure MetaMask or another wallet is connected
 
 ### Smart Wallet / Gasless Transaction Issues
 
 **"Failed to create Smart Wallet":**
+
 - Verify thirdweb Client ID is correct in `.env.local`
 - Check that you're connected to Lisk Sepolia network
 - Ensure you have some ETH for the initial wallet creation (very small amount)
 
 **"Transaction failed - insufficient funds":**
+
 - You shouldn't see this with `sponsorGas: true`!
 - Check thirdweb dashboard to see if paymaster is working
 - Verify your API key has paymaster enabled (free tier includes it)
 
 **"Smart Wallet not connecting":**
+
 - Clear browser cache and try again
 - Make sure `accountAbstraction` prop is correctly configured
 - Check browser console for detailed error messages
 
 **thirdweb API rate limits:**
+
 - Free tier includes generous limits
 - Upgrade to Growth plan if building production app
 - Monitor usage in thirdweb dashboard
 
 **Contract interactions fail:**
+
 - Verify MyNFT and MyToken are deployed on Lisk Sepolia (from Week 1)
 - Check that contract addresses in deployments are correct
 - Ensure contract names match in both frontend and deployments
