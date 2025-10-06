@@ -652,14 +652,14 @@ Create or update `packages/nextjs/.env.local`:
 NEXT_PUBLIC_THIRDWEB_CLIENT_ID=your_client_id_here
 ```
 
-### Step 4: Update Scaffold Configuration
+### Step 4: Configure Lisk Sepolia for thirdweb
 
-We need to configure Lisk Sepolia chain for thirdweb. Edit `packages/nextjs/chains.ts`:
+We need to configure Lisk Sepolia chain for thirdweb. Create or edit `packages/nextjs/chains.ts`:
 
 ```typescript
 import { defineChain } from "thirdweb";
 
-export const liskSepolia = defineChain({
+export const liskSepoliaThirdweb = defineChain({
   id: 4202,
   name: "Lisk Sepolia",
   nativeCurrency: {
@@ -678,30 +678,76 @@ export const liskSepolia = defineChain({
 });
 ```
 
-### Step 5: Wrap App with ThirdwebProvider
+> **Note**: We export as `liskSepoliaThirdweb` to distinguish it from Scaffold-ETH's native chain config.
 
-Edit `packages/nextjs/app/layout.tsx` to add thirdweb support:
+### Step 5: Create Shared Thirdweb Config
 
-```tsx
-import { ThirdwebProvider } from "thirdweb/react";
+Create `packages/nextjs/services/web3/thirdwebConfig.ts`:
 
-// ... other imports
+```typescript
+import { createThirdwebClient } from "thirdweb";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html suppressHydrationWarning>
-      <body>
-        <ThirdwebProvider>
-          {/* ... existing providers ... */}
-          {children}
-        </ThirdwebProvider>
-      </body>
-    </html>
-  );
-}
+export const thirdwebClient = createThirdwebClient({
+  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID!,
+});
 ```
 
-### Step 6: Create Gasless Page
+> **Why a shared config?** This prevents creating multiple client instances and ensures ThirdwebProvider has access to the same client used throughout your app.
+
+### Step 6: Wrap App with ThirdwebProvider
+
+Edit `packages/nextjs/components/ScaffoldEthAppWithProviders.tsx` to add ThirdwebProvider:
+
+```tsx
+"use client";
+
+import { useEffect, useState } from "react";
+import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
+import { useTheme } from "next-themes";
+import { Toaster } from "react-hot-toast";
+import { ThirdwebProvider } from "thirdweb/react";  // ✅ Add this import
+import { WagmiConfig } from "wagmi";
+import { Footer } from "~~/components/Footer";
+import { Header } from "~~/components/Header";
+import { BlockieAvatar } from "~~/components/scaffold-eth";
+import { ProgressBar } from "~~/components/scaffold-eth/ProgressBar";
+import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
+import { useGlobalState } from "~~/services/store/store";
+import { thirdwebClient } from "~~/services/web3/thirdwebConfig";  // ✅ Add this import
+import { wagmiConfig } from "~~/services/web3/wagmiConfig";
+import { appChains } from "~~/services/web3/wagmiConnectors";
+
+// ... ScaffoldEthApp component stays the same ...
+
+export const ScaffoldEthAppWithProviders = ({ children }: { children: React.ReactNode }) => {
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return (
+    <ThirdwebProvider>  {/* ✅ Wrap everything with ThirdwebProvider */}
+      <WagmiConfig config={wagmiConfig}>
+        <ProgressBar />
+        <RainbowKitProvider
+          chains={appChains.chains}
+          avatar={BlockieAvatar}
+          theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
+        >
+          <ScaffoldEthApp>{children}</ScaffoldEthApp>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </ThirdwebProvider>
+  );
+};
+```
+
+> **Important**: We add ThirdwebProvider to `ScaffoldEthAppWithProviders.tsx` (not `layout.tsx`) because it needs to be a client component to work properly with the thirdweb SDK.
+
+### Step 7: Create Gasless Page
 
 Create `packages/nextjs/app/gasless/page.tsx`:
 
@@ -709,14 +755,10 @@ Create `packages/nextjs/app/gasless/page.tsx`:
 "use client";
 
 import type { NextPage } from "next";
-import { createThirdwebClient } from "thirdweb";
 import { ConnectButton, useActiveAccount } from "thirdweb/react";
-import { liskSepolia } from "~~/chains";
+import { liskSepoliaThirdweb } from "~~/chains";
 import { SmartWalletDemo } from "~~/components/example-ui/SmartWalletDemo";
-
-const client = createThirdwebClient({
-  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID!,
-});
+import { thirdwebClient } from "~~/services/web3/thirdwebConfig";  // ✅ Use shared client
 
 const Gasless: NextPage = () => {
   const account = useActiveAccount();
@@ -730,10 +772,10 @@ const Gasless: NextPage = () => {
         {/* Smart Wallet Connect Button */}
         <div className="flex justify-center mb-8">
           <ConnectButton
-            client={client}
-            chain={liskSepolia}
+            client={thirdwebClient}  {/* ✅ Use shared client */}
+            chain={liskSepoliaThirdweb}
             accountAbstraction={{
-              chain: liskSepolia,
+              chain: liskSepoliaThirdweb,
               sponsorGas: true, // ✅ This enables gasless transactions!
             }}
           />
@@ -764,7 +806,7 @@ const Gasless: NextPage = () => {
 export default Gasless;
 ```
 
-### Step 7: Create Smart Wallet Demo Component
+### Step 8: Create Smart Wallet Demo Component
 
 Create `packages/nextjs/components/example-ui/SmartWalletDemo.tsx`:
 
@@ -772,9 +814,12 @@ Create `packages/nextjs/components/example-ui/SmartWalletDemo.tsx`:
 "use client";
 
 import { useState } from "react";
-import { prepareContractCall, sendTransaction } from "thirdweb";
+import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
 import { useActiveAccount } from "thirdweb/react";
-import { useScaffoldContract, useScaffoldContractRead } from "~~/hooks/scaffold-eth";
+import { liskSepoliaThirdweb } from "~~/chains";
+import deployedContracts from "~~/contracts/deployedContracts";
+import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
+import { thirdwebClient } from "~~/services/web3/thirdwebConfig";  // ✅ Use shared client
 import { notification } from "~~/utils/scaffold-eth";
 
 export const SmartWalletDemo = () => {
@@ -782,9 +827,8 @@ export const SmartWalletDemo = () => {
   const [isLoadingNFT, setIsLoadingNFT] = useState(false);
   const account = useActiveAccount();
 
-  const { data: nftContract } = useScaffoldContract({
-    contractName: "MyNFT",
-  });
+  // Get contract address from deployments
+  const nftAddress = deployedContracts?.[4202]?.MyNFT?.address as `0x${string}` | undefined;
 
   const { data: totalSupply, refetch: refetchSupply } = useScaffoldContractRead({
     contractName: "MyNFT",
@@ -800,7 +844,7 @@ export const SmartWalletDemo = () => {
   const handleGaslessMint = async () => {
     const targetAddress = mintToAddress || account?.address;
 
-    if (!targetAddress || !account || !nftContract) {
+    if (!targetAddress || !account || !nftAddress) {
       notification.error("Please connect wallet");
       return;
     }
@@ -808,6 +852,13 @@ export const SmartWalletDemo = () => {
     setIsLoadingNFT(true);
 
     try {
+      // Create thirdweb contract instance
+      const nftContract = getContract({
+        client: thirdwebClient,  // ✅ Use shared client
+        chain: liskSepoliaThirdweb,
+        address: nftAddress,
+      });
+
       // Prepare the contract call
       const transaction = prepareContractCall({
         contract: nftContract,
@@ -913,15 +964,26 @@ export const SmartWalletDemo = () => {
 **What Just Happened:**
 
 ```typescript
-// 1. User connects with Smart Wallet support
+// 1. Shared thirdweb client (prevents multiple instances)
+import { thirdwebClient } from "~~/services/web3/thirdwebConfig";
+
+// 2. User connects with Smart Wallet support
 <ConnectButton
+  client={thirdwebClient}  // ✅ Use shared client
   accountAbstraction={{
-    chain: liskSepolia,
+    chain: liskSepoliaThirdweb,
     sponsorGas: true,  // ✅ Magic happens here!
   }}
 />
 
-// 2. Transaction is sent normally to YOUR existing contract
+// 3. Create thirdweb contract instance from your deployed contract
+const nftContract = getContract({
+  client: thirdwebClient,
+  chain: liskSepoliaThirdweb,
+  address: nftAddress,  // Your MyNFT address from deployments!
+});
+
+// 4. Transaction is sent normally to YOUR existing contract
 const transaction = prepareContractCall({
   contract: nftContract,  // Your MyNFT from Week 1!
   method: "function mint(address to)",
@@ -930,7 +992,7 @@ const transaction = prepareContractCall({
 
 await sendTransaction({ transaction, account });
 
-// 3. thirdweb automatically:
+// 5. thirdweb automatically:
 //    - Converts tx to UserOperation
 //    - Signs with Smart Wallet
 //    - Sends to bundler
@@ -1189,6 +1251,13 @@ All support the OP Superchain (including Lisk) with ERC-4337!
 - Make sure MetaMask or another wallet is connected
 
 ### Smart Wallet / Gasless Transaction Issues
+
+**"useActiveAccount must be used within <ThirdwebProvider>":**
+
+- This means ThirdwebProvider is not wrapping your app correctly
+- **Solution**: Ensure you've wrapped your app in `ScaffoldEthAppWithProviders.tsx` with `<ThirdwebProvider>`
+- Make sure you're using the shared `thirdwebClient` from `services/web3/thirdwebConfig.ts`
+- ThirdwebProvider must be a client component - that's why we add it to `ScaffoldEthAppWithProviders.tsx` not `layout.tsx`
 
 **"Failed to create Smart Wallet":**
 
