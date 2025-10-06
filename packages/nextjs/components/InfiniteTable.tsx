@@ -161,14 +161,14 @@ export default function InfiniteTable<T>({
           <thead className="grid sticky top-0 z-10 bg-base-100" ref={tableHeader}>
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id} className="flex w-full text-sm">
-                {headerGroup.headers.map(header => {
+                {headerGroup.headers.map((header, index) => {
                   return (
                     <th
                       key={header.id}
                       style={{
                         width: header.getSize(),
                       }}
-                      className="flex justify-center uppercase first:justify-start"
+                      className={`flex justify-center uppercase ${index === 0 && header.column.getCanSort() ? "first:justify-start" : ""}`}
                     >
                       <div
                         onClick={header.column.getToggleSortingHandler()}

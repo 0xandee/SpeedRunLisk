@@ -63,6 +63,16 @@ export async function getSortedUsersWithChallengesInfo(
     'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'
   )`;
 
+  // For rank calculation - timestamp for sorting (earlier = better)
+  const lastActivityTimestampExpr = sql`COALESCE(
+    (SELECT MAX(scs.submission_date) FROM ${seaCampaignSubmissions} scs WHERE scs.user_address = ${users.userAddress}),
+    (SELECT MAX(uc.submitted_at) FROM ${userChallenges} uc WHERE uc.user_address = ${users.userAddress}),
+    ${users.createdAt}
+  )`;
+
+  // Calculate rank using window function: ORDER BY challenges DESC, lastActivity ASC (earliest first)
+  const rankExpr = sql`ROW_NUMBER() OVER (ORDER BY ${challengesCompletedExpr} DESC, ${lastActivityTimestampExpr} ASC)`;
+
   const filterConditions = filter
     ? or(
         ilike(users.userAddress, `%${filter}%`),
@@ -81,16 +91,20 @@ export async function getSortedUsersWithChallengesInfo(
     offset: start,
     where: filterConditions,
     orderBy: (users, { desc, asc }) => {
-      if (!sortingQuery) return [];
+      if (!sortingQuery) {
+        // Default sorting: challenges DESC, then lastActivity ASC
+        return [desc(challengesCompletedExpr), asc(lastActivityTimestampExpr)];
+      }
 
       const sortOrder = sortingQuery.desc ? desc : asc;
       // Use the pre-defined SQL expressions for sorting
       if (sortingQuery.id === "challengesCompleted") {
-        return sortOrder(challengesCompletedExpr);
+        // Primary sort by challenges, secondary by lastActivity ASC (earliest first)
+        return [sortOrder(challengesCompletedExpr), asc(lastActivityTimestampExpr)];
       }
 
       if (sortingQuery.id === "lastActivity") {
-        return sortOrder(lastActivityIsoExpr);
+        return sortOrder(lastActivityTimestampExpr);
       }
 
       // For regular fields in the users table
@@ -104,6 +118,7 @@ export async function getSortedUsersWithChallengesInfo(
       // Reuse the same SQL expressions for the extras
       challengesCompleted: challengesCompletedExpr.as("challengesCompleted"),
       lastActivity: lastActivityIsoExpr.as("lastActivity"),
+      rank: rankExpr.as("rank"),
     },
     with: {
       userChallenges: true,
@@ -119,6 +134,7 @@ export async function getSortedUsersWithChallengesInfo(
       ...restUser,
       challengesCompleted: Number(restUser.challengesCompleted),
       lastActivity: restUser.lastActivity as Date,
+      rank: Number(restUser.rank),
     };
   });
 

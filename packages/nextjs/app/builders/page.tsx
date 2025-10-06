@@ -25,8 +25,25 @@ export default function BuildersPage() {
   const tableQueryKey = useMemo(() => ["users", debouncedFilter], [debouncedFilter]);
   const tableInitialSorting = useMemo(() => [{ id: "challengesCompleted", desc: true }], []);
 
+  const getRankDisplay = (rank: number) => {
+    if (rank === 1) return "🥇";
+    if (rank === 2) return "🥈";
+    if (rank === 3) return "🥉";
+    return rank.toString();
+  };
+
   const columns = useMemo<ColumnDef<UserWithChallengesData>[]>(
     () => [
+      {
+        header: () => <div className="w-full text-center">Rank</div>,
+        accessorKey: "rank",
+        enableSorting: false,
+        cell: info => {
+          const rank = info.getValue() as number;
+          return <div className="flex w-full justify-center font-bold text-lg">{getRankDisplay(rank)}</div>;
+        },
+        size: 100,
+      },
       {
         header: "Builder",
         size: 200,
