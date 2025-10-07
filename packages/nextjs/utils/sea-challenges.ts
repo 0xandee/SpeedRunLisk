@@ -57,8 +57,8 @@ export const SEA_CAMPAIGN_METADATA = {
     reward: "Oracle Integration Badge",
     guides: ["/speedrun/ch4-oracle-sponsored"],
     videoUrl: {
-      text: "V4 (10m): Oracles & sponsored UX (toggle sponsorship via env)",
-      url: null,
+      text: "V4 (10m): Oracles & sponsored transactions",
+      url: "https://youtu.be/pEBTsovB34g",
     },
     socialHashtags: ["#SpeedrunLiskSEA", "#W4", "@LiskSEA"],
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],

@@ -705,7 +705,8 @@ import { useEffect, useState } from "react";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
-import { ThirdwebProvider } from "thirdweb/react";  // ✅ Add this import
+import { ThirdwebProvider } from "thirdweb/react";
+// ✅ Add this import
 import { WagmiConfig } from "wagmi";
 import { Footer } from "~~/components/Footer";
 import { Header } from "~~/components/Header";
@@ -713,7 +714,8 @@ import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { ProgressBar } from "~~/components/scaffold-eth/ProgressBar";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useGlobalState } from "~~/services/store/store";
-import { thirdwebClient } from "~~/services/web3/thirdwebConfig";  // ✅ Add this import
+import { thirdwebClient } from "~~/services/web3/thirdwebConfig";
+// ✅ Add this import
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 import { appChains } from "~~/services/web3/wagmiConnectors";
 
@@ -729,7 +731,9 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   }, []);
 
   return (
-    <ThirdwebProvider>  {/* ✅ Wrap everything with ThirdwebProvider */}
+    <ThirdwebProvider>
+      {" "}
+      {/* ✅ Wrap everything with ThirdwebProvider */}
       <WagmiConfig config={wagmiConfig}>
         <ProgressBar />
         <RainbowKitProvider
@@ -819,7 +823,8 @@ import { useActiveAccount } from "thirdweb/react";
 import { liskSepoliaThirdweb } from "~~/chains";
 import deployedContracts from "~~/contracts/deployedContracts";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
-import { thirdwebClient } from "~~/services/web3/thirdwebConfig";  // ✅ Use shared client
+import { thirdwebClient } from "~~/services/web3/thirdwebConfig";
+// ✅ Use shared client
 import { notification } from "~~/utils/scaffold-eth";
 
 export const SmartWalletDemo = () => {
@@ -854,7 +859,7 @@ export const SmartWalletDemo = () => {
     try {
       // Create thirdweb contract instance
       const nftContract = getContract({
-        client: thirdwebClient,  // ✅ Use shared client
+        client: thirdwebClient, // ✅ Use shared client
         chain: liskSepoliaThirdweb,
         address: nftAddress,
       });
