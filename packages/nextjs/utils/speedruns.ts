@@ -59,10 +59,10 @@ export const SPEEDRUN_METADATA = {
       },
     ],
   },
-  "ch5-nft-badge-game": {
+  "ch5-nft-marketplace": {
     title: "NFT Marketplace",
     description: "Build a fully functional NFT marketplace with oracle-powered price feeds",
-    previewImage: "/hero/ch5-nft-badge-game.png",
+    previewImage: "/hero/ch5-nft-marketplace.png",
     difficulty: "Advanced",
     estimatedTime: "90-120 minutes",
     week: 5,
@@ -82,8 +82,8 @@ export const SPEEDRUN_METADATA = {
     week: 6,
     guides: [
       {
-        title: "NFT Badge / Mini-Game",
-        url: "/speedrun/ch5-nft-badge-game",
+        title: "NFT Marketplace",
+        url: "/speedrun/ch5-nft-marketplace",
       },
     ],
   },

@@ -21,7 +21,7 @@ export async function generateStaticParams() {
     "ch2-frontend-connect",
     "ch3-index-display",
     "ch4-oracle-sponsored",
-    "ch5-nft-badge-game",
+    "ch5-nft-marketplace",
     "ch6-mini-dex-lending",
     "setup",
     "start-here",
