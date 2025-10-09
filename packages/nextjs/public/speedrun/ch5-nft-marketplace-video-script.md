@@ -47,8 +47,8 @@ Modern escrowless marketplaceswhat we're building todaywork differently:
 
 ```
 Escrowless Flow:
-  Seller í Approves marketplace contract í Lists NFT (keeps it!)
-  í Buyer purchases í NFT transfers directly from seller to buyer
+  Seller ‚Üí Approves marketplace contract ‚Üí Lists NFT (keeps it!)
+  ‚Üí Buyer purchases ‚Üí NFT transfers directly from seller to buyer
 ```
 
 Why is this better?
@@ -227,7 +227,7 @@ The magic is in the `NFTCard` component. This handles EVERYTHING for one NFT.
 ```tsx
 const [showListModal, setShowListModal] = useState(false);
 const [isApproved, setIsApproved] = useState(false);
-const [isApproving, setIsApproving] = useState(false); // ê Critical!
+const [isApproving, setIsApproving] = useState(false); // ‚ö†Ô∏è Critical!
 
 // Get marketplace address
 const { data: marketplaceContract } = useDeployedContractInfo("NFTMarketplace");
@@ -261,14 +261,14 @@ const { writeAsync: approveMarketplace } = useScaffoldContractWrite({
     onBlockConfirmation: async (txnReceipt) => {
         await refetchApproved();
         await refetchApprovedForAll();
-        setIsApproving(false); // ê Reset AFTER confirmation
+        setIsApproving(false); // ‚úÖ Reset AFTER confirmation
         notification.success("Marketplace approved!");
     },
 });
 
 const handleApprove = async () => {
     try {
-        setIsApproving(true); // ê Set BEFORE transaction
+        setIsApproving(true); // üî¥ Set BEFORE transaction
         await approveMarketplace();
         notification.success("Approval transaction sent!");
     } catch (error) {
@@ -315,7 +315,7 @@ The `onBlockConfirmation` callback waits for ACTUAL blockchain confirmation AND 
 )}
 ```
 
-Different buttons for different states! Sellers see approve í list í cancel flow. Buyers see buy button. Perfect UX!
+Different buttons for different states! Sellers see approve ‚Üí list ‚Üí cancel flow. Buyers see buy button. Perfect UX!
 
 Add the list modal for price input, buy and cancel handlers, and we have a complete marketplace interface!"
 
@@ -381,7 +381,7 @@ const priceInUSD = ethPriceUSD > 0
     : "0.00";
 ```
 
-Simple multiplication! 0.5 ETH ◊ $2,500 = $1,250 USD.
+Simple multiplication! 0.5 ETH √ó $2,500 = $1,250 USD.
 
 **[VISUAL: Show the display in the card UI]**
 
@@ -567,7 +567,7 @@ Join the LiskSEA Telegram if you have questions, share your marketplace on Twitt
 
 You've learned smart contract security, event-driven architecture, oracle integration, and production dApp patterns. You're not just following tutorials anymoreyou're a Web3 builder!
 
-Get your submission in, and I'll see you in the next challenge. Keep building, keep shipping! =Ä"
+Get your submission in, and I'll see you in the next challenge. Keep building, keep shipping! üöÄ"
 
 **[VISUAL: Fade to end card with submission link, Telegram QR code, GitHub repository, and #SpeedRunLiskSEA hashtag]**
 
@@ -594,9 +594,9 @@ Get your submission in, and I'll see you in the next challenge. Keep building, k
 
 2. **Diagrams & Graphics**
    - Escrow vs Escrowless marketplace comparison (animated flow)
-   - NFT in wallet í Marketplace í Buyer transfer flow
+   - NFT in wallet ‚Üí Marketplace ‚Üí Buyer transfer flow
    - approve() vs setApprovalForAll() comparison table
-   - Three-button-state diagram (Approve í Approving... í List for Sale)
+   - Three-button-state diagram (Approve ‚Üí Approving... ‚Üí List for Sale)
    - Checks-Effects-Interactions security pattern visualization
    - USD price calculation formula overlay
 
@@ -613,7 +613,7 @@ Get your submission in, and I'll see you in the next challenge. Keep building, k
    - Approval button changing states (with timer showing 5-15 sec wait)
    - Listing modal with price input and USD preview
    - Listed NFT with badge and price display
-   - Purchase transaction flow (wallet prompt í confirmation í ownership transfer)
+   - Purchase transaction flow (wallet prompt ‚Üí confirmation ‚Üí ownership transfer)
    - Cancel listing action
    - USD prices updating live (show timestamp)
    - Blockscout transaction confirmations
@@ -667,8 +667,8 @@ Get your submission in, and I'll see you in the next challenge. Keep building, k
    - React component tree
 
 3. **User Flows**
-   - Complete seller journey (mint í approve í wait í list í cancel)
-   - Complete buyer journey (browse í buy í own)
+   - Complete seller journey (mint ‚Üí approve ‚Üí wait ‚Üí list ‚Üí cancel)
+   - Complete buyer journey (browse ‚Üí buy ‚Üí own)
    - Approval loading state transition (with real 10-second wait)
    - USD price updating every 30 seconds
    - Multiple NFTs being listed
@@ -728,7 +728,7 @@ Get your submission in, and I'll see you in the next challenge. Keep building, k
 - Smooth fades for concept explanations
 - Quick cuts for action sequences
 - Wipe transitions for major sections
-- Zoom transitions for code í UI connections
+- Zoom transitions for code ‚Üí UI connections
 - Split-screen for comparisons
 
 **Annotations:**
@@ -744,7 +744,7 @@ Get your submission in, and I'll see you in the next challenge. Keep building, k
 **Throughout Video:**
 - "Comment below if you've used OpenSea before!" at 1:30
 - "Like & Subscribe if you're building along!" at 3:30
-- "Drop a =“ if you're excited about building marketplaces!" at 5:30
+- "Drop a üî• if you're excited about building marketplaces!" at 5:30
 - "Join the LiskSEA Telegram for help with approvals!" at 7:00
 
 **End Screen (9:00-10:00):**
@@ -756,6 +756,7 @@ Get your submission in, and I'll see you in the next challenge. Keep building, k
 - "Show us your marketplace!" CTA
 
 **Mid-roll Engagement:**
+- "Type 'APPROVED' when your approval transaction confirms!" at 6:00
 - "Pause here and check your approval status!" at 6:00
 - "Test this flow yourself before continuing!" at 8:00
 
@@ -786,7 +787,7 @@ Get your submission in, and I'll see you in the next challenge. Keep building, k
 
 **Option 2:** Split design - OpenSea logo on left (blurred), "BUILD YOUR OWN" arrow pointing to custom marketplace on right
 
-**Option 3:** Three-panel showing approve í list í buy flow with emojis (= í =“ í )
+**Option 3:** Three-panel showing approve ‚Üí list ‚Üí buy flow with emojis (= ‚Üí =‚Üí ‚Üí )
 
 **Option 4:** Code editor with NFTMarketplace.sol file, NFT grid overlay, "WEEK 5" badge
 
@@ -878,7 +879,7 @@ Add:
 - "Can you build an NFT marketplace in under an hour?"
 
 **Mid-Video Engagement:**
-- "Comment '=“' if you're testing this on localhost right now!"
+- "Comment 'üî•' if you're testing this on localhost right now!"
 - "Drop your favorite NFT marketplace in the comments!"
 - "Who's listing their first NFT? Tag #SpeedRunLiskSEA!"
 - "Type 'APPROVED' when your approval transaction confirms!"
@@ -954,7 +955,7 @@ Scaffold-Lisk, thirdweb, RedStone oracle, Lisk blockchain, Hardhat deployment, B
 4. **Trying to list before approval confirms**
    - Demonstrate the race condition
    - Show how isApproving state prevents it
-   - Visual: timeline showing transaction í confirmation í button change
+   - Visual: timeline showing transaction ‚Üí confirmation ‚Üí button change
 
 ---
 
@@ -971,7 +972,7 @@ Scaffold-Lisk, thirdweb, RedStone oracle, Lisk blockchain, Hardhat deployment, B
 - Week 2  (Build frontend)
 - Week 3  (Events page)
 - Week 4  (Oracles + Gasless)
-- Week 5  (NFT Marketplace) ê YOU ARE HERE
+- Week 5  (NFT Marketplace) ‚Üí YOU ARE HERE
 - Week X? (Coming soon teaser)
 
 ---

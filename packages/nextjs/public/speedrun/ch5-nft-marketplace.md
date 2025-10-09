@@ -1,10 +1,10 @@
 # Build a Simple NFT Marketplace
 
-=� This tutorial builds upon [Challenge 1](/speedrun/ch1-deploy-verify.md), [Challenge 2](/speedrun/ch2-frontend-connect.md), [Challenge 3](/speedrun/ch3-index-display.md), and [Challenge 4](/speedrun/ch4-oracle-sponsored.md) where you deployed contracts, created a frontend, built an events page, and integrated oracles.
+🏃 This tutorial builds upon [Challenge 1](/speedrun/ch1-deploy-verify.md), [Challenge 2](/speedrun/ch2-frontend-connect.md), [Challenge 3](/speedrun/ch3-index-display.md), and [Challenge 4](/speedrun/ch4-oracle-sponsored.md) where you deployed contracts, created a frontend, built an events page, and integrated oracles.
 
 < You'll now build a fully functional NFT marketplace where users can list, buy, and sell NFTs with real-time USD price display powered by oracles!
 
-=� The final deliverable is a working NFT marketplace deployed to Lisk Sepolia with oracle-powered price feeds showing USD equivalents of ETH-priced NFTs.
+📦 The final deliverable is a working NFT marketplace deployed to Lisk Sepolia with oracle-powered price feeds showing USD equivalents of ETH-priced NFTs.
 
 ---
 
@@ -28,13 +28,13 @@ Build a simple NFT marketplace with listing, buying, and selling features, integ
 - Oracle integration for price display
 - Building production-ready dApp interfaces
 
-=� Meet other builders working on this challenge and get help in the [@LiskSEA Telegram](https://t.me/LiskSEA)!
+💬 Meet other builders working on this challenge and get help in the [@LiskSEA Telegram](https://t.me/LiskSEA)!
 
 ---
 
-## Checkpoint 0: =� Prerequisites =�
+## Checkpoint 0: 📋 Prerequisites 📋
 
-**� Important: You must complete Challenges 1-4 first!**
+**⚠️ Important: You must complete Challenges 1-4 first!**
 
 Before you begin, ensure you have:
 
@@ -51,11 +51,11 @@ cd scaffold-lisk
 yarn start
 ```
 
-=� Open [http://localhost:3000](http://localhost:3000) to see your existing app.
+🌐 Open [http://localhost:3000](http://localhost:3000) to see your existing app.
 
 ---
 
-## Understanding NFT Marketplaces >�
+## Understanding NFT Marketplaces 💡
 
 **What is an NFT Marketplace?**
 
@@ -65,10 +65,10 @@ An NFT marketplace is a platform where users can list their NFTs for sale, brows
 
 ```
 Traditional (Escrow) Marketplace:
-  Seller � Sends NFT to marketplace contract � Buyer purchases � NFT sent to buyer
+  Seller → Sends NFT to marketplace contract → Buyer purchases → NFT sent to buyer
 
 Modern (Escrowless) Marketplace:
-  Seller � Approves marketplace contract � Lists NFT (keeps it) � Buyer purchases � NFT transferred directly
+  Seller → Approves marketplace contract → Lists NFT (keeps it) → Buyer purchases → NFT transferred directly
 ```
 
 **Why Escrowless?**
@@ -134,9 +134,9 @@ For marketplaces, **`setApprovalForAll`** is standard because:
 
 ---
 
-## Checkpoint 1: <� Create NFTMarketplace Contract
+## Checkpoint 1: 🔨 Create NFTMarketplace Contract
 
-> =� Let's build the marketplace smart contract!
+> 🚀 Let's build the marketplace smart contract!
 
 ### Create the Marketplace Contract
 
@@ -270,7 +270,7 @@ contract NFTMarketplace is ReentrancyGuard {
 }
 ```
 
-### >� Understanding the NFTMarketplace Contract
+### 💡 Understanding the NFTMarketplace Contract
 
 Let's break down the key components:
 
@@ -396,9 +396,9 @@ deployNFTMarketplace.tags = ["NFTMarketplace"];
 
 ---
 
-## Checkpoint 2: =� Deploy & Verify Marketplace
+## Checkpoint 2: 🚀 Deploy & Verify Marketplace
 
-> =� Let's deploy the marketplace to Lisk Sepolia!
+> 🎯 Let's deploy the marketplace to Lisk Sepolia!
 
 ### Test Locally First
 
@@ -426,7 +426,7 @@ deploying "NFTMarketplace" (tx: 0x...)
 NFTMarketplace deployed at 0x...
 ```
 
-> =� **Save your NFTMarketplace contract address!** You'll need it for verification and submission.
+> 📝 **Save your NFTMarketplace contract address!** You'll need it for verification and submission.
 
 ### Verify on Blockscout
 
@@ -440,9 +440,9 @@ Replace `YOUR_MARKETPLACE_ADDRESS` with your deployed address.
 
 ---
 
-## Checkpoint 3: <� Build Marketplace Frontend
+## Checkpoint 3: 🎨 Build Marketplace Frontend
 
-> =� Create a beautiful marketplace interface!
+> 🚀 Create a beautiful marketplace interface!
 
 ### Step 1: Create Marketplace Page
 
@@ -475,7 +475,7 @@ const Marketplace: NextPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-center mb-4"><� NFT Marketplace</h1>
+        <h1 className="text-3xl font-bold text-center mb-4">🛒 NFT Marketplace</h1>
         <p className="text-center text-gray-600">
           Buy and sell NFTs with live USD price display powered by RedStone Oracle
         </p>
@@ -828,7 +828,7 @@ export const NFTCard = ({ tokenId }: NFTCardProps) => {
 >
 > **This ensures the marketplace contract can verify your approval when you try to list!**
 
-### >� Understanding the NFTCard Component
+### 💡 Understanding the NFTCard Component
 
 This component handles all marketplace interactions for a single NFT:
 
@@ -876,14 +876,14 @@ Checks both `approve()` and `isApprovedForAll()` methods!
 #### **Transaction Flow**
 
 **For Sellers:**
-1. Click "Approve Marketplace" � `setApprovalForAll(marketplace, true)`
-2. Click "List for Sale" � Enter price � `listItem(tokenId, price)`
+1. Click "Approve Marketplace" → `setApprovalForAll(marketplace, true)`
+2. Click "List for Sale" → Enter price → `listItem(tokenId, price)`
 3. NFT shows as "Listed" with price
 4. Can click "Cancel Listing" anytime
 
 **For Buyers:**
 1. See listed NFT with price
-2. Click "Buy Now" � `buyItem(tokenId)` with ETH value
+2. Click "Buy Now" → `buyItem(tokenId)` with ETH value
 3. NFT transferred, ETH sent to seller
 
 ### Step 4: Update Navigation
@@ -929,9 +929,9 @@ export const menuLinks: HeaderMenuLink[] = [
 
 ---
 
-## Checkpoint 4: =� Integrate Oracle for USD Display
+## Checkpoint 4: 🔮 Integrate Oracle for USD Display
 
-> =� Show USD equivalent prices using the oracle from Challenge 4!
+> 💰 Show USD equivalent prices using the oracle from Challenge 4!
 
 ### Update NFTCard with Oracle Price Display
 
@@ -1249,7 +1249,7 @@ export const NFTCard = ({ tokenId }: NFTCardProps) => {
 };
 ```
 
-### >� Understanding Oracle Integration
+### 💡 Understanding Oracle Integration
 
 #### **Price Fetching Pattern**
 
@@ -1281,7 +1281,7 @@ const priceInUSD = ethPriceUSD > 0
 
 - **priceInEth**: NFT price from listing (e.g., 0.5 ETH)
 - **ethPriceUSD**: Current ETH price from oracle (e.g., $2,500)
-- **priceInUSD**: Calculated USD value (0.5 � $2,500 = $1,250)
+- **priceInUSD**: Calculated USD value (0.5 × $2,500 = $1,250)
 
 #### **Display Updates**
 
@@ -1298,7 +1298,7 @@ This keeps USD prices fresh without manual refreshes!
 
 ---
 
-## Checkpoint 5: =� Test, Deploy & Submit
+## Checkpoint 5: ✅ Test, Deploy & Submit
 
 >  Let's test everything and deploy!
 
@@ -1373,9 +1373,9 @@ Make sure `packages/nextjs/components/Header.tsx` includes the Marketplace link!
 
 ---
 
-## =� Submit Your Challenge
+## 📝 Submit Your Challenge
 
-<� Time to submit your completed Week 5 challenge!
+🎯 Time to submit your completed Week 5 challenge!
 
 Go to [Week 5 Submission](https://speedrunlisk.xyz/sea-campaign/week/5) and submit:
 
@@ -1396,7 +1396,7 @@ Go to [Week 5 Submission](https://speedrunlisk.xyz/sea-campaign/week/5) and subm
 
 ---
 
-## =� What You Learned
+## 🎓 What You Learned
 
  **NFT Marketplace Mechanics**: Escrowless design, listings, buying, selling
 
@@ -1410,7 +1410,7 @@ Go to [Week 5 Submission](https://speedrunlisk.xyz/sea-campaign/week/5) and subm
 
  **Production dApp Patterns**: Complete marketplace implementation
 
-## =� Going Further
+## 🚀 Going Further
 
 ### Advanced Features to Add
 
@@ -1467,7 +1467,7 @@ function buyItem(uint256 tokenId) external payable {
 - Dutch auctions (declining price over time)
 - Royalties for creators (EIP-2981)
 
-## <� Troubleshooting
+## 🔧 Troubleshooting
 
 ### Contract Issues
 
@@ -1544,11 +1544,11 @@ A: Not in this simple version! You'd need to cancel and relist. Advanced: Add `u
 **Q: Do I need to approve the marketplace for every NFT?**
 A: No! Using `setApprovalForAll` once approves the marketplace for ALL your NFTs (current and future).
 
-**Need help?** Join our [@LiskSEA Telegram](https://t.me/LiskSEA)! =�
+**Need help?** Join our [@LiskSEA Telegram](https://t.me/LiskSEA)! 💬
 
 ---
 
-## <� Congratulations!
+## 🎉 Congratulations!
 
 You've built a fully functional NFT marketplace with:
 -  List, buy, and sell functionality
@@ -1569,4 +1569,4 @@ This marketplace demonstrates core Web3 concepts used by platforms like OpenSea,
 
 ---
 
-> =� Problems, questions, comments on the stack? Post them to [@LiskSEA](https://t.me/LiskSEA)
+> 💬 Problems, questions, comments on the stack? Post them to [@LiskSEA](https://t.me/LiskSEA)
