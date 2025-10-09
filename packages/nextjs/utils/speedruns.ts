@@ -60,8 +60,8 @@ export const SPEEDRUN_METADATA = {
     ],
   },
   "ch5-nft-badge-game": {
-    title: "NFT Badge / Mini-Game",
-    description: "Create an interactive NFT badge system or simple on-chain game",
+    title: "NFT Marketplace",
+    description: "Build a fully functional NFT marketplace with oracle-powered price feeds",
     previewImage: "/hero/ch5-nft-badge-game.png",
     difficulty: "Advanced",
     estimatedTime: "90-120 minutes",

@@ -72,7 +72,7 @@ export const SEA_CAMPAIGN_METADATA = {
     description: "Build a fully functional NFT marketplace with oracle-powered price feeds",
     dueDate: "2025-10-19",
     reward: "NFT Marketplace Badge",
-    guides: ["/speedrun/ch5-nft-marketplace"],
+    guides: ["/speedrun/ch5-nft-badge-game"],
     videoUrl: {
       text: "V5 (10m): Build NFT marketplace with oracle integration + submission",
       url: null,
