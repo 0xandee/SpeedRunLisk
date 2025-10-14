@@ -75,7 +75,7 @@ export const SEA_CAMPAIGN_METADATA = {
     guides: ["/speedrun/ch5-nft-marketplace"],
     videoUrl: {
       text: "V5 (10m): Build NFT marketplace with oracle integration + submission",
-      url: null,
+      url: "https://www.youtube.com/watch?v=vLaTUiah15M",
     },
     socialHashtags: ["#SpeedrunLiskSEA", "#W5", "@LiskSEA"],
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],
