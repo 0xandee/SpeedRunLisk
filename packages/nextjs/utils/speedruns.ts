@@ -74,9 +74,9 @@ export const SPEEDRUN_METADATA = {
     ],
   },
   "ch6-mini-dex": {
-    title: "Mini-DEX / Lending App",
-    description: "Build a simple DEX, lending protocol, or prediction market",
-    previewImage: "/hero/ch6-mini-dex-lending.png",
+    title: "Build a Simple DEX (Decentralized Exchange)",
+    description: "Build a decentralized exchange (DEX) with AMM, liquidity pools, and token swaps",
+    previewImage: "/hero/dex.png",
     difficulty: "Advanced",
     estimatedTime: "120+ minutes",
     week: 6,
