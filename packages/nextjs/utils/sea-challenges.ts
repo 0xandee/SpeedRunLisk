@@ -85,20 +85,20 @@ export const SEA_CAMPAIGN_METADATA = {
     weekNumber: 5,
   },
   "sea-week-6-mini-dex-lending": {
-    title: "Week 6: Mini-DEX / Lending App",
-    description: "Build a simple DEX, lending protocol, or prediction market",
+    title: "Week 6: Mini-DEX App",
+    description: "Build a simple DEX",
     dueDate: "2025-10-26",
     reward: "DeFi Developer Badge",
-    guides: ["/speedrun/advanced-dex-stub", "/speedrun/advanced-lending-stub", "/speedrun/advanced-prediction-stub"],
+    guides: ["/speedrun/ch6-mini-dex"],
     videoUrl: {
-      text: "V6 (10m): Demo implementation dex and lending app",
+      text: "V6 (10m): Demo implementation dex app",
       url: null,
     },
     socialHashtags: ["#SpeedrunLiskSEA", "#W6", "@LiskSEA"],
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],
     completionBonus: 20, // Next 50 fastest get $20 each
     topPerformersBonus: 50, // Top 10 get $50 each
-    kpi: "Build a mini-DEX, lending protocol, OR prediction market application",
+    kpi: "Build a mini-DEX application",
     weekNumber: 6,
   },
 } as const;

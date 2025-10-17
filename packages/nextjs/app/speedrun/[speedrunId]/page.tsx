@@ -22,7 +22,7 @@ export async function generateStaticParams() {
     "ch3-index-display",
     "ch4-oracle-sponsored",
     "ch5-nft-marketplace",
-    "ch6-mini-dex-lending",
+    "ch6-mini-dex",
     "setup",
     "start-here",
   ];

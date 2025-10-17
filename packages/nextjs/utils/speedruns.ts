@@ -73,7 +73,7 @@ export const SPEEDRUN_METADATA = {
       },
     ],
   },
-  "ch6-mini-dex-lending": {
+  "ch6-mini-dex": {
     title: "Mini-DEX / Lending App",
     description: "Build a simple DEX, lending protocol, or prediction market",
     previewImage: "/hero/ch6-mini-dex-lending.png",
