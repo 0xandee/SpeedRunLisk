@@ -92,7 +92,7 @@ export const SEA_CAMPAIGN_METADATA = {
     guides: ["/speedrun/ch6-mini-dex"],
     videoUrl: {
       text: "V6 (10m): Demo implementation dex app",
-      url: null,
+      url: "https://www.youtube.com/watch?v=aD3-Yoz6kyE",
     },
     socialHashtags: ["#SpeedrunLiskSEA", "#W6", "@LiskSEA"],
     requiredSubmissions: ["demo_url", "github_url", "social_post_url"],
