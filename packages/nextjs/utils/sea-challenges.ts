@@ -210,7 +210,7 @@ export const SEA_COUNTRIES = [
 ] as const;
 
 // Utility functions
-export function getChallengeByWeek(weekNumber: number) {
+export function getChallengeByWeek(weekNumber: number): SeaChallengeWithId | null {
   const challengeKey = Object.keys(SEA_CAMPAIGN_METADATA).find(
     key => SEA_CAMPAIGN_METADATA[key as keyof typeof SEA_CAMPAIGN_METADATA].weekNumber === weekNumber,
   );
@@ -268,3 +268,4 @@ export const seaCampaignChallenges = [
 export type SeaCampaignChallenge = (typeof seaCampaignChallenges)[number];
 export type SeaChallengeMetadata = (typeof SEA_CAMPAIGN_METADATA)[keyof typeof SEA_CAMPAIGN_METADATA];
 export type SeaChallengeId = keyof typeof SEA_CAMPAIGN_METADATA;
+export type SeaChallengeWithId = SeaChallengeMetadata & { id: string };

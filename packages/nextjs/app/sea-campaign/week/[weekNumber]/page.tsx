@@ -186,20 +186,26 @@ export default function WeeklyChallengePage() {
                 </ul>
 
                 <h3>📹 Video Guide</h3>
-                {typeof challenge.videoUrl === "object" && challenge.videoUrl.url ? (
-                  <a
-                    href={challenge.videoUrl.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link link-primary "
-                  >
-                    {challenge.videoUrl.text}
-                  </a>
-                ) : (
-                  <p className="text-base-content/70">
-                    {typeof challenge.videoUrl === "object" ? challenge.videoUrl.text : challenge.videoUrl}
-                  </p>
-                )}
+                {(() => {
+                  const videoUrl = challenge.videoUrl as string | { text: string; url: string };
+                  if (typeof videoUrl === "string") {
+                    return <p className="text-base-content/70">{videoUrl}</p>;
+                  }
+                  // videoUrl is an object with text and url properties
+                  if (videoUrl.url) {
+                    return (
+                      <a
+                        href={videoUrl.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="link link-primary "
+                      >
+                        {videoUrl.text}
+                      </a>
+                    );
+                  }
+                  return <p className="text-base-content/70">{videoUrl.text}</p>;
+                })()}
 
                 <h3>📱 Social Media Requirements</h3>
                 <div className="flex flex-wrap items-center gap-2 my-2">
