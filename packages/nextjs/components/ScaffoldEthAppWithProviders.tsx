@@ -65,6 +65,7 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
             <RainbowKitProvider
               avatar={BlockieAvatar}
               theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
+              initialChain={wagmiConfig.chains[0]}
             >
               <ScaffoldEthApp>{children}</ScaffoldEthApp>
             </RainbowKitProvider>

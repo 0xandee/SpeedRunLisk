@@ -128,7 +128,7 @@ export const Header = () => {
         </div>
       </div>
       <div className="navbar-end flex-grow mr-2">
-        <Link href={`/builders`} className="btn btn-sm btn-ghost mr-2">
+        <Link href={`/leaderboard`} className="btn btn-sm btn-ghost mr-2">
           Leaderboard
         </Link>
         {user && (
