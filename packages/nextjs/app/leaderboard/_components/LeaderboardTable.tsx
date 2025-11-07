@@ -36,9 +36,7 @@ export const LeaderboardTable = ({ data }: LeaderboardTableProps) => {
     }
 
     // Find if the connected address matches any payout wallet
-    const matchedEntry = data.find(
-      entry => entry.payoutWallet.toLowerCase() === connectedAddress.toLowerCase(),
-    );
+    const matchedEntry = data.find(entry => entry.payoutWallet.toLowerCase() === connectedAddress.toLowerCase());
 
     setEligibleEntry(matchedEntry || null);
   }, [connectedAddress, data]);
@@ -191,7 +189,7 @@ export const LeaderboardTable = ({ data }: LeaderboardTableProps) => {
                   </div>
                   <div>
                     <h3 className="text-2xl md:text-3xl font-bold text-primary">Congratulations!</h3>
-                    <p className="text-base-content/70 text-sm">You're eligible for rewards</p>
+                    <p className="text-base-content/70 text-sm">You&apos;re eligible for rewards</p>
                   </div>
                 </div>
               </div>

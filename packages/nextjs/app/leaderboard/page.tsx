@@ -101,13 +101,6 @@ function parseLeaderboardCSV(): LeaderboardData {
 export default function LeaderboardPage() {
   const leaderboardData = parseLeaderboardCSV();
 
-  // Calculate achievement statistics
-  const stats = {
-    fastestFinishers: leaderboardData.entries.filter(e => e.fastestFinisher).length,
-    bestProjects: leaderboardData.entries.filter(e => e.bestProject).length,
-    bestSocialEngagement: leaderboardData.entries.filter(e => e.bestSocialEngagement).length,
-  };
-
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Header */}

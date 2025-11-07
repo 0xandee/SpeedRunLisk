@@ -11,7 +11,8 @@ interface ClaimRewardModalProps {
 export const ClaimRewardModal = ({ userEntry, onClose }: ClaimRewardModalProps) => {
   const [surveyCompleted, setSurveyCompleted] = useState(false);
 
-  const SURVEY_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeGX63Nnd-fh7A_2Zai6UHA_8IP4zRimDhi5-nEeM9i1XbJgw/viewform";
+  const SURVEY_URL =
+    "https://docs.google.com/forms/d/e/1FAIpQLSeGX63Nnd-fh7A_2Zai6UHA_8IP4zRimDhi5-nEeM9i1XbJgw/viewform";
 
   const handleOpenSurvey = () => {
     window.open(SURVEY_URL, "_blank", "noopener,noreferrer");
@@ -125,7 +126,7 @@ export const ClaimRewardModal = ({ userEntry, onClose }: ClaimRewardModalProps) 
                     />
                   </svg>
                   <span className="text-sm">
-                    Once you've completed the survey, click the button below to claim your reward!
+                    Once you&apos;ve completed the survey, click the button below to claim your reward!
                   </span>
                 </div>
               )}
@@ -137,11 +138,7 @@ export const ClaimRewardModal = ({ userEntry, onClose }: ClaimRewardModalProps) 
             <button className="btn btn-outline flex-1" onClick={onClose}>
               Close
             </button>
-            <button
-              className="btn btn-success flex-1 gap-2"
-              onClick={handleClaim}
-              disabled={!surveyCompleted}
-            >
+            <button className="btn btn-success flex-1 gap-2" onClick={handleClaim} disabled={!surveyCompleted}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -161,9 +158,7 @@ export const ClaimRewardModal = ({ userEntry, onClose }: ClaimRewardModalProps) 
           </div>
 
           {!surveyCompleted && (
-            <p className="text-xs text-center opacity-60">
-              Click "Open Survey Form" above to enable the claim button
-            </p>
+            <p className="text-xs text-center opacity-60">Click &quot;Open Survey Form&quot; above to enable the claim button</p>
           )}
         </div>
       </div>
