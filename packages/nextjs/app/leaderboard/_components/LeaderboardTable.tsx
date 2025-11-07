@@ -148,7 +148,7 @@ export const LeaderboardTable = ({ data }: LeaderboardTableProps) => {
       },
       {
         accessorKey: "payoutWallet",
-        header: "Reward address",
+        header: "Payout Wallet",
         cell: info => <Address address={info.getValue() as string} />,
         size: 200,
       },
